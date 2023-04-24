@@ -1,22 +1,44 @@
 package main;
 
+import Domicilio.Comercio;
+import Domicilio.Domicilio;
+import Domicilio.Vivienda;
 import abonado.Abonado;
 import abonado.Fisica;
-import abonado.Juridica;
-import decorator.Comercio;
-import decorator.Decorable;
-import decorator.DecoratorAbonado;
-import decorator.Vivienda;
+import empresa.Contrataciones;
+import empresa.Factura;
+import servicio.Servicio;
+import servicio.ServicioBoton;
+import servicio.ServicioCamara;
 
 public class Main {
 
 	public static void main(String[] args) {
-		Abonado f1=new Fisica("bruno",123);
-		Abonado j1=new Juridica("alan",456);
-		DecoratorAbonado v1=new Vivienda((Decorable)f1);
-		DecoratorAbonado v2=new Comercio((Decorable)j1);
-		System.out.println(v1.toString());
-		System.out.println(v2.toString());
+		Servicio s1=new ServicioCamara();
+		Servicio s2=new ServicioCamara();
+		Servicio s3=new ServicioBoton();
+		
+		Abonado a1=new Fisica("bruno",123);
+		
+		Domicilio d1=new Comercio("dom1");
+		Domicilio d2=new Vivienda("dom2");
+		d1.agregarServicio(s1);
+		d1.agregarServicio(s2);
+		d1.agregarServicio(s3);
+		d2.agregarServicio(s1);
+		
+		a1.AniadirDomicilio(d1);
+		a1.AniadirDomicilio(d2);
+		
+		Contrataciones contrato=new Contrataciones(d1);
+		Contrataciones contrato2=new Contrataciones(d2);
+		
+		Factura fac=new Factura(a1);
+		fac.aniadirContratacion(contrato);
+		fac.aniadirContratacion(contrato2);
+		
+		fac.ImprimeFactura();
+		
 	}
 
 }
