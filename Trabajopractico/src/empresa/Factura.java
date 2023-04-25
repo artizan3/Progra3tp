@@ -24,6 +24,8 @@ public class Factura implements Cloneable{
 		System.out.println(this.abonado.getValor());
 	}
 	public Object clone() {
+		Factura clon=(Factura)super.clone();
+		clon.abonado=(Abonado)this.abonado.clone();
 		return null;
 	}
 	

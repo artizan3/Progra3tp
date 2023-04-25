@@ -22,7 +22,8 @@ public class Juridica extends Abonado{
 		return aux;
 	}
 	public Object clone() {
-		return null;
+		Juridica clon=(Juridica)super.clone();
+		return clon;
 	}
 
 }

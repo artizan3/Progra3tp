@@ -17,7 +17,9 @@ public class Fisica extends Abonado  {
 		return aux;
 	}
 	public Object clone() {
-		return null;
+		Fisica clon=(Fisica)super.clone();
+		return clon;
 	}
+
 	
 }

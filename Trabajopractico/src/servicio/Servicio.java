@@ -7,6 +7,7 @@ public abstract class Servicio implements Cloneable{
 	public abstract String getTipo();
 	
 	public Object clone() {
-		return null;
+		Servicio clon=(Servicio)super.clone();
+		return clon;
 	}
 }

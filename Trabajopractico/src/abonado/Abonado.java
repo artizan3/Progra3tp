@@ -35,4 +35,8 @@ public abstract class Abonado implements Cloneable{
 	public boolean ExisteDomicilio(Domicilio domicilio) {
 		return this.ListaDeDomicilios.contains(domicilio);
 	}
+	public Object clone() {
+		Abonado clon=(Abonado)super.clone();
+		return clon;
+	}
 }
