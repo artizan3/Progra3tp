@@ -8,12 +8,7 @@ public class Vivienda extends Domicilio {
 
 	@Override
     public double getValorBase() {
-		double aux;
-		if (this.promo==null)
-			aux=8500;
-		else
-			aux=promo.vivienda();
-		return aux;
+		return 8500;
     }
 
 	@Override
