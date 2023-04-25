@@ -9,6 +9,9 @@ import empresa.Contrataciones;
 import empresa.Factura;
 import metodosdepago.DecoratorPago;
 import metodosdepago.FactoryPago;
+import promo.Promo;
+import promo.PromoDorada;
+import promo.PromoPlatino;
 import servicio.Servicio;
 import servicio.ServicioBoton;
 import servicio.ServicioCamara;
@@ -16,6 +19,8 @@ import servicio.ServicioCamara;
 public class Main {
 
 	public static void main(String[] args) {
+		Promo p1=new PromoDorada();
+		Promo p2=new PromoPlatino();
 		FactoryPago factory=new FactoryPago();
 		Servicio s1=new ServicioCamara();
 		Servicio s2=new ServicioCamara();
@@ -28,7 +33,12 @@ public class Main {
 		d1.agregarServicio(s1);
 		d1.agregarServicio(s2);
 		d1.agregarServicio(s3);
+		
+		d1.setPromo(p1);
+		
 		d2.agregarServicio(s1);
+		
+		//d2.setPromo(p2);
 		
 		a1.AniadirDomicilio(d1);
 		a1.AniadirDomicilio(d2);

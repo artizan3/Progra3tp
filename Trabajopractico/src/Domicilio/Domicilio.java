@@ -2,9 +2,11 @@ package Domicilio;
 
 import java.util.ArrayList;
 
+import promo.Promo;
 import servicio.Servicio;
 
 public abstract class Domicilio implements Cloneable {
+	protected Promo promo=null;
 	private String nombre;
 	private boolean agregado=false;
 	private ArrayList <Servicio> listaServicio=new ArrayList <Servicio>();
@@ -60,10 +62,11 @@ public abstract class Domicilio implements Cloneable {
 	
     @Override
 	public String toString() {
-		return "Domicilio [nombre=" + nombre + "]";
+		return "Domicilio '" + nombre + "' promo:"+ promo;
 	}
     public Object clone() throws CloneNotSupportedException {
 		Domicilio clon=(Domicilio)super.clone();
+		clon.promo=(Promo)this.promo.clone();
 		clon.listaServicio=(ArrayList<Servicio>)this.listaServicio.clone();
 		clon.listaServicio.clear();
 		for (int i=0;i<this.listaServicio.size();i++) {
@@ -71,5 +74,7 @@ public abstract class Domicilio implements Cloneable {
 		}
 		return clon;
 	}
- 
+	public void setPromo(Promo promo) {
+		this.promo = promo;
+	}
 }

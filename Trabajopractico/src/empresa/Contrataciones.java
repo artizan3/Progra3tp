@@ -15,9 +15,10 @@ public class Contrataciones implements Cloneable {
 
 	public String Descripcion() {
 		String aux="";
+		aux+="ID="+this.id+" \n";
 		aux+=this.domicilio.toString()+" "+this.domicilio.getTipoDom()+"\n";
 		aux+=this.domicilio.ListadoDeSerivicios();
-		aux+=this.domicilio.getValorTotal();
+		aux+="Valor final del domicilio:"+this.domicilio.getValorTotal()+"\n";
 		return aux;
 	}
 

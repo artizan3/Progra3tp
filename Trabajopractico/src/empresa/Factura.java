@@ -18,16 +18,15 @@ public class Factura implements Cloneable{
 		return abonado;
 	}
 	public void ImprimeFactura() {
-		System.out.println(this.abonado.toString()+this.abonado.tipodepago());
+		System.out.println(this.abonado.toString()+this.abonado.tipodepago()+"\n");
 		for (int i=0;i<this.Lista.size();i++){
 			System.out.println(this.Lista.get(i).Descripcion());
 		}
-		System.out.println(this.abonado.valorSinDescuento());
-		System.out.println(this.abonado.valorDescuento());
-		
+		System.out.println("Precio neto(sin metodo de pago):"+this.abonado.valorSinDescuento());
+		System.out.println("Precio con metodo de pago:"+this.abonado.valorDescuento());
 	}
 	public double getValorTotal() {
-		return this.abonado.getValor();
+		return this.abonado.valorSinDescuento();
 	}
 	public Object clone() throws CloneNotSupportedException {
 		Factura clon=(Factura)super.clone();

@@ -12,11 +12,16 @@ public class Comercio extends Domicilio {
     }
 	@Override
     public double getValorBase() {
-        return 10000;
+		double aux;
+		if (this.promo==null)
+			aux=10000;
+		else
+			aux=promo.comercio();
+		return aux;
     }
 	@Override
 	public String getTipoDom() {
-		return "Comercio ";
+		return "tipo: Comercio ";
 	}
     public Object clone() throws CloneNotSupportedException {
 		Comercio clon=(Comercio)super.clone();

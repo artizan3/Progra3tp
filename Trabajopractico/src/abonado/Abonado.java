@@ -50,7 +50,7 @@ public abstract class Abonado implements Cloneable{
 
 	@Override
 	public String toString() {
-		return "Abonado [nombre=" + nombre + ", dni=" + dni + "]";
+		return "Abonado nombre= " + nombre + ", dni= " + dni ;
 	}
 	 /*
      * Pre: Domicilio debe ser distinto de NULL

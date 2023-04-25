@@ -8,12 +8,17 @@ public class Vivienda extends Domicilio {
 
 	@Override
     public double getValorBase() {
-        return 8500;
+		double aux;
+		if (this.promo==null)
+			aux=8500;
+		else
+			aux=promo.vivienda();
+		return aux;
     }
 
 	@Override
 	public String getTipoDom() {
-		return "Vivienda";
+		return "tipo: Vivienda";
 	}
     public Object clone() throws CloneNotSupportedException {
     	Vivienda clon=(Vivienda)super.clone();
