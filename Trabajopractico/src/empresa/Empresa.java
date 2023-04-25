@@ -175,6 +175,7 @@ public class Empresa {
      * <br>post:</br> Se clona una determinada factura<br>
      * @param factura es la factura que vamos a clonar
      * @throws CloneNotSupportedException no se pudo clonar la factura
+     * @return clon determinada factura
      */
     public Object ClonarFactura(Factura factura) throws CloneNotSupportedException {
     	Factura clon=(Factura)factura.clone();
