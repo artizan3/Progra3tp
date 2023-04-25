@@ -6,6 +6,7 @@ import Domicilio.Vivienda;
 import abonado.Abonado;
 import abonado.Fisica;
 import empresa.Contrataciones;
+import empresa.Empresa;
 import empresa.Factura;
 import metodosdepago.DecoratorPago;
 import metodosdepago.FactoryPago;
@@ -30,21 +31,20 @@ public class Main {
 		
 		Domicilio d1=new Comercio("dom1");
 		Domicilio d2=new Vivienda("dom2");
-		d1.agregarServicio(s1);
-		d1.agregarServicio(s2);
-		d1.agregarServicio(s3);
+		Contrataciones contrato=new Contrataciones(d1);
+		Contrataciones contrato2=new Contrataciones(d2);
 		
-		d1.setPromo(p1);
+		contrato.agregarServicio(s1);
+		contrato.agregarServicio(s2);
+		contrato.agregarServicio(s3);
+		contrato.setPromo(p1);
 		
-		d2.agregarServicio(s1);
-		
-		//d2.setPromo(p2);
+		contrato2.agregarServicio(s1);
+		contrato2.setPromo(p2);
 		
 		a1.AniadirDomicilio(d1);
 		a1.AniadirDomicilio(d2);
 		
-		Contrataciones contrato=new Contrataciones(d1);
-		Contrataciones contrato2=new Contrataciones(d2);
 		
 		DecoratorPago a1pag=factory.getMetodoDePago(a1, "Efectivo");
 		Factura fac=new Factura(a1pag);
@@ -52,14 +52,13 @@ public class Main {
 		fac.aniadirContratacion(contrato);
 		fac.aniadirContratacion(contrato2);
 		
-		fac.ImprimeFactura();
+		System.out.println(fac.ImprimeFactura());
 		
-		//try {
-		//	factclon=(Factura) fac.clone();
-		//} catch (CloneNotSupportedException e) {
-		//	// TODO Auto-generated catch block
-		//	e.printStackTrace();
-		//}
+		try {
+			factclon=(Factura)Empresa.getInstance().ClonarFactura(fac);
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
 
 		
 	}

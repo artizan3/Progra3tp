@@ -9,15 +9,15 @@ public class PagoCredito extends DecoratorPago {
 		// TODO Auto-generated constructor stub
 	}
 	@Override
-	public double valorDescuento() {
-		return this.abonado.getValor()+this.abonado.getValor()*0.05;
+	public double ValorDeTipoPago(double suma) {
+		return suma*1.05;
 	}
 	public Object clone() throws CloneNotSupportedException {
 		PagoCredito clon=(PagoCredito)super.clone();
 		return clon;
 	}
 	public String tipodepago() {
-		return" Tarjeta de credito";
+		return"Tarjeta de credito";
 	}
 
 }

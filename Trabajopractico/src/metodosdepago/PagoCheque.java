@@ -8,15 +8,15 @@ public class PagoCheque extends DecoratorPago {
 		super(abonado);
 	}
 	@Override
-	public double valorDescuento() {
-		return this.abonado.getValor()+this.abonado.getValor()*0.1;
+	public double ValorDeTipoPago(double suma) {
+		return suma*1.1;
 	}
 	public Object clone() throws CloneNotSupportedException {
 		PagoCheque clon=(PagoCheque)super.clone();
 		return clon;
 	}
 	public String tipodepago() {
-		return" Cheque";
+		return"Cheque";
 	}
 
 }

@@ -4,16 +4,15 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import empresa.Contrataciones;
+import excepciones.DomicilioInexistenteExeption;
+import excepciones.DomicilioVinculadoException;
 
 public abstract class Abonado implements Cloneable{
 	protected String nombre;
 	protected int dni;
 	protected ArrayList<Domicilio>ListaDeDomicilios=new ArrayList<Domicilio>();
 	
-	public Abonado() {
-		
-	}
-	
+	public Abonado() {}
     /*
     * Pre: Se espera que nombre sea distinto de NULL y " ".DNI mayor a 0
     */
@@ -24,37 +23,34 @@ public abstract class Abonado implements Cloneable{
        this.dni=dni;
        this.nombre=nombre;
    }
-
 	
-   /*
-   * Pre: Domicilio debe ser distinto de NULL
-   */
-  public void AniadirDomicilio(Domicilio domicilio) {
-      assert domicilio != null:"El domicilio debe ser distinto de NULL";
-      this.ListaDeDomicilios.add(domicilio);
+ 
+  public void AniadirDomicilio(Domicilio domicilio) throws DomicilioVinculadoException {
+      if (domicilio.isAgregado()==false) {
+	  this.ListaDeDomicilios.add(domicilio);
       domicilio.setAgregado(true);
+  	}else
+  		throw new DomicilioVinculadoException();
   }
   
   /*
    * Pre: Domicilio debe ser distinto de NULL
    */
-  public void QuitarDomicilio(Domicilio domicilio) {
+  public void QuitarDomicilio(Domicilio domicilio) throws DomicilioInexistenteExeption {
       assert domicilio != null:"El domicilio debe ser distinto de NULL";
       if (ExisteDomicilio(domicilio)==true && domicilio.isAgregado()==true) {
           this.ListaDeDomicilios.remove(domicilio);
           domicilio.setAgregado(false);
-      }
+      }else
+    	  if (ExisteDomicilio(domicilio)==false)
+    		  throw new DomicilioInexistenteExeption();
   }
-	
-	public abstract double getValor();
-
 	@Override
 	public String toString() {
-		return "Abonado nombre= " + nombre + ", dni= " + dni ;
+		return "|nombre: " + nombre + "|dni: " + dni ;
 	}
-	 /*
-     * Pre: Domicilio debe ser distinto de NULL
-     */
+	public abstract String tipoAbonado();
+
     public boolean ExisteDomicilio(Domicilio domicilio) {
         assert domicilio != null: "El domicilio debe ser distinto de null";
         return this.ListaDeDomicilios.contains(domicilio);

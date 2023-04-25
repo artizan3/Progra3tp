@@ -11,17 +11,8 @@ public class Comercio extends Domicilio {
         assert nombre != ""  :"El nombre no puede ser vacio";
     }
 	@Override
-    public double getValorBase() {
-		double aux;
-		if (this.promo==null)
-			aux=10000;
-		else
-			aux=promo.comercio();
-		return aux;
-    }
-	@Override
 	public String getTipoDom() {
-		return "tipo: Comercio ";
+		return "Comercio";
 	}
     public Object clone() throws CloneNotSupportedException {
 		Comercio clon=(Comercio)super.clone();
