@@ -16,7 +16,7 @@ public class Contrataciones implements Cloneable {
 	public String Descripcion() {
 		String aux="";
 		aux+=this.domicilio.toString()+" "+this.domicilio.getTipoDom()+"\n";
-		aux+=this.domicilio.ListadoDeSerivicios()+"\n";
+		aux+=this.domicilio.ListadoDeSerivicios();
 		aux+=this.domicilio.getValorTotal();
 		return aux;
 	}
@@ -24,7 +24,9 @@ public class Contrataciones implements Cloneable {
 	public int getId() {
 		return id;
 	}
-	public Object clone() {
-		return null;
+	public Object clone() throws CloneNotSupportedException {
+		Contrataciones clon=(Contrataciones)super.clone();
+		clon.domicilio=(Domicilio)this.domicilio.clone();
+		return clon;
 	}
 }

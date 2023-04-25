@@ -6,7 +6,7 @@ public abstract class Servicio implements Cloneable{
 	public abstract double costo();
 	public abstract String getTipo();
 	
-	public Object clone() {
+	public Object clone() throws CloneNotSupportedException {
 		Servicio clon=(Servicio)super.clone();
 		return clon;
 	}

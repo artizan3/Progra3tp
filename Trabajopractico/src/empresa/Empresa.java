@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import abonado.Abonado;
+import metodosdepago.DecoratorPago;
+import metodosdepago.FactoryPago;
 
 
 public class Empresa {
@@ -11,17 +13,19 @@ public class Empresa {
     private ArrayList<Abonado> listaEmpresa=new ArrayList<Abonado>();
     private ArrayList<Contrataciones> listaContrataciones=new ArrayList<Contrataciones>();
     private ArrayList<Factura> listaFactura=new ArrayList<Factura>();
-
+    private FactoryPago creacion=new FactoryPago();
+    
     public Empresa getInstance() {
         if(instance==null)
             instance= new Empresa();
         return instance;
     }
     
-    public void agregaAbonado(Abonado abonado) {
+    public void agregaAbonado(Abonado abonado,String tipodepago) {
         if(!listaEmpresa.contains(abonado)) {
             listaEmpresa.add(abonado);
-            Factura factura=new Factura(abonado);
+            DecoratorPago aux=creacion.getMetodoDePago(abonado, tipodepago);
+            Factura factura=new Factura(aux);
             AniadirFactura(factura);
         }
     }
@@ -57,5 +61,8 @@ public class Empresa {
     	}
     	this.listaFactura.get(i).aniadirContratacion(contrato);
     }
-    
+    public Object ClonarFactura(Factura factura) throws CloneNotSupportedException {
+    	Factura clon=(Factura)factura.clone();
+    	return clon;
+    }
 }

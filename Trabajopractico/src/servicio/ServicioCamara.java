@@ -8,7 +8,7 @@ public class ServicioCamara extends Servicio {
 	public String getTipo() {
 		return "Camara";
 	}
-	public Object clone() {
+	public Object clone() throws CloneNotSupportedException {
 		ServicioCamara clon=(ServicioCamara)super.clone();
 		return clon;
 	}

@@ -9,7 +9,7 @@ public class ServicioAcompaniamiento extends Servicio {
 	public String getTipo() {
 		return "Acompaniamiento";
 	}
-	public Object clone() {
+	public Object clone() throws CloneNotSupportedException {
 		ServicioAcompaniamiento clon=(ServicioAcompaniamiento)super.clone();
 		return clon;
 	}

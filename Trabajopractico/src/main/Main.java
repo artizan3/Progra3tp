@@ -7,6 +7,8 @@ import abonado.Abonado;
 import abonado.Fisica;
 import empresa.Contrataciones;
 import empresa.Factura;
+import metodosdepago.DecoratorPago;
+import metodosdepago.FactoryPago;
 import servicio.Servicio;
 import servicio.ServicioBoton;
 import servicio.ServicioCamara;
@@ -14,6 +16,7 @@ import servicio.ServicioCamara;
 public class Main {
 
 	public static void main(String[] args) {
+		FactoryPago factory=new FactoryPago();
 		Servicio s1=new ServicioCamara();
 		Servicio s2=new ServicioCamara();
 		Servicio s3=new ServicioBoton();
@@ -33,11 +36,21 @@ public class Main {
 		Contrataciones contrato=new Contrataciones(d1);
 		Contrataciones contrato2=new Contrataciones(d2);
 		
-		Factura fac=new Factura(a1);
+		DecoratorPago a1pag=factory.getMetodoDePago(a1, "Efectivo");
+		Factura fac=new Factura(a1pag);
+		Factura factclon=null;
 		fac.aniadirContratacion(contrato);
 		fac.aniadirContratacion(contrato2);
 		
 		fac.ImprimeFactura();
+		
+		//try {
+		//	factclon=(Factura) fac.clone();
+		//} catch (CloneNotSupportedException e) {
+		//	// TODO Auto-generated catch block
+		//	e.printStackTrace();
+		//}
+
 		
 	}
 

@@ -8,7 +8,7 @@ public class ServicioBoton extends Servicio{
 	public String getTipo() {
 		return "Boton";
 	}
-	public Object clone() {
+	public Object clone() throws CloneNotSupportedException {
 		ServicioBoton clon=(ServicioBoton)super.clone();
 		return clon;
 	}
