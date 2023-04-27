@@ -21,5 +21,17 @@ public class Juridica extends Abonado{
 	public Object clone() throws CloneNotSupportedException {
 		throw new CloneNotSupportedException();
 	}
+	@Override
+	public double ValorTotal() {
+		double suma=0;
+		int i=0;
+		for (i=0;i<this.Lista.size();i++){
+			if (i>=2) {
+				suma+=this.Lista.get(i).getValorTotal()*0.5;
+			}else 
+				suma+=this.Lista.get(i).getValorTotal();
+		}
+		return suma;
+	}
 
 }

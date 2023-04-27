@@ -8,8 +8,8 @@ public class PagoCheque extends DecoratorPago {
 		super(abonado);
 	}
 	@Override
-	public double ValorDeTipoPago(double suma) {
-		return suma*1.1;
+	public double ValorDeTipoPago() {
+		return ValorSinTipoPago()*1.1;
 	}
 	public Object clone() throws CloneNotSupportedException {
 		PagoCheque clon=(PagoCheque)super.clone();

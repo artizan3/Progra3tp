@@ -138,7 +138,7 @@ public class Empresa {
     public void CrearContratacion(Domicilio domicilio,Abonado abonado) throws ContratacionInvalidaException {
     	if (abonado.ExisteDomicilio(domicilio)==true && domicilio.isAgregado()==true) {
     		Contrataciones contrato=new Contrataciones(domicilio);
-    		AniadirContratacionFactura(contrato,abonado);
+    		AniadirContratacion(contrato,abonado);
     	}else
     		throw new ContratacionInvalidaException();
     }
@@ -152,21 +152,8 @@ public class Empresa {
     private void AniadirFactura(Factura factura) {
     	this.listaFactura.add(factura);
     }
-    /**
-     * este metodo busca y agrega una contratacion a una determinada factura</br>
-     * <br>pre:</br> el contrato y el abonado deben existir y ser !=null<br>
-     * <br>inv:</br> el contrato y el abonado estan en las listas<br>
-     * <br>post:</br> Se aniade una agrega una contratacion a una determinada factura<br>
-     * @param contrato es el contrato que vamos a aniadir a la factura
-     * @param abonado es el que indica que factura tomar
-     */
-    private void AniadirContratacionFactura(Contrataciones contrato,Abonado abonado) {
-    	Abonado aux;
-    	int i=0;
-    	while (this.listaFactura.get(i).getAbonado()!=abonado) {
-    		i++;
-    	}
-    	this.listaFactura.get(i).aniadirContratacion(contrato);
+    private void AniadirContratacion(Contrataciones contrato,Abonado abonado) {
+    	abonado.aniadirContratacion(contrato);
     }
     /**
      * este metodo clona una determinada factura</br>

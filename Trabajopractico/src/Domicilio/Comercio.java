@@ -18,5 +18,18 @@ public class Comercio extends Domicilio {
 		Comercio clon=(Comercio)super.clone();
 		return clon;
 	}
+	@Override
+	public double ValorBase() {
+		return 10000;
+	}
+	@Override
+	public double promoDorada() {
+		return ValorBase()-2500;
+	}
+	@Override
+	public double promoPlatino() {
+		// TODO Auto-generated method stub
+		return ValorBase()*0.65;
+	}
 
 }

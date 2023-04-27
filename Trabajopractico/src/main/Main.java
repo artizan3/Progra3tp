@@ -5,61 +5,81 @@ import Domicilio.Domicilio;
 import Domicilio.Vivienda;
 import abonado.Abonado;
 import abonado.Fisica;
+import abonado.Juridica;
 import empresa.Contrataciones;
 import empresa.Empresa;
 import empresa.Factura;
+import excepciones.DomicilioVinculadoException;
 import metodosdepago.DecoratorPago;
 import metodosdepago.FactoryPago;
+import metodosdepago.PagoCheque;
+import metodosdepago.PagoCredito;
+import metodosdepago.PagoEfectivo;
 import promo.Promo;
 import promo.PromoDorada;
 import promo.PromoPlatino;
 import servicio.Servicio;
+import servicio.ServicioAcompaniamiento;
 import servicio.ServicioBoton;
 import servicio.ServicioCamara;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws DomicilioVinculadoException, CloneNotSupportedException {
+		Domicilio d1=new Vivienda("dom1");
+		Domicilio d2=new Comercio("dom2");
+		Domicilio d3=new Vivienda("dom3");
+		
+		Servicio s1=new ServicioCamara();
+		Servicio s2=new ServicioBoton();
+		Servicio s3=new ServicioAcompaniamiento();
+		
+		Abonado a1=new Fisica("abonado1",123);
+		Abonado a2=new Juridica("abonado2",456);
+		
 		Promo p1=new PromoDorada();
 		Promo p2=new PromoPlatino();
-		FactoryPago factory=new FactoryPago();
-		Servicio s1=new ServicioCamara();
-		Servicio s2=new ServicioCamara();
-		Servicio s3=new ServicioBoton();
 		
-		Abonado a1=new Fisica("bruno",123);
+		//a1.AniadirDomicilio(d1);
+		//a1.AniadirDomicilio(d2);
 		
-		Domicilio d1=new Comercio("dom1");
-		Domicilio d2=new Vivienda("dom2");
-		Contrataciones contrato=new Contrataciones(d1);
-		Contrataciones contrato2=new Contrataciones(d2);
+		Contrataciones c1=new Contrataciones(d1);
+		c1.agregarServicio(s1);
+		c1.agregarServicio(s1);
+		c1.agregarServicio(s2);
+		c1.setPromo(p1);
+		Contrataciones c2=new Contrataciones(d2);
+		c2.agregarServicio(s1);
+		c2.agregarServicio(s2);
+		c2.agregarServicio(s3);
+		c2.setPromo(p2);
+		Contrataciones c3=new Contrataciones(d3);
+		//c3.agregarServicio(s1);
+		//c3.agregarServicio(s1);
+		//c3.agregarServicio(s1);
 		
-		contrato.agregarServicio(s1);
-		contrato.agregarServicio(s2);
-		contrato.agregarServicio(s3);
-		contrato.setPromo(p1);
+		//a1.aniadirContratacion(c1);
+		//a1.aniadirContratacion(c2);
 		
-		contrato2.agregarServicio(s1);
-		contrato2.setPromo(p2);
+		//DecoratorPago ap1=new PagoCredito(a1);
 		
-		a1.AniadirDomicilio(d1);
-		a1.AniadirDomicilio(d2);
+		//Factura f1=new Factura(ap1);
+		//System.out.println(f1.ImprimeFactura());
 		
+		//Factura f1clon=(Factura)f1.clone();
 		
-		DecoratorPago a1pag=factory.getMetodoDePago(a1, "Efectivo");
-		Factura fac=new Factura(a1pag);
-		Factura factclon=null;
-		fac.aniadirContratacion(contrato);
-		fac.aniadirContratacion(contrato2);
+		a2.AniadirDomicilio(d1);
+		a2.AniadirDomicilio(d2);
+		a2.AniadirDomicilio(d3);
 		
-		System.out.println(fac.ImprimeFactura());
+		a2.aniadirContratacion(c1);
+		a2.aniadirContratacion(c2);
+		a2.aniadirContratacion(c3);
 		
-		try {
-			factclon=(Factura)Empresa.getInstance().ClonarFactura(fac);
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-
+		DecoratorPago ap2=new PagoEfectivo(a2);
+		Factura f2=new Factura(ap2);
+		System.out.println(f2.ImprimeFactura());
+		
 		
 	}
 

@@ -10,7 +10,7 @@ public class Contrataciones implements Cloneable {
 	protected Promo promo=null;
 	private ArrayList <Servicio> listaServicio=new ArrayList <Servicio>();
 	private Domicilio domicilio;
-	public static int counter=000000;
+	public static int counter=0;
 	private int id;
 	/**
      * este es el contructor de la clase el cual aumenta el id en 1 por cada instancia</br>
@@ -46,7 +46,7 @@ public class Contrataciones implements Cloneable {
 	public double getValorTotal() {
 		assert !this.listaServicio.isEmpty(): "La lista de servicios no debe estar vacia";
 		int i;
-        double suma=this.getValorBase(domicilio);
+        double suma=this.getValorBase(this.domicilio);
         for(i=0;i<listaServicio.size();i++) {
             suma+=this.listaServicio.get(i).costo();
         }
@@ -62,16 +62,10 @@ public class Contrataciones implements Cloneable {
      */
 	private double getValorBase(Domicilio domicilio) {
 		double aux=0;
-		if (domicilio.getTipoDom()=="Vivienda") {
-			aux=8500;
-			if (this.promo!=null)
-				aux=this.promo.vivienda();
-		}else
-			if (domicilio.getTipoDom()=="Comercio") {
-				aux=10000;
-				if (this.promo!=null)
-					aux=this.promo.comercio();
-			}
+		if (promo==null)
+			aux=this.domicilio.ValorBase();
+		else
+			aux=promo.aplicarPromo(this.domicilio);
 		return aux;
 	}
 	/**

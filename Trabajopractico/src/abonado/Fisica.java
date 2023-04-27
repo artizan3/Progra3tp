@@ -21,4 +21,13 @@ public class Fisica extends Abonado  {
         Fisica clon=(Fisica)super.clone();
         return clon;
     }
+
+	@Override
+	public double ValorTotal() {
+		double suma=0;
+		for (int i=0;i<this.Lista.size();i++){
+			suma+=this.Lista.get(i).getValorTotal();
+		}
+		return suma;
+	}
 }

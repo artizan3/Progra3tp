@@ -9,8 +9,8 @@ public class PagoEfectivo extends DecoratorPago {
 		// TODO Auto-generated constructor stub
 	}
 	@Override
-	public double ValorDeTipoPago(double suma) {
-		return suma*0.8;
+	public double ValorDeTipoPago() {
+		return ValorSinTipoPago()*0.8;
 	}
 	public Object clone() throws CloneNotSupportedException {
 		PagoEfectivo clon=(PagoEfectivo)super.clone();

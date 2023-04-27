@@ -23,7 +23,9 @@ public abstract class Domicilio implements Cloneable {
 	public boolean isAgregado() {
 		return agregado;
 	}
-	
+	public abstract double ValorBase();
+	public abstract double promoDorada();
+	public abstract double promoPlatino();
     public abstract String getTipoDom();
 	
     @Override
