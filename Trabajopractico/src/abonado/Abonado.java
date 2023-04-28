@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import empresa.Contrataciones;
+import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteExeption;
 import excepciones.DomicilioVinculadoException;
 
@@ -14,8 +15,10 @@ public abstract class Abonado implements Cloneable,iAbonado{
 	protected ArrayList<Domicilio>ListaDeDomicilios=new ArrayList<Domicilio>();
 	
 	public Abonado() {}
-    /*
-    * Pre: Se espera que nombre sea distinto de NULL y " ".DNI mayor a 0
+    /**
+    * <b>Pre</b>: Se espera que nombre sea distinto de NULL y " ".DNI mayor a 0.<br>
+    * <b>Inv</b>:<br> 
+    * <b>Post</b>:<br>
     */
   	public Abonado(String nombre,int dni) {
        assert nombre != null: "El nombre no puede ser NULL";
@@ -26,39 +29,49 @@ public abstract class Abonado implements Cloneable,iAbonado{
    	}
 	
  
-   	public void AniadirDomicilio(Domicilio domicilio) throws DomicilioVinculadoException {
-      if (domicilio.isAgregado()==false) {
-	  this.ListaDeDomicilios.add(domicilio);
-      domicilio.setAgregado(true);
-  	}else
-  		throw new DomicilioVinculadoException();
-      
+  	
+    /**
+     * <b>Pre</b>: Se espera que domicilio sea distinto de NULL.<br>
+     * <b>Inv</b>:<br> 
+     * <b>Post</b>:<br>
+     */
+   	public void AniadirDomicilio(Domicilio domicilio) throws DomicilioExistenteException {
+   		
+      if (domicilio.isAgregado() == false) {
+	     this.ListaDeDomicilios.add(domicilio);
+         domicilio.setAgregado(true);
+  	   }
+      else
+  		throw new DomicilioExistenteException("El domicilio ya estaba agregado a la lista",domicilio);  
   	}
+   	
 	public ArrayList<Contrataciones> getLista() {
 		return Lista;
 	}
 	/**
-   * el metodo recibe un tipo abonado y devuelve la suma de los valores de las contrataciones netas,
-   *  segun el tipo de abonado.sin descuentos de tipo metodo de pago
-   * <br>pre:</br>el abonado debe ser valido y !=null <br>
-   * <br>inv:</br>la lista de servicios <br>
-   * <br>post:</br> devuelve la sumatoria de los valores<br>
-   * @param abonado es el que indica el tipo de abonado
-   * @return suma sumatoria de los valores
+   * El metodo recibe un tipo abonado y devuelve la suma de los valores de las contrataciones netas,
+   * segun el tipo de abonado.sin descuentos de tipo metodo de pago.<br><br>
+   * <b>Pre</b>: el abonado debe ser valido y distinto de null. <br>
+   * <b>Inv</b>: la lista de servicios. <br>
+   * <b>Post</b>: devuelve la sumatoria de los valores.<br>
+   * @param abonado indica el tipo de abonado.
+   * @return suma es sumatoria de los valores.
    */
 	public abstract double ValorTotal();
 	/**
-     * este metodo aniade una contratacion a la lista</br>
-     * <br>pre:</br> la contratacion debe ser valida y !=null<br>
-     * <br>inv:</br> <br>
-     * <br>post:</br> Se aniade una contratacion a la lista<br>
-     * @param contrato es la contratacion que aniadimos en la lista
+     * Este metodo añade una contratacion a la lista<br><br>
+     * <b>Pre</b>: la contratacion debe ser valida y disntinta de null.<br>
+     * <b>Inv</b>:<br> 
+     * <b>Post</b>:se aniade una contratacion a la lista.<br>
+     * @param contrato es la contratacion que aniadimos en la lista.
      */
 	public void aniadirContratacion(Contrataciones contrato) {
 		this.Lista.add(contrato);
 	}
-  /*
-   * Pre: Domicilio debe ser distinto de NULL
+  /**
+   * <b>Pre</b>:domicilio debe ser distinto NULL <br>
+   * <b>Inv</b>:<br>
+   * <b>Post</b>:se quita el domicilio de la lista de domicilios<br>
    */
 	public void QuitarDomicilio(Domicilio domicilio) throws DomicilioInexistenteExeption {
       assert domicilio != null:"El domicilio debe ser distinto de NULL";
@@ -74,8 +87,13 @@ public abstract class Abonado implements Cloneable,iAbonado{
 		return "|nombre: " + nombre + "|dni: " + dni ;
 	}
 	public abstract String tipoAbonado();
-
-    public boolean ExisteDomicilio(Domicilio domicilio) {
+	/**
+	 * <b>Pre</b>:el domicilio debe ser distinto de null. <br>
+     * <b>Inv</b>:<br> 
+     * <b>Post</b>:se verifica la existencia del domicilio.<br>
+	 * 
+	 */
+    public boolean ExisteDomicilio(Domicilio domicilio){
         assert domicilio != null: "El domicilio debe ser distinto de null";
         return this.ListaDeDomicilios.contains(domicilio);
     }

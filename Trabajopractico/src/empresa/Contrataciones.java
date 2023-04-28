@@ -13,10 +13,10 @@ public class Contrataciones implements Cloneable {
 	public static int counter=0;
 	private int id;
 	/**
-     * este es el contructor de la clase el cual aumenta el id en 1 por cada instancia</br>
-     * <br>pre:</br> el domicilio debe existir y ser !=null<br>
-     * <br>inv:</br> <br>
-     * <br>post:</br> se le asigna un valor al atributo<br>
+     * Este es el contructor de la clase el cual aumenta el id en 1 por cada instancia.<br><br>
+     * <b>Pre</b>: el domicilio debe existir y ser distinto de null.<br>
+     * <b>Inv</b>:<br>
+     * <b>Post</b>: se le asigna un valor al atributo.<br>
      * @param domicilio es el valor que se le asignara al atributo
      */
 	public Contrataciones(Domicilio domicilio) {
@@ -25,10 +25,10 @@ public class Contrataciones implements Cloneable {
 		this.id=counter;
 	}
 	/**
-     * este metodo agregara un servicio a la lista</br>
-     * <br>pre:</br> el servicio debe existir y ser !=null<br>
-     * <br>inv:</br>la lista de servicios esta inicializada <br>
-     * <br>post:</br> se aniade el servicio a la lista<br>
+     * Este metodo agregara un servicio a la lista<br><br>
+     * <b>Pre</b>: el servicio debe existir y ser distinto de null.<br>
+     * <b>Inv</b>: la lista de servicios esta inicializada.<br>
+     * <b>Post</b>: se añade el servicio a la lista.<br>
      * @param servicio es el objeto que se aniadira a la lista
      */
 	public void agregarServicio(Servicio servicio) {
@@ -36,12 +36,12 @@ public class Contrataciones implements Cloneable {
 		this.listaServicio.add(servicio);
 	}
 	/**
-     * este metodo devolvera la suma de los valores de los servicios agregados 
-     * junto con el valor base del domicilio y su valor alterado por una promo </br>
-     * <br>pre:</br><br>
-     * <br>inv:</br>la lista de servicios esta inicializada <br>
-     * <br>post:</br> devuelve la sumatoria de los valores<br>
-     * @return suma sumatoria de los valores
+     * Este metodo devolvera la suma de los valores de los servicios agregados 
+     * junto con el valor base del domicilio y su valor alterado por una promo <br><br>
+     * <b>Pre</b>:<br>
+     * <b>Inv</b>: la lista de servicios esta inicializada.<br>
+     * <b>Post</b>: devuelve la sumatoria de los valores.<br>
+     * @return suma la sumatoria de los valores.<br>
      */
 	public double getValorTotal() {
 		assert !this.listaServicio.isEmpty(): "La lista de servicios no debe estar vacia";
@@ -53,12 +53,12 @@ public class Contrataciones implements Cloneable {
         return suma;
     }
 	/**
-     * este metodo devolvera el valor base de un domicilio segun su tipo y su promo </br>
-     * <br>pre:</br>el domicilio debe ser !=null y existir<br>
-     * <br>inv:</br>los valores sin promo no varia <br>
-     * <br>post:</br> devuelve el valor base del domicilio<br>
-     * @param domicilio es el encargado de determinar que valor dara segun el tipo
-     * @return aux valor base del domicilio
+     * Este metodo devolvera el valor base de un domicilio segun su tipo y su promo.<br><br>
+     * <b>Pre</b>: el domicilio debe ser distinto y existir.<br>
+     * <b>Inv</b>: los valores sin promo no varia.<br>
+     * <b>Post</b>: devuelve el valor base del domicilio.<br>
+     * @param domicilio es el encargado de determinar que valor dara segun el tipo.<br>
+     * @return aux valor base del domicilio.<br>
      */
 	private double getValorBase(Domicilio domicilio) {
 		double aux=0;
@@ -69,11 +69,11 @@ public class Contrataciones implements Cloneable {
 		return aux;
 	}
 	/**
-     * este metodo crea la lista de servicios agregados vinculados al domicilio de la contratacion </br>
-     * <br>pre:</br>la lista no debe ser nula<br>
-     * <br>inv:</br>la lista de servicios esta inicializada <br>
-     * <br>post:</br> devuelve la lista de servicios agregados<br>
-     * @return aux lista de servicios agregados 
+     * Este metodo crea la lista de servicios agregados vinculados al domicilio de la contratacion.<br><br>
+     * <b>Pre</b>: la lista no debe ser nula.<br>
+     * <b>Inv</b>: la lista de servicios esta inicializada.<br>
+     * <b>Post</b>: devuelve la lista de servicios agregados.<br>
+     * @return aux lista de servicios agregados.<br> 
      */
 	public String ListadoDeSerivicios() {
 		assert !this.listaServicio.isEmpty(): "La lista de servicios no debe estar vacia";
@@ -85,24 +85,24 @@ public class Contrataciones implements Cloneable {
 		
 	}
 	/**
-	 * este metodo permite aniadir un tipo de promo a la contratacion
-     * <br>pre:</br>la promo no debe ser nula y debe existir<br>
-     * <br>inv:</br><br>
-     * <br>post:</br> setea el atributo promo<br>
-     * @param promo es el valor que se le dara al atributo
+	 * Este metodo permite aniadir un tipo de promo a la contratacion.<br><br>
+     * <b>Pre</b>: la promo no debe ser nula y debe existir.<br>
+     * <b>Inv</b>:<br>
+     * <b>Post</b>: setea el atributo promo.<br>
+     * @param promo es el valor que se le dara al atributo.<br>
      */
 	public void setPromo(Promo promo) {
 		this.promo = promo;
 	}
 	
 	/**
-	 * el metodo generara la descripcion de la contratacion, brindando informacion como
+	 * El metodo generara la descripcion de la contratacion, brindando informacion como
 	 * el tipo de abonado, su nombre y dni, el id de la contratacion, el domicilio, su tipo y promo
-	 * y el valor total de la contratacion
-     * <br>pre:</br><br>
-     * <br>inv:</br><br>
-     * <br>post:</br> devuelve un String con la descripcion<br>
-     * @return aux descripcion
+	 * y el valor total de la contratacion.<br><br>
+     * <b>Pre</b>:<br>
+     * <b>Inv</b>:<br> 
+     * <b>Post</b>: devuelve un String con la descripcion.<br>
+     * @return aux descripcion.<br>
      */
 	public String Descripcion() {
 		String aux="";
@@ -112,18 +112,22 @@ public class Contrataciones implements Cloneable {
 		aux+="Valor final del domicilio:"+this.getValorTotal()+"\n";
 		return aux;
 	}
-
+	/**
+	 * <b>Pre</b>:<br> 
+	 * <b>Inv</b>:<br> 
+	 * <b>Post</b>: retorna la id de la contratacion.<br>
+	 */
 	public int getId() {
 		return id;
 	}
 	
 	/**
-	 *es el metodo encargado de la clonacion de la contratacion
-     * <br>pre:</br><br>
-     * <br>inv:</br><br>
-     * <br>post:</br> devuelve un clon<br>
-     * @throws CloneNotSupportedException si algun atributo de tipo objeto no fuera clonable
-     * @return clon un clon de la contratacion
+	 *Es el metodo encargado de la clonacion de la contratacion.<br><br>
+     * <b>Pre</b>:<br>
+     * <b>Inv</b>:<br>
+     * <b>Post</b>: devuelve un clon.<br>
+     * @throws CloneNotSupportedException si algun atributo de tipo objeto no fuera clonable.<br>
+     * @return clon un clon de la contratacion.<br>
      */
 	public Object clone() throws CloneNotSupportedException {
 		Contrataciones clon=(Contrataciones)super.clone();

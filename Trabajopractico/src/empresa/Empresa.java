@@ -31,27 +31,28 @@ public class Empresa {
             instance= new Empresa();
         return instance;
     }
+    
     /**
-     * este metodo agrega un abonado a la lista de abonados</br>
-     * <br>pre:</br> El abonado debe ser !=null al igual que el tipodepago.<br>
-     * <br>inv:</br> El abonado a agregar no esta en la lista<br>
-     * <br>post:</br> Se aniade un abonado a la lista y se crea una factura para el mismo<br>
-     * @param abonado es el abonado a agregar
-     * @param tipodepago va a ser la cadena que indicara el metodo de pago
-     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente 
+     * Este metodo agrega un abonado a la lista de abonados.<br><br>
+     * <b>Pre</b>: el abonado debe ser distinto de null al igual que tipodepago.<br>
+     * <b>Inv</b>: el abonado a agregar no esta en la lista.<br>
+     * <b>Post</b>: se aniade un abonado a la lista y se crea una factura para el mismo.<br>
+     * @param abonado es el abonado a agregar.<br>
+     * @param tipodepago va a ser la cadena que indicara el metodo de pago.<br>
+     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente.<br> 
      */
     public void agregaAbonado(Abonado abonado,String tipodepago) throws FactoryinvalidoException {
     	listaEmpresa.add(abonado);
         crearFactura(abonado,tipodepago);
     }
     /**
-     * este metodo crea y agrega una factura a la lista de facturas</br>
-     * <br>pre:</br> El abonado debe ser !=null al igual que el tipodepago.<br>
-     * <br>inv:</br> La factura a agregar no esta en la lista<br>
-     * <br>post:</br>Se crea una factura para el abonado con su tipo de pago y se aniade a la lista<br>
-     * @param abonado es el abonado para el cual se crea la factura
-     * @param tipodepago es el String que indica que metodo de pago va a tener la factura
-     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente 
+     * Este metodo crea y agrega una factura a la lista de facturas.<br>
+     * <b>Pre</b>: el abonado debe ser distinto de null al igual que tipodepago.<br>
+     * <b>Inv</b>: la factura a agregar no esta en la lista.<br>
+     * <b>Post</b>: se crea una factura para el abonado con su tipo de pago y se añade a la lista.<br>
+     * @param abonado es el abonado para el cual se crea la factura.<br>
+     * @param tipodepago es el String que indica que metodo de pago va a tener la factura.<br>
+     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente.<br> 
      */
     private void crearFactura(Abonado abonado,String tipodepago) throws FactoryinvalidoException {
     	try {
@@ -61,14 +62,14 @@ public class Empresa {
     	}finally {}
     }
     /**
-     * este metodo cambia el metodo de pago de un abonado</br>
-     * <br>pre:</br> La factura debe ser !=null. El abonado debe ser !=null al igual que el tipodepago.<br>
-     * <br>inv:</br> La factura y el abonado estan en las listas<br>
-     * <br>post:</br>Se actualiza el metodo de pago de la factura del abonado<br>
-     * @param factura es la factura que cambiara su metodo de pago
-     * @param abonado es el abonado de la factura
-     * @param tipodepago el metodo de pago nuevo para la factura
-     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente 
+     * Este metodo cambia el metodo de pago de un abonado.<br><br>
+     * <b>Pre</b>: la factura debe ser disntinto de null. El abonado debe ser distinto de null al igual que tipodepago.<br>
+     * <b>Inv</b>: la factura y el abonado estan en las listas.<br>
+     * <b>Post</b>: se actualiza el metodo de pago de la factura del abonado.<br>
+     * @param factura es la factura que cambiara su metodo de pago.<br>
+     * @param abonado es el abonado de la factura.<br>
+     * @param tipodepago el metodo de pago nuevo para la factura.<br>
+     * @throws FactoryinvalidoException si el tipo de pago fue incorrecto o no existente.<br>
      */
     public void CambiarMetodoPago(Factura factura,Abonado abonado,String tipodepago) throws FactoryinvalidoException {
     	try{
@@ -77,14 +78,14 @@ public class Empresa {
     	}finally {}
     }
     /**
-     * este metodo agrega domicilio un abonado</br>
-     * <br>pre:</br> el Domicilio y el abonado deben existir y ser !=null<br>
-     * <br>inv:</br> El abonado esta en la lista<br>
-     * <br>post:</br>Se aniade un domicilio al abonado<br>
-     * @param domicilio es el domicilio que vamos a agregar
-     * @param abonado indica el abonado que recibe el domicilio nuevo
-     * @throws DomicilioVinculadoException si el domicilio ya esta previamente vinculado 
-     * @throws DomicilioExistenteException si el domicilio si el abonado ya posee ese domicilio
+     * Este metodo agrega domicilio un abonado.<br><br>
+     * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de null.<br>
+     * <b>Inv</b>: el abonado esta en la lista.<br>
+     * <b>Post</b>: se añade un domicilio al abonado.<br>
+     * @param domicilio es el domicilio que vamos a agregar.<br>
+     * @param abonado indica el abonado que recibe el domicilio nuevo.<br>
+     * @throws DomicilioVinculadoException si el domicilio ya esta previamente vinculado.<br> 
+     * @throws DomicilioExistenteException si el domicilio si el abonado ya posee ese domicilio.<br>
      */
     public void agregaDom(Domicilio domicilio,Abonado abonado) throws DomicilioVinculadoException,DomicilioExistenteException {
         try{
@@ -95,45 +96,45 @@ public class Empresa {
         }finally {}
     }
     /**
-     * este metodo quita domicilio de un abonado</br>
-     * <br>pre:</br> el Domicilio y el abonado deben existir y ser !=null<br>
-     * <br>inv:</br> El abonado esta en la lista<br>
-     * <br>post:</br>Se quita el domicilio al abonado<br>
-     * @param domicilio es el domicilio que queremos eliminar
-     * @param abonado es el abonado el cual eliminamos el domicilio
-     * @throws DomicilioInexistenteExeption si el domicilio no existe para ese abonado
+     * Este metodo quita domicilio de un abonado.<br><br>
+     * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de null.<br>
+     * <b>Inv</b>: el abonado esta en la lista.<br>
+     * <b>Post</b>: se quita el domicilio al abonado.<br>
+     * @param domicilio es el domicilio que queremos eliminar.<br>
+     * @param abonado es el abonado el cual eliminamos el domicilio.<br>
+     * @throws DomicilioInexistenteExeption si el domicilio no existe para ese abonado.<br>
      */
     public void QuitarDom(Domicilio domicilio,Abonado abonado) throws DomicilioInexistenteExeption {
     	abonado.QuitarDomicilio(domicilio);
     }
     /**
-     * este metodo quita un abonado de la lista</br>
-     * <br>pre:</br> el abonado debe existir y ser !=null<br>
-     * <br>inv:</br> El abonado esta en la lista<br>
-     * <br>post:</br>Se quita el abonado de la lista<br>
-     * @param abonado es el abonado que queremos quitar del sistema
+     * Este metodo quita un abonado de la lista.<br><br>
+     * <b>Pre</b>: el abonado debe existir y ser disntinto de null.<br>
+     * <b>Inv</b>: el abonado esta en la lista.<br>
+     * <b>Post</b>: se quita el abonado de la lista.<br>
+     * @param abonado es el abonado que queremos quitar del sistema.<br>
      */
     public void quitaAbonado(Abonado abonado) {
         this.listaEmpresa.remove(abonado);
     }
     /**
-     * este metodo quita una factura de la lista</br>
-     * <br>pre:</br> la factura debe existir y ser !=null<br>
-     * <br>inv:</br> la factura esta en la lista<br>
-     * <br>post:</br>Se quita la factura de la lista<br>
-     * @param factura es la factura que queremos quitar del sistema
+     * Este metodo quita una factura de la lista.<br><br>
+     * <b>Pre</b>: la factura debe existir y ser distinta de null.<br>
+     * <b>Inv</b>: la factura esta en la lista.<br>
+     * <b>Post</b>: se quita la factura de la lista.<br>
+     * @param factura es la factura que queremos quitar del sistema.<br>
      */
     public void EliminarFactura(Factura factura) {
     	this.listaFactura.remove(factura);
     }
     /**
-     * este metodo crea una contratacion la anide a la lista y a la facutra correspondiente</br>
-     * <br>pre:</br> el Domicilio y el abonado deben existir y ser !=null<br>
-     * <br>inv:</br> el abonado esta en la lista, y el domicilio esta vinculado al abonado <br>
-     * <br>post:</br>Se crea una contratacion la anide a la lista y a la facutra correspondiente<br>
-     * @param domicilio es el domicilio que pertenecera a la contratacion
-     * @param abonado este indicara para que factura sera agregada la contratacion
-     * @throws ContratacionInvalidaException si el abonado no poseia el domicilio y/o el domicilio no estaba vinculado
+     * Este metodo crea una contratacion la anide a la lista y a la facutra correspondiente.<br><br>
+     * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de null.<br>
+     * <b>Inv</b>: el abonado esta en la lista, y el domicilio esta vinculado al abonado.<br>
+     * <b>Post</b>: se crea una contratacion la añade a la lista y a la facutra correspondiente.<br>
+     * @param domicilio es el domicilio que pertenecera a la contratacion.<br>
+     * @param abonado este indicara para que factura sera agregada la contratacion.<br>
+     * @throws ContratacionInvalidaException si el abonado no poseia el domicilio y/o el domicilio no estaba vinculado.<br>
      */
     public void CrearContratacion(Domicilio domicilio,Abonado abonado) throws ContratacionInvalidaException {
     	if (abonado.ExisteDomicilio(domicilio)==true && domicilio.isAgregado()==true) {
@@ -143,11 +144,11 @@ public class Empresa {
     		throw new ContratacionInvalidaException();
     }
     /**
-     * este metodo agrega una factura a la lista de abonados</br>
-     * <br>pre:</br> la factura debe ser !=null<br>
-     * <br>inv:</br> la factura a agregar no esta en la lista<br>
-     * <br>post:</br> Se aniade una factura a la lista<br>
-     * @param factura es la factura nueva que vamos a aniadir
+     * Este metodo agrega una factura a la lista de abonados.<br><br>
+     * <b>Pre</b>: la factura debe ser distinta de null.<br>
+     * <b>Inv</b>: la factura a agregar no esta en la lista.<br>
+     * <b>Post</b>: se añade una factura a la lista.<br>
+     * @param factura es la factura nueva que vamos a añadir.<br>
      */
     private void AniadirFactura(Factura factura) {
     	this.listaFactura.add(factura);
@@ -156,13 +157,13 @@ public class Empresa {
     	abonado.aniadirContratacion(contrato);
     }
     /**
-     * este metodo clona una determinada factura</br>
-     * <br>pre:</br> la factura deben existi y ser !=null<br>
-     * <br>inv:</br> la factura esta en la lista<br>
-     * <br>post:</br> Se clona una determinada factura<br>
-     * @param factura es la factura que vamos a clonar
-     * @throws CloneNotSupportedException no se pudo clonar la factura
-     * @return clon determinada factura
+     * Este metodo clona una determinada factura.<br><br>
+     * <b>Pre</b>: la factura deben existir y ser distinta de null.<br>
+     * <b>Inv</b>: la factura esta en la lista.<br>
+     * <b>Post</b>: se clona una determinada factura.<br>
+     * @param factura es la factura que vamos a clonar.<br>
+     * @throws CloneNotSupportedException no se pudo clonar la factura.<br>
+     * @return clon determinada factura.<br>
      */
     public Object ClonarFactura(Factura factura) throws CloneNotSupportedException {
     	Factura clon=(Factura)factura.clone();
