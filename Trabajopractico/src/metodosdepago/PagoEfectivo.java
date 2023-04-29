@@ -8,13 +8,14 @@ public class PagoEfectivo extends DecoratorPago {
 		super(abonado);
 		// TODO Auto-generated constructor stub
 	}
+
 	@Override
-	public double ValorDeTipoPago() {
-		return ValorSinTipoPago()*0.8;
+	public double valorDeTipoPago() {
+		return valorSinTipoPago() * 0.8;
 	}
 
-	public String tipodepago() {
-		return"Efectivo";
+	public String tipoDePago() {
+		return "Efectivo";
 	}
 
 	/**
@@ -22,11 +23,11 @@ public class PagoEfectivo extends DecoratorPago {
 	 * <b>Inv</b>:<br>
 	 * <b>Post</b>: Clona el pagoEfectivo.<br>
 	 */
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		PagoEfectivo clon =null;
-		clon=(PagoEfectivo)super.clone();
+		PagoEfectivo clon = null;
+		clon = (PagoEfectivo) super.clone();
 		return clon;
 	}
 }

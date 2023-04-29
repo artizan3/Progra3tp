@@ -1,9 +1,8 @@
 package promo;
 
 import Domicilio.Domicilio;
-import empresa.Contrataciones;
 
-public class PromoPlatino implements Promo,Cloneable {
+public class PromoPlatino implements Promo, Cloneable {
 
 	public String toString() {
 		return "Platino";
@@ -16,9 +15,10 @@ public class PromoPlatino implements Promo,Cloneable {
 	 */
 	@Override
 	public double aplicarPromo(Domicilio domicilio) {
+		assert domicilio != null : "Domicilio null";
 		return domicilio.promoPlatino();
 	}
-	
+
 	/**
 	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
@@ -27,7 +27,7 @@ public class PromoPlatino implements Promo,Cloneable {
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Promo clon = null;
-		clon=(Promo)super.clone();
+		clon = (Promo) super.clone();
 		return clon;
 	}
 }

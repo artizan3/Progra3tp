@@ -3,11 +3,10 @@ package excepciones;
 import Domicilio.Domicilio;
 
 @SuppressWarnings("serial")
-public class DomicilioExistenteException extends Exception {
+public class DomicilioInexistenteException extends Exception {
+	private Domicilio domicilio;
 
-	Domicilio domicilio;
-
-	public DomicilioExistenteException(String mensaje, Domicilio domicilio) {
+	public DomicilioInexistenteException(String mensaje, Domicilio domicilio) {
 		super(mensaje);
 		this.domicilio = domicilio;
 	}
@@ -15,4 +14,5 @@ public class DomicilioExistenteException extends Exception {
 	public Domicilio getDomicilio() {
 		return domicilio;
 	}
+
 }

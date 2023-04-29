@@ -2,9 +2,8 @@ package promo;
 
 import Domicilio.Domicilio;
 
-public class PromoDorada implements Promo,Cloneable {
+public class PromoDorada implements Promo, Cloneable {
 
-	
 	public String toString() {
 		return "Dorada";
 	}
@@ -16,6 +15,7 @@ public class PromoDorada implements Promo,Cloneable {
 	 */
 	@Override
 	public double aplicarPromo(Domicilio domicilio) {
+		assert domicilio != null : "Domicilio null";
 		return domicilio.promoDorada();
 	}
 
@@ -24,11 +24,11 @@ public class PromoDorada implements Promo,Cloneable {
 	 * <b>Inv</b>:<br>
 	 * <b>Post</b>: Clona el tipo de promo.<br>
 	 */
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		Promo clon = null;
-		clon=(Promo)super.clone();
+		clon = (Promo) super.clone();
 		return clon;
 	}
 }

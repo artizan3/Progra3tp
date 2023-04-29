@@ -8,23 +8,27 @@ public class PagoCredito extends DecoratorPago {
 		super(abonado);
 		// TODO Auto-generated constructor stub
 	}
+
 	@Override
-	public double ValorDeTipoPago() {
-		return ValorSinTipoPago()*1.05;
+	public double valorDeTipoPago() {
+		return valorSinTipoPago() * 1.05;
 	}
-	/**<b>Pre</b>:<br>
+
+	/**
+	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
 	 * <b>Post:</b>: Clona el PagoCredito.<br>
 	 */
-	
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		PagoCredito clon = null;
-		clon=(PagoCredito)super.clone();
+		clon = (PagoCredito) super.clone();
 		return clon;
 	}
-	public String tipodepago() {
-		return"Tarjeta de credito";
+
+	public String tipoDePago() {
+		return "Tarjeta de credito";
 	}
 
 }
