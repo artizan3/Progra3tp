@@ -4,11 +4,14 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import abonado.Abonado;
+import excepciones.AbonadoInexistenteException;
 import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
+import excepciones.DomicilioInexistenteExeption;
 import excepciones.DomicilioVinculadoException;
 import excepciones.FactoryInvalidoException;
+import excepciones.FacturaInexistenteException;
 import metodosdepago.DecoratorPago;
 import metodosdepago.FactoryPago;
 import promo.Promo;
@@ -17,7 +20,8 @@ import servicio.Servicio;
 /**
  * 
  * @author bruno trinitario,Alan Juares,Juan Basualdo,Juan Olave
- *
+ *esta clase es la encargada de manejar nuestro sistema, aniadir y quitar abonados, domicilios
+ *facturas y contrataciones. junto con la posibilidad de poder clonar determinada factura
  */
 
 public class Empresa {
@@ -97,8 +101,8 @@ public class Empresa {
 	/**
 	 * Este metodo agrega domicilio un abonado.<br>
 	 * <br>
-	 * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de
-	 * null.<br>
+	 * <b>Pre</b>: el Domicilio y el abonado deben ser distintos de
+	 * null<br>
 	 * <b>Inv</b>: el abonado esta en la lista.<br>
 	 * <b>Post</b>: se añade un domicilio al abonado.<br>
 	 * 
@@ -110,6 +114,8 @@ public class Empresa {
 	 *                                     ese domicilio.<br>
 	 */
 	public void agregaDom(Domicilio domicilio, Abonado abonado) throws DomicilioVinculadoException, DomicilioExistenteException {
+		assert abonado != null : "El abonado debe ser distinto de null";
+		assert domicilio != null : "El domicilio debe ser distinto de null";
 		if (abonado.existeDomicilio(domicilio) == false)
 			abonado.aniadirDomicilio(domicilio);
 		else
@@ -118,7 +124,7 @@ public class Empresa {
 	/**
 	 * Este metodo quita domicilio de un abonado.<br>
 	 * <br>
-	 * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de
+	 * <b>Pre</b>: el Domicilio y el abonado deben ser distintos de
 	 * null.<br>
 	 * <b>Inv</b>: el abonado esta en la lista.<br>
 	 * <b>Post</b>: se quita el domicilio al abonado.<br>
@@ -129,6 +135,8 @@ public class Empresa {
 	 *                                      abonado.<br>
 	 */
 	public void QuitarDom(Domicilio domicilio, Abonado abonado) throws DomicilioInexistenteException {
+		assert abonado != null : "El abonado debe ser distinto de null";
+		assert domicilio != null : "El domicilio debe ser distinto de null";
 		if (abonado.existeDomicilio(domicilio))
 			abonado.quitarDomicilio(domicilio);
 		else
@@ -137,32 +145,41 @@ public class Empresa {
 	/**
 	 * Este metodo quita un abonado de la lista.<br>
 	 * <br>
-	 * <b>Pre</b>: el abonado debe existir y ser disntinto de null.<br>
+	 * <b>Pre</b>: el abonado debe ser disntinto de null.<br>
 	 * <b>Inv</b>: el abonado esta en la lista.<br>
 	 * <b>Post</b>: se quita el abonado de la lista.<br>
 	 * 
 	 * @param abonado es el abonado que queremos quitar del sistema.<br>
 	 */
-	public void quitaAbonado(Abonado abonado) {
-		this.listaEmpresa.remove(abonado);
+	public void quitaAbonado(Abonado abonado) throws AbonadoInexistenteException{
+		assert abonado != null : "El abonado debe ser distinto de null";
+		if(this.listaEmpresa.contains(abonado)==true)
+			this.listaEmpresa.remove(abonado);
+		else
+			throw new AbonadoInexistenteException("el Abonado no se encuentra en la lista",abonado);
 	}
+
 	/**
 	 * Este metodo quita una factura de la lista.<br>
 	 * <br>
-	 * <b>Pre</b>: la factura debe existir y ser distinta de null.<br>
+	 * <b>Pre</b>: la factura debe ser distinta de null.<br>
 	 * <b>Inv</b>: la factura esta en la lista.<br>
 	 * <b>Post</b>: se quita la factura de la lista.<br>
 	 * 
 	 * @param factura es la factura que queremos quitar del sistema.<br>
 	 */
-	public void EliminarFactura(Factura factura) {
-		this.listaFactura.remove(factura);
+	public void EliminarFactura(Factura factura)throws FacturaInexistenteException {
+		assert factura != null : "La factura debe ser distinto de null";
+		if(this.listaFactura.contains(factura))
+			this.listaFactura.remove(factura);
+		else
+			throw new FacturaInexistenteException("Factura inexistente",factura);		
 	}
 	/**
 	 * Este metodo crea una contratacion la añade a la lista y a la facutra
 	 * correspondiente.<br>
 	 * <br>
-	 * <b>Pre</b>: el Domicilio y el abonado deben existir y ser distintos de
+	 * <b>Pre</b>: el Domicilio y el abonado deben ser distintos de
 	 * null.<br>
 	 * <b>Inv</b>: el abonado esta en la lista, y el domicilio esta vinculado al
 	 * abonado.<br>
@@ -177,6 +194,8 @@ public class Empresa {
 	 *                                       vinculado.<br>
 	 */
 	public void CrearContratacion(Domicilio domicilio, Abonado abonado) throws ContratacionInvalidaException {
+		assert abonado != null : "El abonado debe ser distinto de null";
+		assert domicilio != null : "El domicilio debe ser distinto de null";
 		if (abonado.existeDomicilio(domicilio) == true && domicilio.isAgregado() == true) {
 			Contrataciones contrato = new Contrataciones(domicilio);
 			abonado.aniadirContratacion(contrato);
@@ -184,17 +203,39 @@ public class Empresa {
 		} else
 			throw new ContratacionInvalidaException("No se pudo crear la contratacion", domicilio, abonado);
 	}
+	/**Este metodo se encarga de añadir servicios un respectivo domicilio.
+	 * <br>
+	 * <b>Pre</b>:domicilio y servicio deben ser distintos de null.<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>:servicio agregado al domicilio que le corresponda <br>
+	 * @param domicilio es el domicilio que pertenece a la contratacion.<br>
+	 * @param servicio es el servicio que se desea agregar a un contrato.<br>
+	 */
 	public void aniadirServicio(Domicilio domicilio,Servicio servicio) {
+		assert servicio!= null : "El servicio debe ser distinto de null";
+		assert domicilio != null : "El domicilio debe ser distinto de null";
 		int i=0;
-		while (this.listaContrataciones.get(i).getDomicilio()!=domicilio)
+		while (this.listaContrataciones.get(i).getDomicilio()!=null && this.listaContrataciones.get(i).getDomicilio()!=domicilio)
 			i++;
-		this.listaContrataciones.get(i).agregarServicio(servicio);
+		if(this.listaContrataciones.get(i).getDomicilio()!=null)
+			this.listaContrataciones.get(i).agregarServicio(servicio);
 	}
+	/**Este metodo se encarga de añadir una promo a una contrato.
+	 * <br>
+	 * <b>Pre</b>:domicilio y promo deben ser distintos de null.<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>:servicio agregado al domicilio que le corresponda. <br>
+	 * @param domicilio es el domicilio que pertenece a la contratacion. <br>
+	 * @param promo es la promo que se desea agregar a un determinado contrato.<br>
+	 */
 	public void aniadirPromo(Domicilio domicilio,Promo promo) {
 		int i=0;
-		while (this.listaContrataciones.get(i).getDomicilio()!=domicilio)
+		assert promo != null : "La promo debe ser distinta de null";
+		assert domicilio != null : "El domicilio debe ser distinto de null";
+		while (this.listaContrataciones.get(i).getDomicilio()!=null && this.listaContrataciones.get(i).getDomicilio()!=domicilio)
 			i++;
-		this.listaContrataciones.get(i).setPromo(promo);
+		if(this.listaContrataciones.get(i).getDomicilio()!=null)
+			this.listaContrataciones.get(i).setPromo(promo);
 	}
 	/**
 	 * Este metodo agrega una factura a la lista de abonados.<br>
@@ -206,13 +247,34 @@ public class Empresa {
 	 * @param factura es la factura nueva que vamos a añadir.<br>
 	 */
 	private void aniadirFactura(Factura factura) {
+		assert factura!=null:"La factura debe ser distinta de null";
 		this.listaFactura.add(factura);
 	}
+	/**
+	 * Este metodo agrega una contratacion a la lista de contrataciones.<br>
+	 * <br>
+	 * <b>Pre</b>:<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>: se añade el contrato de la lista.<br>
+	 * 
+	 * @param contrato es el contrato que se añade.<br>
+	 */
 	private void aniadirContratacion(Contrataciones contrato, Abonado abonado) {
 		this.listaContrataciones.add(contrato);
 	}
+	/**
+	 * Este metodo muestra retorna la factura de cierto abonado.<br>
+	 * <br>
+	 * <b>Pre</b>:abonado distino de null<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>: se añade el contrato de la lista.<br>
+	 * 
+	 * @param contrato es el contrato que se añade.<br>
+	 */
 	public Factura getFactura(Abonado abonado) {
 		int i=0;
+		assert abonado != null : "El abonado debe ser distinto de null";
+		
 		while (this.listaFactura.get(i).getAbonado().getAbonadotype()!=abonado)
 			i++;
 		if (this.listaFactura.get(i)!=null)

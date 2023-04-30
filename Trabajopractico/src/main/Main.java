@@ -180,22 +180,22 @@ public class Main {
 		
 		System.out.println("CLONES------------------");
 		try {
-			Factura fac1clon=(Factura)fac1.clone();
+			Factura fac1clon=(Factura)e.ClonarFactura(fac1);
 		} catch (CloneNotSupportedException e1) {
 			System.out.println(e1.getMessage());
 		}
 		try {
-			Factura fac2clon=(Factura)fac2.clone();
+			Factura fac2clon=(Factura)e.ClonarFactura(fac2);
 		} catch (CloneNotSupportedException e1) {
 			System.out.println(e1.getMessage());
 		}
 		try {
-			Factura fac3clon=(Factura)fac3.clone();
+			Factura fac3clon=(Factura)e.ClonarFactura(fac3);
 		} catch (CloneNotSupportedException e1) {
 			System.out.println(e1.getMessage());
 		}
 		try {
-			Factura fac4clon=(Factura)fac4.clone();
+			Factura fac4clon=(Factura)e.ClonarFactura(fac4);
 		} catch (CloneNotSupportedException e1) {
 			System.out.println(e1.getMessage());
 		}

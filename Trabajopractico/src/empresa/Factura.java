@@ -2,11 +2,22 @@ package empresa;
 
 import abonado.Abonado;
 import metodosdepago.DecoratorPago;
-
+/*
+ * esta clase es la encargada de recopilar todas las contrataciones de un determinado abonado
+ * y operarlas de forma tal que nos devuelva informacion valiosa, en este caso, lo que debera pagar
+ * el abonado
+ */
 public class Factura implements Cloneable {
 	private DecoratorPago abonado;
-
-	public Factura(DecoratorPago abonado) {// aca asumimos que si o si ya viene con el tipo de pago
+	
+	/**
+	 * Constructor de la clase <br>
+	 * <br>
+	 * <b>Pre</b>: Se espera que abonado sea distinto de null y exista ".<br>
+	 * <b>Inv</b>: abonado.<br>
+	 * <b>Post</b>: Se setea el valor del atributo abonado<br>
+	 */
+	public Factura(DecoratorPago abonado) {
 		this.abonado = abonado;
 	}
 

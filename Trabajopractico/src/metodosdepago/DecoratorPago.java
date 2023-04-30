@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import abonado.Abonado;
 import abonado.iAbonado;
 import empresa.Contrataciones;
-
+/*
+ * esta clase funciona para poder aplicar el patron decorator a los abonados, encapsulando este
+ * mismo y generando un abonado con un tipo de pago (tarjeta, cheque o efectivo), estas clases
+ * puede acceder a determinada informacion de la clase abonado, tambien el abonado de la clase
+ * factura sera de este tipo (Decorador).
+ */
 public abstract class DecoratorPago implements Cloneable, iAbonado {
 	protected Abonado abonado;
 

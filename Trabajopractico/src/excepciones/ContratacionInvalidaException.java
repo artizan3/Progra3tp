@@ -14,15 +14,11 @@ public class ContratacionInvalidaException extends Exception {
 		this.domicilio = domicilio;
 	}
 
-	public String Informar() {
-		return "Error:" + this.getAbonado() + " " + this.getDomicilio();
+	public Domicilio getDomicilio() {
+		return this.domicilio;
 	}
 
-	public String getDomicilio() {
-		return domicilio.toString();
-	}
-
-	public String getAbonado() {
-		return abonado.toString();
+	public Abonado getAbonado() {
+		return this.abonado;
 	}
 }

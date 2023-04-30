@@ -6,7 +6,11 @@ import Domicilio.Domicilio;
 import empresa.Contrataciones;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
-
+/*
+ * la clase abonado, la cual tiene 2 variantes (fisica y juridica) es
+ * respondable de encapsular sus respectivos domicilios y contrataciones
+ * para que a la hora de generar la factura del abonado se poseea toda la informacion necesaria
+ */
 public abstract class Abonado implements Cloneable, iAbonado {
 	protected String nombre;
 	protected int dni;
@@ -19,7 +23,7 @@ public abstract class Abonado implements Cloneable, iAbonado {
 	 * <b>Pre</b>: Se espera que nombre sea distinto de null y " ".DNI mayor a
 	 * 0.<br>
 	 * <b>Inv</b>: Nombre y dni.<br>
-	 * <b>Post</b>: Se crea la clase.<br>
+	 * <b>Post</b>: Se setean los valores de los atributos nombre y dni.<br>
 	 */
 	public Abonado(String nombre, int dni) {
 		assert nombre != null : "El nombre no puede ser null";
@@ -28,6 +32,12 @@ public abstract class Abonado implements Cloneable, iAbonado {
 		this.dni = dni;
 		this.nombre = nombre;
 	}
+	/**
+	 * <b>Pre</b>:<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>: Retorna el tipo de abonado.<br>
+	 */
+	public abstract String tipoAbonado();
 
 	/**
 	 * Recibe un domicilio, chequea si ya estaba agregado y lo agrega. Si ya estaba,
@@ -52,7 +62,6 @@ public abstract class Abonado implements Cloneable, iAbonado {
 	public ArrayList<Contrataciones> getLista() {
 		return Lista;
 	}
-
 	/**
 	 * El metodo recibe un tipo abonado y devuelve la suma de los valores de las
 	 * contrataciones netas, segun el tipo de abonado, sin descuentos de tipo metodo
@@ -81,7 +90,6 @@ public abstract class Abonado implements Cloneable, iAbonado {
 	public void aniadirContratacion(Contrataciones contrato) {
 		assert contrato != null : "El contrato debe ser distinto de null";
 		this.Lista.add(contrato);
-
 	}
 
 	/**
@@ -103,8 +111,6 @@ public abstract class Abonado implements Cloneable, iAbonado {
 		return "|nombre: " + nombre + "|dni: " + dni;
 	}
 
-	public abstract String tipoAbonado();
-
 	/**
 	 * El metodo recibe un domicilio por parametro y verifica si existe o no,
 	 * devolviendo un booleano. <br>
@@ -117,23 +123,29 @@ public abstract class Abonado implements Cloneable, iAbonado {
 	public boolean existeDomicilio(Domicilio domicilio) {
 		assert domicilio != null : "El domicilio debe ser distinto de null";
 		return this.ListaDeDomicilios.contains(domicilio);
-
-		/**
-		 * El metodo recibe un contrato por parametro y verifica si existe o no,
-		 * devolviendo un booleano. <br>
-		 * <br>
-		 * <b>Pre</b>: El contrato debe ser distinto de null.<br>
-		 * <b>Inv</b>:<br>
-		 * <b>Post</b>: Se verifica la existencia del contrato.<br>
-		 * 
-		 */
 	}
-
+	/**
+	 * El metodo recibe un contrato por parametro y verifica si existe o no,
+	 * devolviendo un booleano. <br>
+	 * <br>
+	 * <b>Pre</b>: El contrato debe ser distinto de null.<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>: Se verifica la existencia del contrato.<br>
+	 * 
+	 */
 	public boolean existeContratacion(Contrataciones contrato) {
 		assert contrato != null : "El domicilio debe ser distinto de null";
 		return this.Lista.contains(contrato);
 	}
-
+	
+	/**
+	 * El metodo clona el objeto de tipo abonado. <br>
+	 * <br>
+	 * <b>Pre</b><br>
+	 * <b>Inv</b><br>
+	 * <b>Post</b>: Se clona el objeto<br>
+	 * @throws CloneNotSupportedException si el objeto no puede ser clonable
+	 */
 	public Object clone() throws CloneNotSupportedException {
 		Abonado clon = null;
 		clon = (Abonado) super.clone();

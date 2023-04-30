@@ -1,5 +1,7 @@
 package Domicilio;
-
+/*
+ *es el domicilio junto con su tipo (vivienda o comercio) el cual sera unico
+ */
 public abstract class Domicilio implements Cloneable {
 	private String nombre;
 	private boolean agregado = false;

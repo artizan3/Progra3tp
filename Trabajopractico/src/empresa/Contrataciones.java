@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import Domicilio.Domicilio;
 import promo.Promo;
 import servicio.Servicio;
-
+/*
+ * esta clase determinar las carateristicas de la contratacion, si tiene o no promo,
+ * cual/es servicios posee y bajo que domicilio funciona
+ */
 public class Contrataciones implements Cloneable {
 	protected Promo promo = null;
 	private ArrayList<Servicio> listaServicio = new ArrayList<Servicio>();
@@ -147,10 +150,14 @@ public class Contrataciones implements Cloneable {
 	public int getId() {
 		return id;
 	}
+	/**
+	 * <b>Pre</b>:<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>: retorna el domicilio de la contratacion.<br>
+	 */
 	public Domicilio getDomicilio() {
 		return this.domicilio;
 	}
-
 	/**
 	 * Es el metodo encargado de la clonacion de la contratacion.<br>
 	 * <br>

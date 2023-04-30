@@ -2,7 +2,10 @@ package metodosdepago;
 
 import abonado.Abonado;
 import excepciones.FactoryInvalidoException;
-
+/*
+ * esta clase implementa el patron de creacion 'factory' el cual mediante un abonado y un 
+ * 'String' que especifica que clase de metodo de pago tendra crea un 'Decoratorpago'
+ */
 public class FactoryPago {
 	/**
 	 * <b>Pre</b>: Abonado y tipopago deben ser distinto de null.<br>
