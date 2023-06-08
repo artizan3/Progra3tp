@@ -8,19 +8,20 @@ import empresa.Empresa;
 import excepciones.AbonadoInexistenteException;
 import excepciones.FactoryInvalidoException;
 import vista.IVista;
-import vista.VistaEmpresa;
 
 public class ControladorEmpresa implements ActionListener {
 
     private Empresa empresa;
     private IVista vista;
 
-    public ControladorEmpresa(Empresa empresa, IVista vista2) {
+    public ControladorEmpresa(Empresa empresa, IVista vista) {
         this.empresa = empresa;
-        this.vista = vista2;
+        this.vista = vista;
+        this.vista.setActionListener(this);
+        
 
         // Actualizar la vista con la lista inicial de abonados
-        vista2.actualizarLista(empresa.getListaAbonado());
+        vista.actualizarLista(empresa.getListaAbonado());
     }
 
     public void agregarAbonado(Abonado abonado) throws FactoryInvalidoException {
@@ -35,7 +36,10 @@ public class ControladorEmpresa implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+		System.out.println("se agrega un abonado");
+		if (e.getActionCommand().equals("1")) {
+			System.out.println("se agrega un abonado");
+		}
 		
 	}
 }

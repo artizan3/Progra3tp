@@ -1,5 +1,6 @@
 package empresa;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Domicilio.Domicilio;
@@ -30,7 +31,8 @@ public class Empresa {
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
 	private ArrayList<Factura> listaFactura = new ArrayList<Factura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
-	private transient FactoryPago creacion = new FactoryPago();
+	private FactoryPago creacion = new FactoryPago();
+	private LocalDate fecha = LocalDate.now();
 
 	/**
 	 * Este metodo garantiza que solo exista una instancia de la clase empresa<br>
@@ -293,9 +295,7 @@ public class Empresa {
 	public void setCreacion(FactoryPago creacion) {
 		this.creacion = creacion;
 	}
-	public static void setInstance(Empresa instance) {
-		Empresa.instance = instance;
-	}
+
 	public void setListaAbonado(ArrayList<Abonado> listaAbonado) {
 		this.listaAbonado = listaAbonado;
 	}
@@ -342,6 +342,12 @@ public class Empresa {
 	public Object ClonarFactura(Factura factura) throws CloneNotSupportedException {
 		Factura clon = (Factura) factura.clone();
 		return clon;
+	}
+	public LocalDate getFecha() {
+		return fecha;
+	}
+	public void setFecha(LocalDate fecha) {
+		this.fecha = fecha;
 	}
 
 }

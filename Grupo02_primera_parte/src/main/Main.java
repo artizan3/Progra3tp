@@ -49,7 +49,7 @@ public class Main {
 		Domicilio d12 = new Vivienda("dom12");
 
 		System.out.println("FACTURA 1------------------");
-		Fisica a1 = new Fisica("abonado1", 123);
+		Abonado a1 = new Fisica("abonado1", 123);
 		try {
 			e.agregaAbonado(a1,"Efectivo");
 		} catch (FactoryInvalidoException e5) {}

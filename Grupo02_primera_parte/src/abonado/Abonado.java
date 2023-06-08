@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import empresa.Contratacion;
+import empresa.Factura;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
 /*
@@ -17,6 +18,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	protected int dni;
 	protected ArrayList<Contratacion> lista = new ArrayList<Contratacion>();
 	protected ArrayList<Domicilio> listaDeDomicilios = new ArrayList<Domicilio>();
+	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
 
 	/**
 	 * Constructor de la clase <br>
@@ -154,10 +156,16 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 		clon.listaDeDomicilios.clear();
 		for (int i = 0; i < this.listaDeDomicilios.size(); i++)
 			clon.listaDeDomicilios.add((Domicilio) this.listaDeDomicilios.get(i).clone());
+		
 		clon.lista = (ArrayList<Contratacion>) this.lista.clone();
 		clon.lista.clear();
 		for (int i = 0; i < this.lista.size(); i++)
 			clon.lista.add((Contratacion) this.lista.get(i).clone());
+		
+		clon.listaDeFacturas = (ArrayList<Factura>) this.listaDeFacturas.clone();
+		clon.listaDeFacturas.clear();
+		for (int i = 0; i < this.listaDeFacturas.size(); i++)
+			clon.listaDeFacturas.add((Factura) this.listaDeFacturas.get(i).clone());
 		return clon;
 	}
 	public int getDni() {

@@ -1,6 +1,7 @@
 package empresa;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import metodosdepago.DecoratorPago;
 /*
@@ -10,7 +11,21 @@ import metodosdepago.DecoratorPago;
  */
 public class Factura implements Cloneable, Serializable {
 	private DecoratorPago abonado;
+	private LocalDate fechaDeEmision;
+	private LocalDate fechaDePago;
 	
+	public LocalDate getFechaDePago() {
+		return fechaDePago;
+	}
+
+	public void setFechaDePago(LocalDate fechaDePago) {
+		this.fechaDePago = fechaDePago;
+	}
+
+	public LocalDate getFechaDeEmision() {
+		return fechaDeEmision;
+	}
+
 	/**
 	 * Constructor de la clase <br>
 	 * <br>
@@ -20,6 +35,8 @@ public class Factura implements Cloneable, Serializable {
 	 */
 	public Factura(DecoratorPago abonado) {
 		this.abonado = abonado;
+		this.fechaDeEmision= LocalDate.now();
+		this.fechaDePago=null;
 	}
 
 	/**

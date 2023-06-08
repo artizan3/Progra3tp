@@ -16,7 +16,28 @@ public class EmpresaDTO {
 	private ArrayList<Factura> listaFactura = new ArrayList<Factura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private transient FactoryPago creacion = new FactoryPago();
+	private int fechaMes;
+	private int fechaAnio;
+	private int fechaDia;
 	
+	public int getFechaMes() {
+		return fechaMes;
+	}
+	public void setFechaMes(int fechaMes) {
+		this.fechaMes = fechaMes;
+	}
+	public int getFechaAnio() {
+		return fechaAnio;
+	}
+	public void setFechaAnio(int fechaAnio) {
+		this.fechaAnio = fechaAnio;
+	}
+	public int getFechaDia() {
+		return fechaDia;
+	}
+	public void setFechaDia(int fechaDia) {
+		this.fechaDia = fechaDia;
+	}
 	public ArrayList<Abonado> getListaAbonado() {
 		return listaAbonado;
 	}
