@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -9,16 +10,23 @@ import abonado.Abonado;
 import abonado.Fisica;
 import empresa.Empresa;
 import empresa.MesaDeSolicitudDeTecnicos;
+import empresa.Tecnico;
 import excepciones.AbonadoInexistenteException;
 import excepciones.FactoryInvalidoException;
+import persistencia.EmpresaDTO;
+import persistencia.IPersistencia;
+import persistencia.PersistenciaBIN;
+import persistencia.UtilPersistencia;
 import vista.IVista;
 import vista.VentanaCrearAbonado;
+import vista.VentanaCrearTecnico;
 
 public class ControladorEmpresa implements ActionListener, Observer {
 
     private Empresa empresa;
     private IVista vista;
     private VentanaCrearAbonado ventanaCrearAbonado;
+    private VentanaCrearTecnico ventanaCrearTecnico;
     private MesaDeSolicitudDeTecnicos mesa;
 
     public ControladorEmpresa(Empresa empresa, IVista vista) {
@@ -28,7 +36,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
         
 
         // Actualizar la vista con la lista inicial de abonados
-        vista.actualizarLista(empresa.getListaAbonado());
+        vista.actualizarListaAbonados(empresa.getListaAbonado());
     }
     
     public void addObservable (MesaDeSolicitudDeTecnicos mesa) {
@@ -50,22 +58,23 @@ public class ControladorEmpresa implements ActionListener, Observer {
 
     public void agregarAbonado(Abonado abonado) throws FactoryInvalidoException {
         empresa.agregaAbonado(abonado, "Efectivo");
-        vista.actualizarLista(empresa.getListaAbonado());
+        vista.actualizarListaAbonados(empresa.getListaAbonado());
     }
 
     public void eliminarAbonado(Abonado abonado) throws AbonadoInexistenteException {
         empresa.quitaAbonado(abonado);
-        vista.actualizarLista(empresa.getListaAbonado());
+        vista.actualizarListaAbonados(empresa.getListaAbonado());
     }
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if (e.getActionCommand().equals("Abrir ventana crear abonado")) {
+			
 			ventanaCrearAbonado = new VentanaCrearAbonado(this);
 			ventanaCrearAbonado.setModal(true);
 			ventanaCrearAbonado.setVisible(true);
-			ventanaCrearAbonado.setActionListener(this);
+			
 		}
 		else if (e.getActionCommand().equals("Agregar abonado")) {
 			Abonado abonado = new Fisica(this.ventanaCrearAbonado.getNombreAbonado(), Integer.parseInt(this.ventanaCrearAbonado.getDNI()));
@@ -76,7 +85,61 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			}
 			System.out.println(abonado);
 		}
+		else if(e.getActionCommand().equals("Abrir ventana para crear tecnicos")) {
+			this.ventanaCrearTecnico = new VentanaCrearTecnico(this);
+			ventanaCrearTecnico.setModal(true);
+			ventanaCrearTecnico.setVisible(true);
+		}
+		else if(e.getActionCommand().equals("Agregar tecnico")) {
+			Tecnico tecnico = new Tecnico(this.ventanaCrearTecnico.getNombreTecnico(), Integer.parseInt(this.ventanaCrearTecnico.getDNI()), empresa.getMesaDeSolicitudDeTecnicos());
+			empresa.addTecnico(tecnico);
+			vista.actualizarListaTecnicos(empresa.getListaTecnico());
+			this.ventanaCrearTecnico.dispose();
+		}
+		else if(e.getActionCommand().equals("Persistir")) {
+			IPersistencia persistencia = new PersistenciaBIN();
+			try
+	        {
+	        
+	        	persistencia.abrirOutput("Empresa.bin");
+	            System.out.println("Crea archivo escritura");
+	            persistencia.escribir(UtilPersistencia.empresaDTOFromEmpresa(empresa));
+	            System.out.println("Empresa grabada exitosamente");
+	            persistencia.cerrarOutput();
+	            System.out.println("Archivo cerrado");
+	        
+	        } catch (IOException e2)
+	        {
+	            // TODO Auto-generated catch block
+	            System.out.println(e2.getLocalizedMessage());
+	        }	
+		}
+		else if (e.getActionCommand().equals("Despersistir")){
+			IPersistencia persistencia = new PersistenciaBIN();
+	        try
+	        {
+	            persistencia.abrirInput("Empresa.bin");
+	            System.out.println("Archivo abierto");
+	            EmpresaDTO empresaDTO = (EmpresaDTO) persistencia.leer();
+	            UtilPersistencia.empresaFromEmpresaDTO(empresaDTO);
+	            System.out.println("Empresa recuperada");
+	            persistencia.cerrarInput();
+	            System.out.println("Archivo cerrado");
+	            
+	            refrescarVista();
+	        } catch (IOException e3)
+	        {
+	            // TODO Auto-generated catch block
+	            System.out.println(e3.getMessage());
+	        } catch (ClassNotFoundException e4)
+	        {
+	            // TODO Auto-generated catch block
+	            System.out.println(e4.getMessage());
+	        }
+		}
 	}
-
+	private void refrescarVista() {
+		vista.actualizarListaTecnicos(empresa.getListaTecnico());
+	}
 
 }
