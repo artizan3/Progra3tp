@@ -2,9 +2,6 @@ package abonado;
 
 import java.io.Serializable;
 
-import empresa.Contratacion;
-import empresa.Factura;
-
 public class Moroso implements IState, Serializable {
 
 	private Fisica abonado;
@@ -15,19 +12,18 @@ public class Moroso implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura(Factura factura) {
-		///////////////////////////////
+	public void pagarFactura() {
 		abonado.setEstado(new ConContratacion(abonado));
 	}
 
 	@Override
-	public void contratarServicio(Contratacion contrato) {
+	public void contratarServicio() {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void bajarServicio(Contratacion contrato) {
+	public void bajarServicio() {
 		// TODO Auto-generated method stub
 		
 	}

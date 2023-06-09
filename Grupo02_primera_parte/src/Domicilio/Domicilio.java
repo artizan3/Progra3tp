@@ -19,7 +19,7 @@ public abstract class Domicilio implements Cloneable {
 
 	/**
 	 * Este metodo nos ayuda a asegurar que nuestro domicilio no se ingrese en otra
-	 * listaDeContratos de domicilios/contrataciones.<br>
+	 * lista de domicilios/contrataciones.<br>
 	 * <br>
 	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
@@ -32,7 +32,7 @@ public abstract class Domicilio implements Cloneable {
 	/**
 	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
-	 * <b>Post</b>: da a conocer si el domicilio esta agregado en una listaDeContratos.<br>
+	 * <b>Post</b>: da a conocer si el domicilio esta agregado en una lista.<br>
 	 */
 	public boolean isAgregado() {
 		return agregado;

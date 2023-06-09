@@ -1,8 +1,5 @@
 package abonado;
 
-import empresa.Contratacion;
-import empresa.Factura;
-
 public class SinContratacion implements IState {
 
 	private Fisica abonado;
@@ -15,20 +12,21 @@ public class SinContratacion implements IState {
 	}
 
 	@Override
-	public void pagarFactura(Factura factura) {
-		//No puede pagar ya que no contrato nada
+	public void pagarFactura() {
+		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void contratarServicio(Contratacion contrato) {
-		abonado.aniadirContratacion(contrato);
-		abonado.setEstado(new ConContratacion(this.abonado));
+	public void contratarServicio() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void bajarServicio(Contratacion contrato) {
-		//No puede bajar servicio ya que no contrato nada
+	public void bajarServicio() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

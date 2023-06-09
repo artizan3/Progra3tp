@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import Domicilio.Domicilio;
 import empresa.Contratacion;
 import empresa.Factura;
-import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
 /*
@@ -17,7 +16,7 @@ import excepciones.DomicilioInexistenteException;
 public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	protected String nombre;
 	protected int dni;
-	protected ArrayList<Contratacion> listaDeContratos = new ArrayList<Contratacion>();
+	protected ArrayList<Contratacion> lista = new ArrayList<Contratacion>();
 	protected ArrayList<Domicilio> listaDeDomicilios = new ArrayList<Domicilio>();
 	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
 
@@ -49,7 +48,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 * <br>
 	 * <b>Pre</b>: Se espera que domicilio sea distinto de null.<br>
 	 * <b>Inv</b>: Domicilio.<br>
-	 * <b>Post</b>: Agrega el domicilio a la listaDeContratos de domicilios del abonado.<br>
+	 * <b>Post</b>: Agrega el domicilio a la lista de domicilios del abonado.<br>
 	 */
 	public void aniadirDomicilio(Domicilio domicilio) throws DomicilioExistenteException {
 		assert domicilio != null : "El domicilo no puede ser null";
@@ -57,14 +56,14 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 			this.listaDeDomicilios.add(domicilio);
 			domicilio.setAgregado(true);
 		} else
-			throw new DomicilioExistenteException("El domicilio ya estaba agregado a la listaDeContratos", domicilio);
+			throw new DomicilioExistenteException("El domicilio ya estaba agregado a la lista", domicilio);
 	}
 
 	/*
-	 * Devuelve la listaDeContratos de contrataciones del abonado
+	 * Devuelve la lista de contrataciones del abonado
 	 */
 	public ArrayList<Contratacion> getLista() {
-		return listaDeContratos;
+		return lista;
 	}
 	/**
 	 * El metodo recibe un tipo abonado y devuelve la suma de los valores de las
@@ -73,7 +72,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 * <br>
 	 *
 	 * <b>Pre</b>: El abonado debe ser valido y distinto de null. <br>
-	 * <b>Inv</b>: La listaDeContratos de servicios. <br>
+	 * <b>Inv</b>: La lista de servicios. <br>
 	 * <b>Post</b>: Devuelve la sumatoria de los valores.<br>
 	 * 
 	 * @param abonado indica el tipo de abonado.
@@ -82,24 +81,24 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	public abstract double valorTotal();
 
 	/**
-	 * Este metodo añade una contratacion a la listaDeContratos.<br>
+	 * Este metodo añade una contratacion a la lista.<br>
 	 * <br>
 	 *
 	 * <b>Pre</b>: La contratacion debe ser distinta de null.<br>
 	 * <b>Inv</b>:<br>
-	 * <b>Post</b>:Se añade una contratacion a la listaDeContratos.<br>
+	 * <b>Post</b>:Se añade una contratacion a la lista.<br>
 	 * 
-	 * @param contrato es la contratacion que aniadimos en la listaDeContratos.
+	 * @param contrato es la contratacion que aniadimos en la lista.
 	 */
 	public void aniadirContratacion(Contratacion contrato) {
 		assert contrato != null : "El contrato debe ser distinto de null";
-		this.listaDeContratos.add(contrato);
+		this.lista.add(contrato);
 	}
 
 	/**
 	 * <b>Pre</b>: Domicilio debe ser distinto null. <br>
 	 * <b>Inv</b>: Domicilio.<br>
-	 * <b>Post</b>: Se quita el domicilio de la listaDeContratos de domicilios.<br>
+	 * <b>Post</b>: Se quita el domicilio de la lista de domicilios.<br>
 	 */
 	public void quitarDomicilio(Domicilio domicilio) throws DomicilioInexistenteException {
 		assert domicilio != null : "El domicilio debe ser distinto de null";
@@ -107,7 +106,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 			this.listaDeDomicilios.remove(domicilio);
 			domicilio.setAgregado(false);
 		} else if (existeDomicilio(domicilio) == false)
-			throw new DomicilioInexistenteException("Domicilio inexistente en la listaDeContratos", domicilio);
+			throw new DomicilioInexistenteException("Domicilio inexistente en la lista", domicilio);
 	}
 
 	@Override
@@ -139,21 +138,8 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 */
 	public boolean existeContratacion(Contratacion contrato) {
 		assert contrato != null : "El domicilio debe ser distinto de null";
-		return this.listaDeContratos.contains(contrato);
+		return this.lista.contains(contrato);
 	}
-	
-	
-	public void eliminaContratacion(Contratacion contrato) throws ContratacionInvalidaException {
-		assert contrato != null : "El contrato debe ser distinto de null";
-		if (existeContratacion(contrato) == true) {
-			this.listaDeContratos.remove(contrato);
-
-		} 
-		else 
-		   if (existeContratacion(contrato) == false)
-		      throw new ContratacionInvalidaException("Contrato inexistente en la listaDeContratos",null, this);   
-	}
-	
 	
 	/**
 	 * El metodo clona el objeto de tipo abonado. <br>
@@ -171,10 +157,10 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 		for (int i = 0; i < this.listaDeDomicilios.size(); i++)
 			clon.listaDeDomicilios.add((Domicilio) this.listaDeDomicilios.get(i).clone());
 		
-		clon.listaDeContratos = (ArrayList<Contratacion>) this.listaDeContratos.clone();
-		clon.listaDeContratos.clear();
-		for (int i = 0; i < this.listaDeContratos.size(); i++)
-			clon.listaDeContratos.add((Contratacion) this.listaDeContratos.get(i).clone());
+		clon.lista = (ArrayList<Contratacion>) this.lista.clone();
+		clon.lista.clear();
+		for (int i = 0; i < this.lista.size(); i++)
+			clon.lista.add((Contratacion) this.lista.get(i).clone());
 		
 		clon.listaDeFacturas = (ArrayList<Factura>) this.listaDeFacturas.clone();
 		clon.listaDeFacturas.clear();

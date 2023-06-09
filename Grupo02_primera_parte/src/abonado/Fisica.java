@@ -26,8 +26,8 @@ public class Fisica extends Abonado {
 	@Override
 	public double valorTotal() {
 		double suma = 0;
-		for (int i = 0; i < this.listaDeContratos.size(); i++) {
-			suma += this.listaDeContratos.get(i).getValorTotal();
+		for (int i = 0; i < this.lista.size(); i++) {
+			suma += this.lista.get(i).getValorTotal();
 		}
 		return suma;
 	}

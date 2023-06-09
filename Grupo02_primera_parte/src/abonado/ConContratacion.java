@@ -2,11 +2,6 @@ package abonado;
 
 import java.io.Serializable;
 
-import empresa.Contratacion;
-import empresa.Empresa;
-import empresa.Factura;
-import excepciones.FacturaInexistenteException;
-
 public class ConContratacion implements IState, Serializable {
 
 	private Fisica abonado;
@@ -16,21 +11,21 @@ public class ConContratacion implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura(Factura factura) throws FacturaInexistenteException { 
-			Empresa.getInstance().EliminarFactura(factura);
+	public void pagarFactura() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void contratarServicio(Contratacion contrato) {
-		abonado.aniadirContratacion(contrato);
-		//No cambia de estado
+	public void contratarServicio() {
+		// TODO Auto-generated method stub
+
 	}
 
 	@Override
-	public void bajarServicio(Contratacion contrato) {
-		abonado.eliminaContratacion(contrato);
-		if (abonado.listaDeContratos.size() == 0)
-			abonado.setEstado(new SinContratacion(abonado));
+	public void bajarServicio() {
+		// TODO Auto-generated method stub
+
 	}
 
 }
