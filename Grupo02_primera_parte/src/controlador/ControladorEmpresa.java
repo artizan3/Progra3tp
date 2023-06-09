@@ -106,6 +106,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				}
 				
 			}
+			this.ventanaCrearAbonado.dispose();
 			this.vista.actualizarListaAbonados(empresa.getListaAbonado());	
 		}
 		
@@ -172,6 +173,10 @@ public class ControladorEmpresa implements ActionListener, Observer {
 	            persistencia.cerrarInput();
 	            System.out.println("Archivo cerrado");
 	            
+	            for (Tecnico tecnico : empresa.getListaTecnico()) {
+	            	tecnico.start();
+	            }
+	            
 	            refrescarVista();
 	        } catch (IOException e3)
 	        {
@@ -218,7 +223,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		}
 		else if (e.getActionCommand().equals("Solicitar Reparación")) {
 			Abonado abonadoSeleccionado = empresa.getListaAbonado().get((this.vista.getTable_abonado().getSelectedRow()));
-			abonadoSeleccionado.start();
+			abonadoSeleccionado.solicitarReparacion();
 		}
 
 	}

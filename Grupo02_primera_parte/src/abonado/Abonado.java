@@ -192,9 +192,8 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	}
 	
 	public void run() {
-		this.setNecesitaReparacion(true);
-		this.mesa.solicitarReparacion(this);
-
+			this.setNecesitaReparacion(true);
+			this.mesa.solicitarReparacion(this);
 	};
 	
 	public boolean isNecesitaReparacion() {
@@ -203,6 +202,9 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	public void setNecesitaReparacion(boolean necesitaReparacion) {	
 		this.necesitaReparacion = necesitaReparacion;
 	}
+	public void solicitarReparacion() {
+			this.start();
+	};
 	
 	
 }
