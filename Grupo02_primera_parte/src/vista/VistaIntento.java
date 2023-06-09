@@ -8,20 +8,20 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JScrollBar;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.table.DefaultTableModel;
 
 import abonado.Abonado;
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-import javax.swing.JPanel;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JButton;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-import javax.swing.JLabel;
+import javax.swing.JTree;
+import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JCalendar;
 
 public class VistaIntento extends JFrame implements KeyListener, IVista, MouseListener {
 
@@ -58,6 +58,7 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
 	private JButton btn_guardar;
 	private JButton btn_cargar;
 	private JList list_domicilio;
+	private JButton btnNewButton;
 	
     public VistaIntento() {
 
@@ -207,7 +208,7 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
         scrollPane_servicio.setViewportView(table_servicio);
         
         scrollPane_factura = new JScrollPane();
-        scrollPane_factura.setBounds(484, 66, 301, 442);
+        scrollPane_factura.setBounds(484, 61, 246, 427);
         getContentPane().add(scrollPane_factura);
         
         table_factura = new JTable();
@@ -256,8 +257,11 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_tecnico_eliminar);
         
         panel_calendario = new JPanel();
-        panel_calendario.setBounds(795, 314, 203, 160);
+        panel_calendario.setBounds(787, 314, 194, 160);
         getContentPane().add(panel_calendario);
+        
+        JCalendar calendar = new JCalendar();
+        panel_calendario.add(calendar);
         
         lbl_calendario = new JLabel("Calendario");
         lbl_calendario.setBounds(865, 289, 84, 14);
