@@ -47,13 +47,13 @@ public class ControladorEmpresa implements ActionListener {
 			ventanaCrearAbonado.setActionListener(this);
 		}
 		else if (e.getActionCommand().equals("Agregar abonado")) {
-			Abonado abonado = new Fisica(this.ventanaCrearAbonado.getName(), Integer.parseInt(this.ventanaCrearAbonado.getDNI()));
+			Abonado abonado = new Fisica(this.ventanaCrearAbonado.getNombreAbonado(), Integer.parseInt(this.ventanaCrearAbonado.getDNI()));
 			try {
 				Empresa.getInstance().agregaAbonado(abonado, "Efectivo");
 			} catch (FactoryInvalidoException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			System.out.println(abonado);
 		}
 	}
 }
