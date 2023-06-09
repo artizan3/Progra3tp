@@ -17,8 +17,8 @@ public class MainConVista {
 		
 		Empresa empresa = Empresa.getInstance();
 		IVista vista = new VistaEmpresa();
-		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista);
 		MesaDeSolicitudDeTecnicos mesa = new MesaDeSolicitudDeTecnicos();
+		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista,mesa);	
 		Empresa.getInstance().setMesaDeSolicitudDeTecnicos(mesa);
 
 	}

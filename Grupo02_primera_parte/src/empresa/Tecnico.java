@@ -9,6 +9,8 @@ public class Tecnico extends Thread implements Serializable {
 	private String nombre;
 	private int dni;
 	private Abonado abonado;
+	private MesaDeSolicitudDeTecnicos mesa;
+	
 	public Abonado getAbonado() {
 		return abonado;
 	}
@@ -18,6 +20,7 @@ public class Tecnico extends Thread implements Serializable {
 		this.mesa = mesa;
 		this.dni= dni;
 		this.nombre = nombre;
+		this.start();
 	}
 
 	public void setAbonado(Abonado abonado) {
@@ -32,10 +35,6 @@ public class Tecnico extends Thread implements Serializable {
 		this.mesa = mesa;
 	}
 
-	private MesaDeSolicitudDeTecnicos mesa;
-
-
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -45,12 +44,11 @@ public class Tecnico extends Thread implements Serializable {
 	}
 
 	public void run() {	
-		
 		while (true) {
 			
 			abonado=this.mesa.getAbonado(this);
 			try {
-				sleep(20000); //tiempo simulado que tarda en reparar
+				sleep(2000); //tiempo simulado que tarda en reparar
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -64,4 +62,10 @@ public class Tecnico extends Thread implements Serializable {
 		return dni;
 	}
 
+	@Override
+	public String toString() {
+		return "Tecnico [nombre=" + nombre + ", dni=" + dni + "]";
+	}
+
+	
 }

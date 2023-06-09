@@ -1,8 +1,11 @@
 package Domicilio;
+
+import java.io.Serializable;
+
 /*
  *es el domicilio junto con su tipo (vivienda o comercio) el cual sera unico
  */
-public abstract class Domicilio implements Cloneable {
+public abstract class Domicilio implements Cloneable, Serializable {
 	private String nombre;
 	private boolean agregado = false;
 

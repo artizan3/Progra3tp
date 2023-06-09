@@ -1,5 +1,6 @@
 package metodosdepago;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import abonado.Abonado;
@@ -11,7 +12,7 @@ import empresa.Contratacion;
  * puede acceder a determinada informacion de la clase abonado, tambien el abonado de la clase
  * factura sera de este tipo (Decorador).
  */
-public abstract class DecoratorPago implements Cloneable, iAbonado {
+public abstract class DecoratorPago implements Cloneable, iAbonado, Serializable {
 	protected Abonado abonado;
 
 	/**
@@ -45,7 +46,7 @@ public abstract class DecoratorPago implements Cloneable, iAbonado {
 	 * <b>Post</b>: Retorna lista de contrataciones de cada abonado.<br>
 	 */
 	public ArrayList<Contratacion> getLista() {
-		return this.abonado.getLista();
+		return this.abonado.getListaDeContrataciones();
 	}
 
 	/**

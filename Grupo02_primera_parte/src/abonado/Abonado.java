@@ -5,20 +5,26 @@ import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import empresa.Contratacion;
+import empresa.Empresa;
 import empresa.Factura;
+import empresa.MesaDeSolicitudDeTecnicos;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
+import excepciones.ReparacionYaSolicitadaException;
 /*
  * la clase abonado, la cual tiene 2 variantes (fisica y juridica) es
  * respondable de encapsular sus respectivos domicilios y contrataciones
  * para que a la hora de generar la factura del abonado se poseea toda la informacion necesaria
  */
-public abstract class Abonado implements Cloneable, iAbonado, Serializable {
+public abstract class Abonado extends Thread implements Cloneable, iAbonado, Serializable {
 	protected String nombre;
 	protected int dni;
-	protected ArrayList<Contratacion> lista = new ArrayList<Contratacion>();
+	protected ArrayList<Contratacion> listaDeContrataciones = new ArrayList<Contratacion>();
 	protected ArrayList<Domicilio> listaDeDomicilios = new ArrayList<Domicilio>();
 	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
+	protected boolean necesitaReparacion;
+	protected MesaDeSolicitudDeTecnicos mesa;
+
 
 	/**
 	 * Constructor de la clase <br>
@@ -28,12 +34,14 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 * <b>Inv</b>: Nombre y dni.<br>
 	 * <b>Post</b>: Se setean los valores de los atributos nombre y dni.<br>
 	 */
-	public Abonado(String nombre, int dni) {
+	public Abonado(String nombre, int dni, MesaDeSolicitudDeTecnicos mesa) {
 		assert nombre != null : "El nombre no puede ser null";
 		assert !nombre.equals("") : "El nombre no puede estar vacio";
 		assert dni > 0 : "El DNI debe ser mayor a 0";
 		this.dni = dni;
 		this.nombre = nombre;
+		this.necesitaReparacion=false;
+		this.mesa=mesa;
 	}
 	/**
 	 * <b>Pre</b>:<br>
@@ -62,8 +70,8 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	/*
 	 * Devuelve la lista de contrataciones del abonado
 	 */
-	public ArrayList<Contratacion> getLista() {
-		return lista;
+	public ArrayList<Contratacion> getListaDeContrataciones() {
+		return listaDeContrataciones;
 	}
 	/**
 	 * El metodo recibe un tipo abonado y devuelve la suma de los valores de las
@@ -92,7 +100,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 */
 	public void aniadirContratacion(Contratacion contrato) {
 		assert contrato != null : "El contrato debe ser distinto de null";
-		this.lista.add(contrato);
+		this.listaDeContrataciones.add(contrato);
 	}
 
 	/**
@@ -138,7 +146,7 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 	 */
 	public boolean existeContratacion(Contratacion contrato) {
 		assert contrato != null : "El domicilio debe ser distinto de null";
-		return this.lista.contains(contrato);
+		return this.listaDeContrataciones.contains(contrato);
 	}
 	
 	/**
@@ -157,10 +165,10 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 		for (int i = 0; i < this.listaDeDomicilios.size(); i++)
 			clon.listaDeDomicilios.add((Domicilio) this.listaDeDomicilios.get(i).clone());
 		
-		clon.lista = (ArrayList<Contratacion>) this.lista.clone();
-		clon.lista.clear();
-		for (int i = 0; i < this.lista.size(); i++)
-			clon.lista.add((Contratacion) this.lista.get(i).clone());
+		clon.listaDeContrataciones = (ArrayList<Contratacion>) this.listaDeContrataciones.clone();
+		clon.listaDeContrataciones.clear();
+		for (int i = 0; i < this.listaDeContrataciones.size(); i++)
+			clon.listaDeContrataciones.add((Contratacion) this.listaDeContrataciones.get(i).clone());
 		
 		clon.listaDeFacturas = (ArrayList<Factura>) this.listaDeFacturas.clone();
 		clon.listaDeFacturas.clear();
@@ -176,4 +184,25 @@ public abstract class Abonado implements Cloneable, iAbonado, Serializable {
 		// TODO Auto-generated method stub
 		return this.nombre;
 	}
+	public ArrayList<Domicilio> getListaDeDomicilios() {
+		return listaDeDomicilios;
+	}
+	public ArrayList<Factura> getListaDeFacturas() {
+		return listaDeFacturas;
+	}
+	
+	public void run() {
+		this.setNecesitaReparacion(true);
+		this.mesa.solicitarReparacion(this);
+
+	};
+	
+	public boolean isNecesitaReparacion() {
+		return necesitaReparacion;
+	}
+	public void setNecesitaReparacion(boolean necesitaReparacion) {	
+		this.necesitaReparacion = necesitaReparacion;
+	}
+	
+	
 }

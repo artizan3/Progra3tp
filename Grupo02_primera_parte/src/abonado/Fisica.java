@@ -2,6 +2,8 @@ package abonado;
 
 import java.io.Serializable;
 
+import empresa.MesaDeSolicitudDeTecnicos;
+
 public class Fisica extends Abonado {
 	
 	private IState estado;
@@ -12,8 +14,8 @@ public class Fisica extends Abonado {
 	public void setEstado(IState estado) {
 		this.estado = estado;
 	}
-	public Fisica(String nombre, int dni) {
-		super(nombre, dni);
+	public Fisica(String nombre, int dni, MesaDeSolicitudDeTecnicos mesa) {
+		super(nombre, dni, mesa);
 		this.estado = new SinContratacion(this);
 	}
 	@Override
@@ -26,8 +28,8 @@ public class Fisica extends Abonado {
 	@Override
 	public double valorTotal() {
 		double suma = 0;
-		for (int i = 0; i < this.lista.size(); i++) {
-			suma += this.lista.get(i).getValorTotal();
+		for (int i = 0; i < this.listaDeContrataciones.size(); i++) {
+			suma += this.listaDeContrataciones.get(i).getValorTotal();
 		}
 		return suma;
 	}

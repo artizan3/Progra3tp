@@ -49,7 +49,7 @@ public class Main {
 		Domicilio d12 = new Vivienda("dom12");
 
 		System.out.println("FACTURA 1------------------");
-		Abonado a1 = new Fisica("abonado1", 123);
+		Abonado a1 = new Fisica("abonado1", 123,null);
 		try {
 			e.agregaAbonado(a1,"Efectivo");
 		} catch (FactoryInvalidoException e5) {}
@@ -83,7 +83,7 @@ public class Main {
 		System.out.println(fac1.ImprimeFactura());
 		
 		System.out.println("FACTURA 2------------------");
-		Abonado a2 = new Fisica("abonado2", 456);
+		Abonado a2 = new Fisica("abonado2", 456,null);
 		try {
 			e.agregaAbonado(a2, "Tarjeta");
 		} catch (FactoryInvalidoException e1) {}
@@ -116,7 +116,7 @@ public class Main {
 			System.out.println(fac2.ImprimeFactura());
 		
 		System.out.println("FACTURA 3------------------");
-		Abonado a3 = new Juridica("abonado1", 789);
+		Abonado a3 = new Juridica("abonado1", 789,null);
 		try {
 			e.agregaAbonado(a3,"Cheque");
 		} catch (FactoryInvalidoException e1) {}
@@ -148,7 +148,7 @@ public class Main {
 		System.out.println(fac3.ImprimeFactura());
 		
 		System.out.println("FACTURA 4------------------");
-		Abonado a4 = new Juridica("abonado2", 101112);
+		Abonado a4 = new Juridica("abonado2", 101112,null);
 		try {
 			e.agregaAbonado(a4,"Efectivo");
 		} catch (FactoryInvalidoException e1) {}

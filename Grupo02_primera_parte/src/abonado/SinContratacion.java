@@ -1,6 +1,8 @@
 package abonado;
 
-public class SinContratacion implements IState {
+import java.io.Serializable;
+
+public class SinContratacion implements IState, Serializable {
 
 	private Fisica abonado;
 	

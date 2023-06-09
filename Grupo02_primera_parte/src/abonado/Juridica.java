@@ -1,9 +1,11 @@
 package abonado;
 
+import empresa.MesaDeSolicitudDeTecnicos;
+
 public class Juridica extends Abonado {
 
-	public Juridica(String nombre, int dni) {
-		super(nombre, dni);
+	public Juridica(String nombre, int dni, MesaDeSolicitudDeTecnicos mesa) {
+		super(nombre, dni, mesa);
 	}
 	@Override
 	public String toString() {
@@ -16,11 +18,11 @@ public class Juridica extends Abonado {
 	public double valorTotal() {
 		double suma = 0;
 		int i = 0;
-		for (i = 0; i < this.lista.size(); i++) {
+		for (i = 0; i < this.listaDeContrataciones.size(); i++) {
 			if (i >= 2) {
-				suma += this.lista.get(i).getValorTotal() * 0.5;
+				suma += this.listaDeContrataciones.get(i).getValorTotal() * 0.5;
 			} else
-				suma += this.lista.get(i).getValorTotal();
+				suma += this.listaDeContrataciones.get(i).getValorTotal();
 		}
 		return suma;
 	}
