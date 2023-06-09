@@ -60,6 +60,7 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
 	private JList list_domicilio;
 	
     public VistaIntento() {
+
     	setTitle("MainFrame");
         listModel = new DefaultListModel<Abonado>();
 
@@ -124,8 +125,7 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
         scrollPane_abonado.setViewportView(table_abonado);
         
         btn_abonado_nuevo = new JButton("Agregar");
-        this.btn_abonado_nuevo.addActionListener(actionListener);
-        this.btn_abonado_nuevo.setActionCommand("1");
+        this.btn_abonado_nuevo.setActionCommand("Abrir ventana crear abonado");
         
         
         btn_abonado_nuevo.setBounds(50, 485, 89, 23);
@@ -291,9 +291,9 @@ public class VistaIntento extends JFrame implements KeyListener, IVista, MouseLi
 
  	
 	@Override
-	public void setActionListener(ActionListener ActionListener) {
-		// TODO Auto-generated method stub
-		
+	public void setActionListener(ActionListener actionListener) {
+		this.actionListener=actionListener;
+		this.btn_abonado_nuevo.addActionListener(actionListener);
 	}
 
 	@Override

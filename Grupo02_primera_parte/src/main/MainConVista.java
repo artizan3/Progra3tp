@@ -17,7 +17,6 @@ public class MainConVista {
 		Empresa empresa = new Empresa();
 		IVista vista = new VistaIntento();
 		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista);
-		
 
         Abonado abonado1 = new Fisica("Juan", 37550930);
         Abonado abonado2 = new Juridica("Alan", 456);
