@@ -23,7 +23,7 @@ public class MesaDeSolicitudDeTecnicos extends Observable implements Serializabl
 			this.listaDeAbonados.add(abonado);
 			notify();
 			if (this.cantidadDeTecnicosDisponibles==0)
-				notifyObservers("El abonado " + abonado.getNombre() +" ha solicitado reparación, pero no hay tecnicos disponibles, se agrega a lista de espera");
+				notifyObservers("El abonado " + abonado.getNombre() +" ha solicitado reparación, pero no hay tecnicos disponibles, se agrega a listaDeContratos de espera");
 			else {
 				notifyObservers("El abonado " + abonado.getNombre() +" ha solicitado reparación, intentando asignar un tecnico...");
 			}
@@ -60,7 +60,7 @@ public class MesaDeSolicitudDeTecnicos extends Observable implements Serializabl
 	/*Para el informe:
 	
 	
-	La mesa de reparaciones es un recurso compartido por los tecnicos (que son los que utilizan concurrencia) en la cual entran a ver en la lista de abonados
+	La mesa de reparaciones es un recurso compartido por los tecnicos (que son los que utilizan concurrencia) en la cual entran a ver en la listaDeContratos de abonados
 	a ver si hay alguien esperando reparación. En caso que no haya nadie, el tecnico queda en espera hasta que algun abonado solicite reparacion.
 	
 	Cuando un abonado pide reparacion, llama al metodo solicitarReparacion, que se agrega a si mismo a la cola de espera, y notifica a los tecnicos.

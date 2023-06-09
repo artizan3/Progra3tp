@@ -20,6 +20,9 @@ public class VentanaCrearAbonado extends JDialog {
 	private JComboBox comboBox;
 	private JButton btn_aceptar;
 	
+	private String nombreAbonado; ////
+	private int dniAbonado;       ////
+	
 	public VentanaCrearAbonado(ActionListener actionListener) {
 		this.actionListener=actionListener;
 		

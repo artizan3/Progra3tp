@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Grupo02_primera_parte/src"/>
+	<classpathentry kind="lib" path="Grupo02_primera_parte/JCalendar.jar"/>
+	<classpathentry kind="lib" path="JCalendar.jar"/>
+	<classpathentry kind="output" path="Grupo02_primera_parte/bin"/>
+</classpath>

@@ -35,13 +35,13 @@ public class Contratacion implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Este metodo agregara un servicio a la lista<br>
+	 * Este metodo agregara un servicio a la listaDeContratos<br>
 	 * <br>
 	 * <b>Pre</b>: ser distinto de null.<br>
-	 * <b>Inv</b>: la lista de servicios esta inicializada.<br>
-	 * <b>Post</b>: se añade el servicio a la lista.<br>
+	 * <b>Inv</b>: la listaDeContratos de servicios esta inicializada.<br>
+	 * <b>Post</b>: se añade el servicio a la listaDeContratos.<br>
 	 * 
-	 * @param servicio es el objeto que se aniadira a la lista
+	 * @param servicio es el objeto que se aniadira a la listaDeContratos
 	 */
 	public void agregarServicio(Servicio servicio) {
 		assert servicio != null : "El servicio debe ser distinto de null";
@@ -53,13 +53,13 @@ public class Contratacion implements Cloneable, Serializable {
 	 * con el valor base del domicilio y su valor alterado por una promo <br>
 	 * <br>
 	 * <b>Pre</b>:<br>
-	 * <b>Inv</b>: la lista de servicios esta inicializada.<br>
+	 * <b>Inv</b>: la listaDeContratos de servicios esta inicializada.<br>
 	 * <b>Post</b>: devuelve la sumatoria de los valores.<br>
 	 * 
 	 * @return suma la sumatoria de los valores.<br>
 	 */
 	public double getValorTotal() {
-		assert !this.listaServicio.isEmpty() : "La lista de servicios no debe estar vacia";
+		assert !this.listaServicio.isEmpty() : "La listaDeContratos de servicios no debe estar vacia";
 		int i;
 		double suma = this.getValorBase(this.domicilio);
 		for (i = 0; i < listaServicio.size(); i++) {
@@ -91,17 +91,17 @@ public class Contratacion implements Cloneable, Serializable {
 	}
 
 	/**
-	 * Este metodo crea la lista de servicios agregados vinculados al domicilio de
+	 * Este metodo crea la listaDeContratos de servicios agregados vinculados al domicilio de
 	 * la contratacion.<br>
 	 * <br>
-	 * <b>Pre</b>: la lista no debe ser nula.<br>
-	 * <b>Inv</b>: la lista de servicios esta inicializada.<br>
-	 * <b>Post</b>: devuelve la lista de servicios agregados.<br>
+	 * <b>Pre</b>: la listaDeContratos no debe ser nula.<br>
+	 * <b>Inv</b>: la listaDeContratos de servicios esta inicializada.<br>
+	 * <b>Post</b>: devuelve la listaDeContratos de servicios agregados.<br>
 	 * 
-	 * @return aux lista de servicios agregados.<br>
+	 * @return aux listaDeContratos de servicios agregados.<br>
 	 */
 	public String listadoDeSerivicios() {
-		assert !this.listaServicio.isEmpty() : "La lista de servicios no debe estar vacia";
+		assert !this.listaServicio.isEmpty() : "La listaDeContratos de servicios no debe estar vacia";
 		String aux = "";
 		for (int i = 0; i < listaServicio.size(); i++) {
 			aux += this.listaServicio.get(i).getTipo() + "\n";

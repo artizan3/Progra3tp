@@ -42,7 +42,7 @@ public abstract class DecoratorPago implements Cloneable, iAbonado {
 	/**
 	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
-	 * <b>Post</b>: Retorna lista de contrataciones de cada abonado.<br>
+	 * <b>Post</b>: Retorna listaDeContratos de contrataciones de cada abonado.<br>
 	 */
 	public ArrayList<Contratacion> getLista() {
 		return this.abonado.getLista();

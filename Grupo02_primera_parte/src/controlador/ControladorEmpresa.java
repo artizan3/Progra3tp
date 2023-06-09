@@ -27,7 +27,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
         this.vista.setActionListener(this);
         
 
-        // Actualizar la vista con la lista inicial de abonados
+        // Actualizar la vista con la listaDeContratos inicial de abonados
         vista.actualizarLista(empresa.getListaAbonado());
     }
     

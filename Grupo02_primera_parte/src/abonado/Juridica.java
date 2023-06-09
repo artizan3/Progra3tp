@@ -16,11 +16,11 @@ public class Juridica extends Abonado {
 	public double valorTotal() {
 		double suma = 0;
 		int i = 0;
-		for (i = 0; i < this.lista.size(); i++) {
+		for (i = 0; i < this.listaDeContratos.size(); i++) {
 			if (i >= 2) {
-				suma += this.lista.get(i).getValorTotal() * 0.5;
+				suma += this.listaDeContratos.get(i).getValorTotal() * 0.5;
 			} else
-				suma += this.lista.get(i).getValorTotal();
+				suma += this.listaDeContratos.get(i).getValorTotal();
 		}
 		return suma;
 	}
