@@ -33,6 +33,8 @@ public class Empresa {
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private FactoryPago creacion = new FactoryPago();
 	private LocalDate fecha = LocalDate.now();
+	private MesaDeSolicitudDeTecnicos mesaDeSolicitudDeTecnicos;
+
 
 	/**
 	 * Este metodo garantiza que solo exista una instancia de la clase empresa<br>
@@ -363,6 +365,13 @@ public class Empresa {
 	}
 	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
+	}
+	public MesaDeSolicitudDeTecnicos getMesaDeSolicitudDeTecnicos() {
+		// TODO Auto-generated method stub
+		return this.mesaDeSolicitudDeTecnicos;
+	}
+	public void setMesaDeSolicitudDeTecnicos(MesaDeSolicitudDeTecnicos mesaDeSolicitudDeTecnicos) {
+		this.mesaDeSolicitudDeTecnicos = mesaDeSolicitudDeTecnicos;
 	}
 
 }
