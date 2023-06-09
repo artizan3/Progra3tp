@@ -3,6 +3,8 @@ package vista;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JTextArea;
+
 import abonado.Abonado;
 
 public interface IVista {
@@ -11,6 +13,6 @@ public interface IVista {
 
 	void actualizarLista(ArrayList<Abonado> listaAbonado);
 
-
+	JTextArea getTextArea_consola();
 
 }

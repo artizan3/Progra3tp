@@ -2,20 +2,24 @@ package controlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import abonado.Abonado;
 import abonado.Fisica;
 import empresa.Empresa;
+import empresa.MesaDeSolicitudDeTecnicos;
 import excepciones.AbonadoInexistenteException;
 import excepciones.FactoryInvalidoException;
 import vista.IVista;
 import vista.VentanaCrearAbonado;
 
-public class ControladorEmpresa implements ActionListener {
+public class ControladorEmpresa implements ActionListener, Observer {
 
     private Empresa empresa;
     private IVista vista;
     private VentanaCrearAbonado ventanaCrearAbonado;
+    private MesaDeSolicitudDeTecnicos mesa;
 
     public ControladorEmpresa(Empresa empresa, IVista vista) {
         this.empresa = empresa;
@@ -26,6 +30,23 @@ public class ControladorEmpresa implements ActionListener {
         // Actualizar la vista con la lista inicial de abonados
         vista.actualizarLista(empresa.getListaAbonado());
     }
+    
+    public void addObservable (MesaDeSolicitudDeTecnicos mesa) {
+    	this.mesa = mesa;
+    	mesa.addObserver(this);
+    }
+	@Override
+	public void update(Observable o, Object arg) throws IllegalArgumentException {
+
+			if(o != mesa) {
+				throw new IllegalArgumentException("El objeto no esta siendo observado por"+this);
+			}
+			else
+			{
+				String mensaje = (String) arg;
+				this.vista.getTextArea_consola().append(mensaje+"\n");
+			}
+	}
 
     public void agregarAbonado(Abonado abonado) throws FactoryInvalidoException {
         empresa.agregaAbonado(abonado, "Efectivo");
@@ -56,4 +77,6 @@ public class ControladorEmpresa implements ActionListener {
 			System.out.println(abonado);
 		}
 	}
+
+
 }
