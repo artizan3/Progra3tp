@@ -288,6 +288,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_tecnico_nuevo);
         
         btn_tecnico_eliminar = new JButton("Eliminar");
+        btn_tecnico_eliminar.setActionCommand("Eliminar tecnico");
         btn_tecnico_eliminar.setBounds(909, 223, 89, 23);
         getContentPane().add(btn_tecnico_eliminar);
         
@@ -393,6 +394,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_tecnico_nuevo.addActionListener(actionListener);
 		this.btn_guardar.addActionListener(actionListener);
 		this.btn_cargar.addActionListener(actionListener);
+		this.btn_tecnico_eliminar.addActionListener(actionListener);
 	}
 
 	@Override
@@ -443,11 +445,6 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		
 	}
 
-	@Override
-	public void refrescarGUI() {
-		actualizarTablaDeTecnicos();
-		
-	}
 
 
 }

@@ -18,6 +18,5 @@ public interface IVista {
 
 	JTextArea getTextArea_consola();
 
-	void refrescarGUI();
 
 }
