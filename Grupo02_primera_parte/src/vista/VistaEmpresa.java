@@ -21,11 +21,13 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JCalendar;
 
 import abonado.Abonado;
+import empresa.Tecnico;
 
 public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseListener {
 
 	private ActionListener actionListener;
-    private DefaultListModel<Abonado> listModel;
+    private ArrayList<Abonado> listaAbonados = new ArrayList<Abonado>();
+    private ArrayList<Tecnico> listaTecnicos = new ArrayList<Tecnico>();
     private JTable table_abonado;
 	private JButton btn_abonado_nuevo;
 	private JButton btn_abonado_eliminar;
@@ -66,7 +68,6 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	public VistaEmpresa() {
 
     	setTitle("MainFrame");
-        listModel = new DefaultListModel<Abonado>();
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //pack();
@@ -80,7 +81,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         
         table_abonado = new JTable();
         table_abonado.setModel(new DefaultTableModel(
-        	new Object[][] {
+        	new String[][] {
         		{null, null},
         		{null, null},
         		{null, null},
@@ -282,6 +283,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         scrollPane_Tecnico.setViewportView(table_tecnico);
         
         btn_tecnico_nuevo = new JButton("Agregar");
+        btn_tecnico_nuevo.setActionCommand("Abrir ventana para crear tecnicos");
         btn_tecnico_nuevo.setBounds(795, 223, 89, 23);
         getContentPane().add(btn_tecnico_nuevo);
         
@@ -305,10 +307,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_calendario_simular_fecha);
         
         btn_guardar = new JButton("Guardar");
+        btn_guardar.setActionCommand("Persistir");
         btn_guardar.setBounds(806, 0, 89, 23);
         getContentPane().add(btn_guardar);
         
         btn_cargar = new JButton("Cargar");
+        btn_cargar.setActionCommand("Despersistir");
         btn_cargar.setBounds(909, 0, 89, 23);
         getContentPane().add(btn_cargar);
         
@@ -325,18 +329,70 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         
     }
 
-    public void actualizarLista(ArrayList<Abonado> nuevaLista) {
-        listModel.clear();
-        for (Abonado abonado : nuevaLista) {
-            listModel.addElement(abonado);
+    public void actualizarListaAbonados(ArrayList<Abonado> listaAbonados) {
+        this.listaAbonados.clear();
+        for (Abonado abonado : listaAbonados) {
+            this.listaAbonados.add(abonado);
         }
     }
+    
+	@Override
+	public void actualizarListaTecnicos(ArrayList<Tecnico> listaTecnicos) {
+        this.listaTecnicos.clear();
+        for (Tecnico tecnico : listaTecnicos) {
+            this.listaTecnicos.add(tecnico);
+        }
+        actualizarTablaDeTecnicos();	
+	}
 
+	@SuppressWarnings("serial")
+	private void actualizarTablaDeTecnicos() {
+		
+		DefaultTableModel tablaTecnicosNueva = new DefaultTableModel(
+	        	new Object[][] {
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        	},
+	        	new String[] {
+	        		"Nombre", "Dni", "Disponiblidad"
+	        	}
+	        ) 
+		
+		{
+	        	boolean[] columnEditables = new boolean[] {
+	        		false, false, false
+	        	};
+	        	public boolean isCellEditable(int row, int column) {
+	        		return columnEditables[column];
+	        	}
+	        };
+	    int i=0;
+	    for (Tecnico tecnico : this.listaTecnicos) {
+	    tablaTecnicosNueva.setValueAt(tecnico.getNombre(), i, 0);
+	    tablaTecnicosNueva.setValueAt(tecnico.getDni(), i, 1);
+	    if (tecnico.getAbonado()!=null)
+	    	tablaTecnicosNueva.setValueAt("Reparando", i, 2);
+	    else
+	    	tablaTecnicosNueva.setValueAt("Disponible", i, 2);  
+		
+		i++;
+	    }
+	    table_tecnico.setModel(tablaTecnicosNueva);
+	};
  	
 	@Override
 	public void setActionListener(ActionListener actionListener) {
 		this.actionListener=actionListener;
 		this.btn_abonado_nuevo.addActionListener(actionListener);
+		this.btn_tecnico_nuevo.addActionListener(actionListener);
+		this.btn_guardar.addActionListener(actionListener);
+		this.btn_cargar.addActionListener(actionListener);
 	}
 
 	@Override
@@ -386,4 +442,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void refrescarGUI() {
+		actualizarTablaDeTecnicos();
+		
+	}
+
+
 }

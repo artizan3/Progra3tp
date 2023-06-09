@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import abonado.Abonado;
@@ -8,7 +9,7 @@ import empresa.Factura;
 import empresa.Tecnico;
 import metodosdepago.FactoryPago;
 
-public class EmpresaDTO {
+public class EmpresaDTO implements Serializable {
 
 
 	private ArrayList<Abonado> listaAbonado = new ArrayList<Abonado>();

@@ -7,9 +7,17 @@ import abonado.Abonado;
 public class Tecnico extends Thread implements Serializable {
 
 	private String nombre;
+	private int dni;
 	private Abonado abonado;
 	public Abonado getAbonado() {
 		return abonado;
+	}
+	
+	public Tecnico(String nombre, int dni, MesaDeSolicitudDeTecnicos mesa ) {
+		super();
+		this.mesa = mesa;
+		this.dni= dni;
+		this.nombre = nombre;
 	}
 
 	public void setAbonado(Abonado abonado) {
@@ -26,11 +34,7 @@ public class Tecnico extends Thread implements Serializable {
 
 	private MesaDeSolicitudDeTecnicos mesa;
 
-	public Tecnico(String nombre, MesaDeSolicitudDeTecnicos mesa ) {
-		super();
-		this.mesa = mesa;
-		this.nombre = nombre;
-	}
+
 
 	public String getNombre() {
 		return nombre;
@@ -54,6 +58,10 @@ public class Tecnico extends Thread implements Serializable {
 			this.abonado=null;
 		}
 		
+	}
+
+	public int getDni() {
+		return dni;
 	}
 
 }
