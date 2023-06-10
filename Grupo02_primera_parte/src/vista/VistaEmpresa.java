@@ -39,10 +39,10 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private JButton btn_abonado_nuevo;
 	private JButton btn_abonado_eliminar;
 	private JScrollPane scrollPane_abonado;
-	private JButton btn_domicilio_nuevo;
+	private JButton btn_contratacion_nuevo;
 	private JButton btn_servicio_nuevo;
 	private JButton btn_servicio_eliminar;
-	private JButton btn_domicilio_eliminar;
+	private JButton btn_contratacion_eliminar;
 	private JLabel lbl_abonado;
 	private JLabel lbl_domicilio;
 	private JLabel lbl_servicio;
@@ -165,28 +165,33 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_abonado_nuevo);
         
         btn_abonado_eliminar = new JButton("Eliminar");
+        btn_abonado_eliminar.setEnabled(false);
         btn_abonado_eliminar.setActionCommand("Eliminar abonado");
         btn_abonado_eliminar.setBounds(166, 485, 89, 23);
         getContentPane().add(btn_abonado_eliminar);
         
-        btn_domicilio_nuevo = new JButton("Agregar");
-        btn_domicilio_nuevo.setActionCommand("Abrir ventana crear contratacion");
-        btn_domicilio_nuevo.setBounds(275, 238, 89, 23);
-        getContentPane().add(btn_domicilio_nuevo);
+        btn_contratacion_nuevo = new JButton("Agregar");
+        btn_contratacion_nuevo.setEnabled(false);
+        btn_contratacion_nuevo.setActionCommand("Abrir ventana crear contratacion");
+        btn_contratacion_nuevo.setBounds(275, 238, 89, 23);
+        getContentPane().add(btn_contratacion_nuevo);
         
         btn_servicio_nuevo = new JButton("Agregar");
+        btn_servicio_nuevo.setEnabled(false);
         btn_servicio_nuevo.setBounds(275, 485, 89, 23);
         getContentPane().add(btn_servicio_nuevo);
         
         btn_servicio_eliminar = new JButton("Eliminar");
+        btn_servicio_eliminar.setEnabled(false);
 
         btn_servicio_eliminar.setBounds(385, 485, 89, 23);
         getContentPane().add(btn_servicio_eliminar);
         
-        btn_domicilio_eliminar = new JButton("Eliminar");
-        btn_domicilio_eliminar.setActionCommand("Eliminar contratacion");
-        btn_domicilio_eliminar.setBounds(385, 238, 89, 23);
-        getContentPane().add(btn_domicilio_eliminar);
+        btn_contratacion_eliminar = new JButton("Eliminar");
+        btn_contratacion_eliminar.setEnabled(false);
+        btn_contratacion_eliminar.setActionCommand("Eliminar contratacion");
+        btn_contratacion_eliminar.setBounds(385, 238, 89, 23);
+        getContentPane().add(btn_contratacion_eliminar);
         
         lbl_abonado = new JLabel("Abonados");
         lbl_abonado.setBounds(103, 41, 114, 14);
@@ -213,6 +218,14 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(scrollPane_domicilio);
         
         table_contrataciones = new JTable();
+        table_contrataciones.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		ActionEvent actionEvent = new ActionEvent(table_contrataciones,ActionEvent.ACTION_PERFORMED,"Clic en tabla de contrataciones");
+        		actionListener.actionPerformed(actionEvent);
+        		
+        	}
+        });
         table_contrataciones.setModel(new DefaultTableModel(
         	new Object[][] {
         		{null},
@@ -250,8 +263,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         		{null, null},
         		{null, null},
         		{null, null},
-        		{null, null},
-        		{null, null},
+
         	},
         	new String[] {
         		"Servicio", "Cantidad"
@@ -376,11 +388,13 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         textArea_consola.setColumns(10);
         
         btn_abonado_solicitarReparacion = new JButton("Solicitar Reparación");
+        btn_abonado_solicitarReparacion.setEnabled(false);
         btn_abonado_solicitarReparacion.setActionCommand("Solicitar Reparación");
         btn_abonado_solicitarReparacion.setBounds(50, 514, 205, 23);
         getContentPane().add(btn_abonado_solicitarReparacion);
         
         btn_factura_pagar_factura = new JButton("Pagar factura");
+        btn_factura_pagar_factura.setEnabled(false);
         btn_factura_pagar_factura.setActionCommand("Abrir ventana crear abonado");
         btn_factura_pagar_factura.setBounds(507, 485, 205, 23);
         getContentPane().add(btn_factura_pagar_factura);
@@ -449,9 +463,9 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_cargar.addActionListener(actionListener);
 		this.btn_tecnico_eliminar.addActionListener(actionListener);
 		this.btn_abonado_eliminar.addActionListener(actionListener);
-		this.btn_domicilio_nuevo.addActionListener(actionListener);
+		this.btn_contratacion_nuevo.addActionListener(actionListener);
 		this.btn_abonado_solicitarReparacion.addActionListener(actionListener);
-		this.btn_domicilio_eliminar.addActionListener(actionListener);
+		this.btn_contratacion_eliminar.addActionListener(actionListener);
 	}
 
 	@Override
@@ -581,6 +595,68 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         actualizarTablaDeAbonados();
     }
 	
+	public void actualizaListaServicios(ArrayList<Servicio> listaServicios) {
+        this.listaServicios.clear();
+        for (Servicio servicio : listaServicios) {
+            this.listaServicios.add(servicio);
+        }
+        actualizarTablaDeServicios();
+    }
+	
+private void actualizarTablaDeServicios() {
+		
+		@SuppressWarnings("serial")
+		DefaultTableModel tablaServiciosNueva = new DefaultTableModel(
+	        	new String[][] {
+	        		{null, null},
+	        		{null, null},
+	        		{null, null},
+
+	        	},
+	        	new String[] {
+	        		"Servicio", "Cantidad"
+	        	}
+	        ) {
+	        	boolean[] columnEditables = new boolean[] {
+	        		false, false
+	        	};
+	        	public boolean isCellEditable(int row, int column) {
+	        		return columnEditables[column];
+	        	}
+	        };
+	    int i=0;
+	    int cantidadDeCamaras = 0;
+	    int cantidadDeBotones = 0;
+	    int cantidadDeAcompaniamientos = 0;
+	    for (Servicio servicio : this.listaServicios) {
+	    	
+	    	if (servicio.getTipo().equals("Acompaniamiento"))
+	    		cantidadDeAcompaniamientos++;
+	    	else if (servicio.getTipo().equals("Camara"))
+	    		cantidadDeCamaras++;
+	    	else if (servicio.getTipo().equals("Boton"))
+	    		cantidadDeBotones++;
+	    
+	    	if (cantidadDeAcompaniamientos > 0) {	
+	    	tablaServiciosNueva.setValueAt("Acompaniamiento",i,0);
+	    	tablaServiciosNueva.setValueAt(cantidadDeAcompaniamientos, i,1);	
+		i++;
+	    }
+	    if (cantidadDeBotones > 0) {	
+	    	tablaServiciosNueva.setValueAt("B",i,0);
+	    	tablaServiciosNueva.setValueAt(cantidadDeBotones, i,1);	
+		i++;
+	    }
+	    if (cantidadDeCamaras > 0) {	
+	    	tablaServiciosNueva.setValueAt("Camaras",i,0);
+	    	tablaServiciosNueva.setValueAt(cantidadDeCamaras, i,1);	
+		i++;
+	    }
+		
+	    }
+	    table_servicio.setModel(tablaServiciosNueva);
+	}
+	
 	
 	private void actualizarTablaDeAbonados() {
 		
@@ -660,4 +736,33 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	public ArrayList<Factura> getListaFacturas() {
 		return listaFacturas;
 	}
+
+	@Override
+	public JButton getBtn_contratacion_nuevo() {
+		// TODO Auto-generated method stub
+		return this.btn_contratacion_nuevo;
+	}
+	
+	public JButton getBtn_contratacion_eliminar() {
+		return btn_contratacion_eliminar;
+	}
+
+	public JButton getBtn_abonado_eliminar() {
+		return btn_abonado_eliminar;
+	}
+
+	public JButton getBtn_abonado_solicitarReparacion() {
+		return btn_abonado_solicitarReparacion;
+	}
+
+	public JButton getBtn_servicio_nuevo() {
+		return btn_servicio_nuevo;
+	}
+
+	public JButton getBtn_servicio_eliminar() {
+		return btn_servicio_eliminar;
+	}
+	
+	
+	
 }

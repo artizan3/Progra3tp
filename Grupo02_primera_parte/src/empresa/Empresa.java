@@ -358,5 +358,10 @@ public class Empresa {
 	public void setMesaDeSolicitudDeTecnicos(MesaDeSolicitudDeTecnicos mesaDeSolicitudDeTecnicos) {
 		this.mesaDeSolicitudDeTecnicos = mesaDeSolicitudDeTecnicos;
 	}
+	public void eliminarContratacion(Abonado abonado, Contratacion contratacion) {
+
+		abonado.getListaDeContrataciones().remove(contratacion);
+		this.listaContrataciones.remove(contratacion);
+	}
 
 }
