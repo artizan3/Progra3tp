@@ -1,8 +1,14 @@
 package abonado;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+
+import empresa.Contratacion;
+import empresa.Factura;
+import excepciones.ContratacionInvalidaException;
 
 public class SinContratacion implements IState, Serializable {
+
 
 	private Fisica abonado;
 	
@@ -14,21 +20,20 @@ public class SinContratacion implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura() {
-		// TODO Auto-generated method stub
-
+	public void pagarFactura(Factura factura,LocalDate fechaDePago) {
+		//No puede pagar ya que no contrato nada
+		//Mensaje a traves de la ventana
 	}
 
 	@Override
-	public void contratarServicio() {
-		// TODO Auto-generated method stub
-
+	public void contratarServicio(Contratacion contrato) {
+		abonado.aniadirContratacion(contrato);
+		abonado.setEstado(new ConContratacion(this.abonado));
 	}
 
 	@Override
-	public void bajarServicio() {
-		// TODO Auto-generated method stub
-
+	public void bajarServicio(Contratacion contrato) throws ContratacionInvalidaException {
+		//No puede bajar servicio ya que no contrato nada
+		//Mensaje a traves de la ventana
 	}
-
 }

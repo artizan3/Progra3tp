@@ -18,14 +18,19 @@ public class FactoryPago {
 		if (tipopago.equals("Tarjeta"))
 			aux = new PagoCredito(abonado);
 
-		else if (tipopago.equals("Efectivo"))
-			aux = new PagoEfectivo(abonado);
+		else 
+			if (tipopago.equals("Efectivo"))
+				aux = new PagoEfectivo(abonado);
 
-		else if (tipopago.equals("Cheque"))
-			aux = new PagoCheque(abonado);
+		else 
+			if (tipopago.equals("Cheque"))
+				aux = new PagoCheque(abonado);
 
 		else
-			throw new FactoryInvalidoException("No existe el tipo de pago", tipopago);
+			 if(tipopago.equals("Impago"))
+				aux=new SinPago(abonado);
+			else
+				throw new FactoryInvalidoException("No existe el tipo de pago", tipopago);
 
 		return aux;
 	}
