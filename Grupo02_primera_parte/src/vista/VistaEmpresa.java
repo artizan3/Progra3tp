@@ -794,9 +794,13 @@ private void actualizarTablaDeServicios() {
 	        	}
 	        };
 	    int i=0;
-	    for (Abonado abonado : this.listaAbonados) {
-	    	tablaAbonadosNueva.setValueAt(abonado.getNombre(), i,0);
-	    	tablaAbonadosNueva.setValueAt(abonado.getDni(), i,1);	
+	    for (Factura factura : this.listaFacturas) {
+	    	tablaAbonadosNueva.setValueAt(factura.getFechaDeEmision(),i,0);
+	    	tablaAbonadosNueva.setValueAt(factura.getMonto(), i,1);
+	    	if (factura.getFechaDePago()==null)
+	    		tablaAbonadosNueva.setValueAt("Impaga", i,2);
+	    	else 
+	    		tablaAbonadosNueva.setValueAt("Paga", i,2);
 		i++;
 	    }
 	    table_abonado.setModel(tablaAbonadosNueva);
