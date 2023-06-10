@@ -199,7 +199,7 @@ public class Main {
 		} catch (CloneNotSupportedException e1) {
 			System.out.println(e1.getMessage());
 		}
-		System.out.println("hola2");
+		System.out.println("hola2 edit prueba");
 	}
 
 }
