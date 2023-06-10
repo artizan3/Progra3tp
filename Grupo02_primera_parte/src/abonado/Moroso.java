@@ -48,6 +48,13 @@ private Fisica abonado;
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void chequeaCambio() {
+		if(abonado.cont<2)
+			abonado.setEstado(new ConContratacion(abonado));
+		
+	}
 	
 	
 }

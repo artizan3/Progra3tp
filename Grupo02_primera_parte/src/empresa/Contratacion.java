@@ -1,6 +1,7 @@
 package empresa;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import Domicilio.Domicilio;
@@ -16,7 +17,7 @@ public class Contratacion implements Cloneable, Serializable {
 	private Domicilio domicilio;
 	public static int counter = 0;
 	private int id;
-
+	private LocalDate fechaContratacion;
 	/**
 	 * Este es el contructor de la clase el cual aumenta el id en 1 por cada
 	 * instancia.<br>
@@ -32,6 +33,11 @@ public class Contratacion implements Cloneable, Serializable {
 		this.domicilio = domicilio;
 		counter++;
 		this.id = counter;
+		this.fechaContratacion=LocalDate.now();
+	}
+	
+	public LocalDate getFechaContratacion() {
+		return fechaContratacion;
 	}
 
 	/**

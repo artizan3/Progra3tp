@@ -1,6 +1,8 @@
 package abonado;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 import Domicilio.Domicilio;
@@ -11,6 +13,7 @@ import empresa.MesaDeSolicitudDeTecnicos;
 import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
+import excepciones.FactoryInvalidoException;
 import excepciones.ReparacionYaSolicitadaException;
 /*
  * la clase abonado, la cual tiene 2 variantes (fisica y juridica) es
@@ -25,7 +28,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
 	protected boolean necesitaReparacion;
 	protected MesaDeSolicitudDeTecnicos mesa;
-
+	protected int cont=0; //contador de cantidad de facturas impagas
 
 	/**
 	 * Constructor de la clase <br>
@@ -161,6 +164,35 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		      throw new ContratacionInvalidaException("Contrato inexistente en la listaDeContratos",null, this);   
 	}
 	
+	public int getCont() {
+		return cont;
+	}
+	public void incrementCont() {
+		this.cont++;
+	}
+	public LocalDate fechaReciente(){
+		 LocalDate fechaMasReciente;
+		 
+		 if(!getListaDeFacturas().isEmpty()) {
+			 fechaMasReciente=getListaDeFacturas().get(0).getFechaDeEmision();
+			 for(int k=1;k<getListaDeFacturas().size();k++) {
+				 if(getListaDeFacturas().get(k).getFechaDeEmision().isAfter(fechaMasReciente))
+					 fechaMasReciente=getListaDeFacturas().get(k).getFechaDeEmision();
+				 if(!getListaDeFacturas().get(k).isPago())
+					 cont++;
+			 }
+		 }
+		 else {
+			 fechaMasReciente=getListaDeContrataciones().get(0).getFechaContratacion();
+			 for(int p=1;p<getListaDeContrataciones().size();p++) {
+				 if(getListaDeContrataciones().get(p).getFechaContratacion().isAfter(fechaMasReciente))
+					 fechaMasReciente=getListaDeContrataciones().get(p).getFechaContratacion();
+			 }
+		 }
+		return fechaMasReciente;
+	}
+	
+	public abstract void cambiaEstado();
 	/**
 	 * El metodo clona el objeto de tipo abonado. <br>
 	 * <br>

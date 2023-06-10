@@ -46,5 +46,9 @@ private Fisica abonado;
 		if (abonado.listaDeContrataciones.size() == 0)
 			abonado.setEstado(new SinContratacion(abonado));
 	}
-
+	@Override
+	public void chequeaCambio() {
+		if(abonado.cont>2)
+			abonado.setEstado(new Moroso(abonado));
+	}
 }
