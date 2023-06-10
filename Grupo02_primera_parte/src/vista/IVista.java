@@ -1,5 +1,6 @@
 package vista;
 
+import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
@@ -8,6 +9,7 @@ import javax.swing.JTextArea;
 
 import abonado.Abonado;
 import empresa.Contratacion;
+import empresa.Factura;
 import empresa.Tecnico;
 
 public interface IVista {
@@ -33,5 +35,11 @@ public interface IVista {
 	 ArrayList<Tecnico> getListaTecnicos();
 
 	void actualizaListaContrataciones(ArrayList<Contratacion> listaDeContrataciones);
+
+	JTable getTable_contratacion();
+
+	public ArrayList<Contratacion> getListaContrataciones();
+
+	public ArrayList<Factura> getListaFacturas();
 
 }

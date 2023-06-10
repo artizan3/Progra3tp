@@ -34,9 +34,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private ArrayList<Tecnico> listaTecnicos = new ArrayList<Tecnico>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
 	private ArrayList<Servicio> listaServicios = new ArrayList<Servicio>();
-	
 	private ArrayList<Factura> listaFacturas = new ArrayList<Factura>();
-
     private JTable table_abonado;
 	private JButton btn_abonado_nuevo;
 	private JButton btn_abonado_eliminar;
@@ -186,6 +184,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_servicio_eliminar);
         
         btn_domicilio_eliminar = new JButton("Eliminar");
+        btn_domicilio_eliminar.setActionCommand("Eliminar contratacion");
         btn_domicilio_eliminar.setBounds(385, 238, 89, 23);
         getContentPane().add(btn_domicilio_eliminar);
         
@@ -452,6 +451,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_abonado_eliminar.addActionListener(actionListener);
 		this.btn_domicilio_nuevo.addActionListener(actionListener);
 		this.btn_abonado_solicitarReparacion.addActionListener(actionListener);
+		this.btn_domicilio_eliminar.addActionListener(actionListener);
 	}
 
 	@Override
@@ -646,5 +646,18 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		i++;
 	    }
 	    table_abonado.setModel(tablaAbonadosNueva);
+	}
+
+	@Override
+	public JTable getTable_contratacion() {
+		// TODO Auto-generated method stub
+		return table_contrataciones;
+	}
+	public ArrayList<Contratacion> getListaContrataciones() {
+		return listaContrataciones;
+	}
+
+	public ArrayList<Factura> getListaFacturas() {
+		return listaFacturas;
 	}
 }
