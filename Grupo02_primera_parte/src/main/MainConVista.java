@@ -21,6 +21,7 @@ public class MainConVista {
 		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista,mesa);	
 		Empresa.getInstance().setMesaDeSolicitudDeTecnicos(mesa);
 		System.out.println("holaa");
+		System.out.println("holaa22");
 	}
 
 }
