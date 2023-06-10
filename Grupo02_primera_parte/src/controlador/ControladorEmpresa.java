@@ -12,6 +12,7 @@ import Domicilio.Vivienda;
 import abonado.Abonado;
 import abonado.Fisica;
 import abonado.Juridica;
+import empresa.Contratacion;
 import empresa.Empresa;
 import empresa.MesaDeSolicitudDeTecnicos;
 import empresa.Tecnico;
@@ -19,7 +20,6 @@ import excepciones.AbonadoInexistenteException;
 import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.FactoryInvalidoException;
-import excepciones.ReparacionYaSolicitadaException;
 import persistencia.EmpresaDTO;
 import persistencia.IPersistencia;
 import persistencia.PersistenciaBIN;
@@ -225,7 +225,14 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			Abonado abonadoSeleccionado = empresa.getListaAbonado().get((this.vista.getTable_abonado().getSelectedRow()));
 			abonadoSeleccionado.solicitarReparacion();
 		}
+		else if (e.getActionCommand().equals("Eliminar contratacion")) {
+			if (vista.getTable_contratacion().getSelectedRow()!= -1 && vista.getTable_contratacion().getSelectedRow() < vista.getListaContrataciones().size() ){
+				Contratacion contratacion = (vista.getListaContrataciones().get(vista.getTable_contratacion().getSelectedRow()));
+				empresa.quitarContratacion(contratacion, abonado);
+				vista.actualizarListaTecnicos(empresa.getListaTecnico());	
+			}
 
+		}
 	}
 	private void refrescarVista() {
 		vista.actualizarListaTecnicos(empresa.getListaTecnico());
