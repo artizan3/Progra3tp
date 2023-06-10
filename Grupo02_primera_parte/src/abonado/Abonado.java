@@ -28,7 +28,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
 	protected boolean necesitaReparacion;
 	protected MesaDeSolicitudDeTecnicos mesa;
-	protected int cont=0; //contador de cantidad de facturas impagas
+	protected int cantidadFacturasImpagas=0; //contador de cantidad de facturas impagas
 
 	/**
 	 * Constructor de la clase <br>
@@ -46,6 +46,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		this.nombre = nombre;
 		this.necesitaReparacion=false;
 		this.mesa=mesa;
+		this.start();
 	}
 	/**
 	 * <b>Pre</b>:<br>
@@ -165,10 +166,10 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	}
 	
 	public int getCont() {
-		return cont;
+		return cantidadFacturasImpagas;
 	}
 	public void incrementCont() {
-		this.cont++;
+		this.cantidadFacturasImpagas++;
 	}
 	public LocalDate fechaReciente(){
 		 LocalDate fechaMasReciente;
@@ -179,7 +180,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 				 if(getListaDeFacturas().get(k).getFechaDeEmision().isAfter(fechaMasReciente))
 					 fechaMasReciente=getListaDeFacturas().get(k).getFechaDeEmision();
 				 if(!getListaDeFacturas().get(k).isPago())
-					 cont++;
+					 cantidadFacturasImpagas++;
 			 }
 		 }
 		 else {
@@ -236,8 +237,6 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	}
 	
 	public void run() {
-			this.setNecesitaReparacion(true);
-			this.mesa.solicitarReparacion(this);
 	};
 	
 	public boolean isNecesitaReparacion() {
@@ -247,7 +246,10 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		this.necesitaReparacion = necesitaReparacion;
 	}
 	public void solicitarReparacion() {
-			this.start();
+		if (this.necesitaReparacion==false) {
+			this.setNecesitaReparacion(true);
+			this.mesa.solicitarReparacion(this);
+		}
 	};
 	
 	

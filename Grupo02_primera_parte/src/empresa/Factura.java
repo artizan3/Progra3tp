@@ -13,7 +13,25 @@ public class Factura implements Cloneable, Serializable {
 	private DecoratorPago abonado;
 	private LocalDate fechaDeEmision;
 	private LocalDate fechaDePago;
-	private boolean pago = false;
+	private boolean pago;
+	private double monto;
+	
+	
+	public Factura(DecoratorPago abonado) {
+		this.abonado = abonado;
+		this.fechaDeEmision= LocalDate.now();
+		this.fechaDePago=null;
+		this.pago=false;
+		this.monto=calcularMonto();
+	}
+	
+	private double calcularMonto() {
+	
+		double respuesta= this.abonado.valorSinTipoPago();
+		
+		return respuesta;
+	}
+	
 	public LocalDate getFechaDePago() {
 		return fechaDePago;
 	}
@@ -35,11 +53,7 @@ public class Factura implements Cloneable, Serializable {
 	 * <b>Inv</b>: abonado.<br>
 	 * <b>Post</b>: Se setea el valor del atributo abonado<br>
 	 */
-	public Factura(DecoratorPago abonado) {
-		this.abonado = abonado;
-		this.fechaDeEmision= LocalDate.now();
-		this.fechaDePago=null;
-	}
+
 	
 	/**
 	 * Este metodo le asigna una instancia de abonado al atributo abonado.</br>
@@ -102,5 +116,9 @@ public class Factura implements Cloneable, Serializable {
 		clon = (Factura) super.clone();
 		clon.abonado = (DecoratorPago) this.abonado.clone();
 		return clon;
+	}
+
+	public double getMonto() {
+		return monto;
 	}
 }

@@ -756,7 +756,7 @@ private void actualizarTablaDeServicios() {
 	
 	private void actualizarTablaDeFacturas() {
 		@SuppressWarnings("serial")
-		DefaultTableModel tablaAbonadosNueva = new DefaultTableModel(
+		DefaultTableModel tablaFacturasNueva = new DefaultTableModel(
 	        	new Object[][] {
 	        		{null, null, null},
 	        		{null, null, null},
@@ -795,15 +795,15 @@ private void actualizarTablaDeServicios() {
 	        };
 	    int i=0;
 	    for (Factura factura : this.listaFacturas) {
-	    	tablaAbonadosNueva.setValueAt(factura.getFechaDeEmision(),i,0);
-	    	tablaAbonadosNueva.setValueAt(factura.getMonto(), i,1);
+	    	tablaFacturasNueva.setValueAt(factura.getFechaDeEmision(),i,0);
+	    	tablaFacturasNueva.setValueAt(factura.getMonto(), i,1);
 	    	if (factura.getFechaDePago()==null)
-	    		tablaAbonadosNueva.setValueAt("Impaga", i,2);
+	    		tablaFacturasNueva.setValueAt("Impaga", i,2);
 	    	else 
-	    		tablaAbonadosNueva.setValueAt("Paga", i,2);
+	    		tablaFacturasNueva.setValueAt("Paga", i,2);
 		i++;
 	    }
-	    table_abonado.setModel(tablaAbonadosNueva);
+	    table_factura.setModel(tablaFacturasNueva);
 	}
 
 	@Override

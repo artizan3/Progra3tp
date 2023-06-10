@@ -287,6 +287,9 @@ public class ControladorEmpresa implements ActionListener, Observer {
 	private void refrescarVista() {
 		vista.actualizarListaTecnicos(empresa.getListaTecnico());
 		vista.actualizarListaAbonados(empresa.getListaAbonado());
+		vista.actualizaListaServicios(null);
+		vista.actualizaListaContrataciones(null);
+		vista.actualizaListaFacturas(null);
 	}
 	
 	private Abonado getAbonadoSeleccionado() {

@@ -24,8 +24,9 @@ private Fisica abonado;
 		while (i < 2 && j < abonado.listaDeFacturas.size()) {
 		   if (!abonado.listaDeFacturas.get(j).isPago())
 			   i++;
-		   j++;   
+		   j++; 		   
 		}   
+		this.abonado.cantidadFacturasImpagas--;
 		Empresa.getInstance().getFactura(abonado).setFechaDePago(fechaDePago);
 		if (i >= 2) {
 			abonado.setEstado(new Moroso(abonado));
@@ -48,7 +49,7 @@ private Fisica abonado;
 	}
 	@Override
 	public void chequeaCambio() {
-		if(abonado.cont>2)
+		if(abonado.cantidadFacturasImpagas>2)
 			abonado.setEstado(new Moroso(abonado));
 	}
 }

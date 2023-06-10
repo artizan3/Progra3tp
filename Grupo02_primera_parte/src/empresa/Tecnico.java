@@ -44,6 +44,7 @@ public class Tecnico extends Thread implements Serializable {
 	}
 
 	public void run() {	
+		
 		while (true) {
 			
 			abonado=this.mesa.getAbonado(this);
