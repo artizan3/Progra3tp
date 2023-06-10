@@ -13,19 +13,21 @@ public class Factura implements Cloneable, Serializable {
 	private DecoratorPago abonado;
 	private LocalDate fechaDeEmision;
 	private LocalDate fechaDePago;
-	
+	private boolean pago = false;
 	public LocalDate getFechaDePago() {
 		return fechaDePago;
 	}
 
 	public void setFechaDePago(LocalDate fechaDePago) {
+		this.pago = true;
 		this.fechaDePago = fechaDePago;
 	}
-
 	public LocalDate getFechaDeEmision() {
 		return fechaDeEmision;
 	}
-
+	public boolean isPago() {
+		return this.pago;
+	}
 	/**
 	 * Constructor de la clase <br>
 	 * <br>
@@ -38,7 +40,7 @@ public class Factura implements Cloneable, Serializable {
 		this.fechaDeEmision= LocalDate.now();
 		this.fechaDePago=null;
 	}
-
+	
 	/**
 	 * Este metodo le asigna una instancia de abonado al atributo abonado.</br>
 	 * </br>
