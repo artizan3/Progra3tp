@@ -20,7 +20,7 @@ public class MainConVista {
 		MesaDeSolicitudDeTecnicos mesa = new MesaDeSolicitudDeTecnicos();
 		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista,mesa);	
 		Empresa.getInstance().setMesaDeSolicitudDeTecnicos(mesa);
-
+		System.out.println("holaa");
 	}
 
 }
