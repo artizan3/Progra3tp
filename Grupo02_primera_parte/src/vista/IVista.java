@@ -7,6 +7,8 @@ import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
+import com.toedter.calendar.JCalendar;
+
 import abonado.Abonado;
 import empresa.Contratacion;
 import empresa.Factura;
@@ -58,4 +60,6 @@ public interface IVista {
 
 	void actualizaListaFacturas(ArrayList<Factura> listaFacturas);
 
+	public JCalendar getCalendar();
+	
 }

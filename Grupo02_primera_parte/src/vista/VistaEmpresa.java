@@ -67,6 +67,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private JTable table_contrataciones;
 	private JButton btn_factura_pagar_factura;
 	private JButton btn_abonado_solicitarReparacion;
+	private JCalendar calendar;
 	
     public JTextArea getTextArea_consola() {
 		return textArea_consola;
@@ -376,7 +377,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         panel_calendario.setBounds(752, 288, 246, 186);
         getContentPane().add(panel_calendario);
         
-        JCalendar calendar = new JCalendar();
+        calendar = new JCalendar();
         panel_calendario.add(calendar);
         
         lbl_calendario = new JLabel("Calendario");
@@ -384,6 +385,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(lbl_calendario);
         
         btn_calendario_simular_fecha = new JButton("Simular fecha");
+        btn_calendario_simular_fecha.setActionCommand("Cambiar fecha");
         btn_calendario_simular_fecha.setBounds(802, 485, 147, 23);
         getContentPane().add(btn_calendario_simular_fecha);
         
@@ -486,6 +488,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_abonado_solicitarReparacion.addActionListener(actionListener);
 		this.btn_contratacion_eliminar.addActionListener(actionListener);
 		this.btn_servicio_nuevo.addActionListener(actionListener);
+		this.btn_calendario_simular_fecha.addActionListener(actionListener);
 	}
 
 	@Override
@@ -746,9 +749,10 @@ private void actualizarTablaDeServicios() {
 	
 	
 	public void actualizaListaFacturas(ArrayList<Factura> listaFacturas) {
-        this.listaFacturas.clear();
+		this.listaFacturas.clear();
         for (Factura factura : listaFacturas) {
             this.listaFacturas.add(factura);
+            
         }
         actualizarTablaDeFacturas();	
 	}
@@ -843,6 +847,10 @@ private void actualizarTablaDeServicios() {
 
 	public JButton getBtn_servicio_eliminar() {
 		return btn_servicio_eliminar;
+	}
+
+	public JCalendar getCalendar() {
+		return calendar;
 	}
 	
 	

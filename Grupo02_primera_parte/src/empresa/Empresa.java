@@ -305,6 +305,7 @@ public class Empresa {
 		 for(int i=0;i<listaAbonado.size();i++) {
 			 fechaMasReciente=listaAbonado.get(i).fechaReciente();
 			 periodo = Period.between(fechaRecibida,fechaMasReciente);
+			 System.out.println(periodo);
 			 for(int j=0;j<periodo.getMonths();j++) {
 				 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
 				 crearFactura(listaAbonado.get(i),"Impago");
