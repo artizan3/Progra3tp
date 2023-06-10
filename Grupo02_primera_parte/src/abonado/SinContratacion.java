@@ -20,7 +20,7 @@ public class SinContratacion implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura(Factura factura,LocalDate fechaDePago) {
+	public void pagarFactura(Factura factura,LocalDate fechaDePago,String TipoPago) {
 		//No puede pagar ya que no contrato nada
 		//Mensaje a traves de la ventana
 	}
