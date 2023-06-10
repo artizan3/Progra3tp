@@ -1,9 +1,9 @@
 package vista;
 
-import java.awt.Component;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 
@@ -11,6 +11,7 @@ import abonado.Abonado;
 import empresa.Contratacion;
 import empresa.Factura;
 import empresa.Tecnico;
+import servicio.Servicio;
 
 public interface IVista {
 
@@ -38,8 +39,21 @@ public interface IVista {
 
 	JTable getTable_contratacion();
 
-	public ArrayList<Contratacion> getListaContrataciones();
+	ArrayList<Contratacion> getListaContrataciones();
 
-	public ArrayList<Factura> getListaFacturas();
+	ArrayList<Factura> getListaFacturas();
+
+	JButton getBtn_contratacion_nuevo();
+	
+	JButton getBtn_abonado_eliminar();
+
+	JButton getBtn_abonado_solicitarReparacion();
+	JButton getBtn_servicio_nuevo();
+
+	JButton getBtn_servicio_eliminar();
+	 
+	JButton getBtn_contratacion_eliminar();
+
+	void actualizaListaServicios(ArrayList<Servicio> listaDeServicios);
 
 }

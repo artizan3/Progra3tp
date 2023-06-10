@@ -3,6 +3,7 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -24,6 +25,7 @@ import persistencia.EmpresaDTO;
 import persistencia.IPersistencia;
 import persistencia.PersistenciaBIN;
 import persistencia.UtilPersistencia;
+import servicio.Servicio;
 import vista.IVista;
 import vista.VentanaCrearAbonado;
 import vista.VentanaCrearContratacion;
@@ -37,6 +39,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
     private VentanaCrearTecnico ventanaCrearTecnico;
     private MesaDeSolicitudDeTecnicos mesa;
 	private VentanaCrearContratacion ventanaCrearContratacion;
+	private VentanaCrearServicio ventanaCrearServicio;
 
     public ControladorEmpresa(Empresa empresa, IVista vista,MesaDeSolicitudDeTecnicos mesa) {
         this.empresa = empresa;
@@ -111,9 +114,8 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		}
 		
 		else if(e.getActionCommand().equals("Eliminar abonado")) {
-			
-			if (vista.getTable_abonado().getSelectedRow()!= -1 && vista.getTable_abonado().getSelectedRow() < vista.getListaAbonados().size() ){
-				Abonado abonado = (vista.getListaAbonados().get(vista.getTable_abonado().getSelectedRow()));
+				Abonado abonado = getAbonadoSeleccionado();
+				if (abonado!=null) {
 				try {
 					empresa.quitaAbonado(abonado);
 				} catch (AbonadoInexistenteException e1) {
@@ -121,9 +123,8 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				}
 				vista.actualizarListaAbonados(empresa.getListaAbonado());
 			}
-			
-			
-		}		
+		}
+					
 		else if(e.getActionCommand().equals("Abrir ventana para crear tecnicos")) {
 			this.ventanaCrearTecnico = new VentanaCrearTecnico(this);
 			ventanaCrearTecnico.setModal(true);
@@ -189,8 +190,17 @@ public class ControladorEmpresa implements ActionListener, Observer {
 	        }
 		}
 		else if (e.getActionCommand().equals("Clic en tabla de abonados")) {
-			if(vista.getTable_abonado().getSelectedRow() < vista.getListaAbonados().size() ) {
+			if (this.getAbonadoSeleccionado()!=null) {
+				vista.getBtn_contratacion_nuevo().setEnabled(true);
+				vista.getBtn_abonado_eliminar().setEnabled(true);
+				vista.getBtn_abonado_solicitarReparacion().setEnabled(true);
 				vista.actualizaListaContrataciones(vista.getListaAbonados().get(vista.getTable_abonado().getSelectedRow()).getListaDeContrataciones());
+		}
+			else {
+				vista.getBtn_contratacion_nuevo().setEnabled(false);
+				vista.getBtn_abonado_eliminar().setEnabled(false);
+				vista.getBtn_abonado_solicitarReparacion().setEnabled(false);
+				vista.actualizaListaContrataciones(new ArrayList<Contratacion>());
 			}
 		}
 		else if(e.getActionCommand().equals("Abrir ventana crear contratacion")){
@@ -226,17 +236,45 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			abonadoSeleccionado.solicitarReparacion();
 		}
 		else if (e.getActionCommand().equals("Eliminar contratacion")) {
-			if (vista.getTable_contratacion().getSelectedRow()!= -1 && vista.getTable_contratacion().getSelectedRow() < vista.getListaContrataciones().size() ){
-				Contratacion contratacion = (vista.getListaContrataciones().get(vista.getTable_contratacion().getSelectedRow()));
-				empresa.quitarContratacion(contratacion, abonado);
-				vista.actualizarListaTecnicos(empresa.getListaTecnico());	
-			}
 
+			this.empresa.eliminarContratacion(getAbonadoSeleccionado(),getContratacionSeleccionada());
+			vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());	
+			
+		}
+		else if (e.getActionCommand().equals("Clic en tabla de contrataciones")) {
+			if (this.getContratacionSeleccionada()!=null) {
+				vista.getBtn_servicio_nuevo().setEnabled(true);
+				vista.getBtn_contratacion_eliminar().setEnabled(true);
+				vista.actualizaListaServicios(this.getContratacionSeleccionada().getListaServicio());
+		}
+			else {
+				vista.getBtn_servicio_nuevo().setEnabled(false);
+				vista.getBtn_contratacion_eliminar().setEnabled(false);
+				vista.actualizaListaServicios(new ArrayList<Servicio>());
+			}
+			
 		}
 	}
 	private void refrescarVista() {
 		vista.actualizarListaTecnicos(empresa.getListaTecnico());
 		vista.actualizarListaAbonados(empresa.getListaAbonado());
 	}
-
+	
+	private Abonado getAbonadoSeleccionado() {
+		Abonado respuesta=null;
+		
+		if (vista.getTable_abonado().getSelectedRow()!= -1 && vista.getTable_abonado().getSelectedRow() < vista.getListaAbonados().size() ){
+			respuesta = (vista.getListaAbonados().get(vista.getTable_abonado().getSelectedRow()));
+		}
+		return respuesta;
+		
+	}
+	
+	private Contratacion getContratacionSeleccionada() {
+		Contratacion contratacion = null;
+		if (vista.getTable_contratacion().getSelectedRow()!= -1 && vista.getTable_contratacion().getSelectedRow() < vista.getListaContrataciones().size() ){
+			contratacion = (vista.getListaContrataciones().get(vista.getTable_contratacion().getSelectedRow()));
+		}
+		return contratacion;
+	}
 }
