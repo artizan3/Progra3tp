@@ -7,12 +7,16 @@ import empresa.MesaDeSolicitudDeTecnicos;
 public class Fisica extends Abonado {
 	
 	private IState estado;
-
+	private double recargo = 1; //se inicializa sin recargo
+	
 	public IState getEstado() {
 		return estado;
 	}
 	public void setEstado(IState estado) {
 		this.estado = estado;
+	}
+	public void setRecargo(double recargo) {
+		this.recargo = recargo;
 	}
 	public Fisica(String nombre, int dni, MesaDeSolicitudDeTecnicos mesa) {
 		super(nombre, dni, mesa);
@@ -31,7 +35,7 @@ public class Fisica extends Abonado {
 		for (int i = 0; i < this.listaDeContrataciones.size(); i++) {
 			suma += this.listaDeContrataciones.get(i).getValorTotal();
 		}
-		return suma;
+		return suma*recargo;
 	}
 	public Object clone() throws CloneNotSupportedException {
 		Fisica clon = null;

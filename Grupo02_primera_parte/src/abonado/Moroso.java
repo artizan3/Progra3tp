@@ -1,10 +1,16 @@
 package abonado;
 
 import java.io.Serializable;
+import java.time.LocalDate;
+
+import empresa.Contratacion;
+import empresa.Empresa;
+import empresa.Factura;
+import excepciones.ContratacionInvalidaException;
 
 public class Moroso implements IState, Serializable {
 
-	private Fisica abonado;
+private Fisica abonado;
 	
 	public Moroso(Fisica abonado) {
 		super();
@@ -12,18 +18,33 @@ public class Moroso implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura() {
-		abonado.setEstado(new ConContratacion(abonado));
+	public void pagarFactura(Factura factura, LocalDate fechaDePago) {
+		
+        int i = 0, j = 0;
+		
+		while (i < 2 && j < abonado.listaDeFacturas.size()) {
+		   if (!abonado.listaDeFacturas.get(j).isPago())
+			   i++;
+		   j++;   
+		}  
+		Empresa.getInstance().getFactura(abonado).setFechaDePago(fechaDePago);
+		//Paga la factura con un recargo del 30%
+		i--; //porque pago una
+		if (i < 2) {
+			abonado.setEstado(new ConContratacion(abonado));
+			abonado.setRecargo(1);
+		}
+		
 	}
 
 	@Override
-	public void contratarServicio() {
+	public void contratarServicio(Contratacion contrato) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void bajarServicio() {
+	public void bajarServicio(Contratacion contrato) throws ContratacionInvalidaException {
 		// TODO Auto-generated method stub
 		
 	}

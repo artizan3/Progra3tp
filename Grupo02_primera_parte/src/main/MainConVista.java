@@ -1,9 +1,6 @@
 package main;
 
 
-import abonado.Abonado;
-import abonado.Fisica;
-import abonado.Juridica;
 import controlador.ControladorEmpresa;
 import empresa.Empresa;
 import empresa.MesaDeSolicitudDeTecnicos;
@@ -20,8 +17,6 @@ public class MainConVista {
 		MesaDeSolicitudDeTecnicos mesa = new MesaDeSolicitudDeTecnicos();
 		ControladorEmpresa controlador= new ControladorEmpresa(empresa, vista,mesa);	
 		Empresa.getInstance().setMesaDeSolicitudDeTecnicos(mesa);
-		System.out.println("holaa");
-		System.out.println("holaa22");
 	}
 
 }

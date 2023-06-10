@@ -8,6 +8,7 @@ import empresa.Contratacion;
 import empresa.Empresa;
 import empresa.Factura;
 import empresa.MesaDeSolicitudDeTecnicos;
+import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
 import excepciones.ReparacionYaSolicitadaException;
@@ -147,6 +148,17 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	public boolean existeContratacion(Contratacion contrato) {
 		assert contrato != null : "El domicilio debe ser distinto de null";
 		return this.listaDeContrataciones.contains(contrato);
+	}
+	
+	public void eliminaContratacion(Contratacion contrato) throws ContratacionInvalidaException {
+		assert contrato != null : "El contrato debe ser distinto de null";
+		if (existeContratacion(contrato) == true) {
+			this.listaDeContrataciones.remove(contrato);
+
+		} 
+		else 
+		   if (existeContratacion(contrato) == false)
+		      throw new ContratacionInvalidaException("Contrato inexistente en la listaDeContratos",null, this);   
 	}
 	
 	/**
