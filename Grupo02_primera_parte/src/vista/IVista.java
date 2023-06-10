@@ -56,4 +56,6 @@ public interface IVista {
 
 	void actualizaListaServicios(ArrayList<Servicio> listaDeServicios);
 
+	void actualizaListaFacturas(ArrayList<Factura> listaFacturas);
+
 }
