@@ -191,7 +191,6 @@ public class Contratacion implements Cloneable, Serializable {
 	}
 
 	public ArrayList<Servicio> getListaServicio() {
-		// TODO Auto-generated method stub
 		return this.listaServicio;
 	}
 }
