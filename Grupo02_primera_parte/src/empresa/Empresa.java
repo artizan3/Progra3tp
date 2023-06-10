@@ -86,6 +86,16 @@ public class Empresa {
 		Factura factura = new Factura(aux);
 		aniadirFactura(factura);
 	}
+	public void pagaFactura(Abonado abonado,Factura factura) {
+		int i=0;
+		while(i<this.listaFactura.size() && !this.listaFactura.get(i).equals(factura)) {
+			i++;
+		}
+		if(i<this.listaFactura.size()) {
+			this.listaFactura.get(i).setFechaDePago(this.fecha);
+			abonado.PagoEstado(factura, fecha);
+		}
+	}
 	/**
 	 * Este metodo cambia el metodo de pago de un abonado.<br>
 	 * <br>
@@ -164,7 +174,7 @@ public class Empresa {
 		else
 			throw new AbonadoInexistenteException("el Abonado no se encuentra en la lista",abonado);
 	}
-
+	
 	/**
 	 * Este metodo quita una factura de la lista.<br>
 	 * <br>
