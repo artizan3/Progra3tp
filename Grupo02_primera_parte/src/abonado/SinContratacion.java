@@ -36,4 +36,9 @@ public class SinContratacion implements IState, Serializable {
 		//No puede bajar servicio ya que no contrato nada
 		//Mensaje a traves de la ventana
 	}
+
+	@Override
+	public void chequeaCambio() {
+		//nunca llega aca ya que ni bien se contrata el servicio ahi se cambia el estado a contratacion
+	}
 }

@@ -1,5 +1,8 @@
 package abonado;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 import empresa.MesaDeSolicitudDeTecnicos;
 
 public class Juridica extends Abonado {
@@ -29,4 +32,10 @@ public class Juridica extends Abonado {
 	public Object clone() throws CloneNotSupportedException {
 		throw new CloneNotSupportedException("la clase abonado juridico no puede ser clonado");
 	}
+	@Override
+	public void cambiaEstado() {
+		//no hace nada ya que el tipo juridico no tiene estado
+	}
+	
+	
 }

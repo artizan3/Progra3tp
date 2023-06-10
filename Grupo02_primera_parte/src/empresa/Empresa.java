@@ -1,6 +1,7 @@
 package empresa;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 
 import Domicilio.Domicilio;
@@ -288,7 +289,20 @@ public class Empresa {
 			return null;
 	}
 	
-	
+	public void actualizaEstado(LocalDate fechaRecibida) throws FactoryInvalidoException {
+		LocalDate fechaMasReciente;
+		Period periodo;
+		 for(int i=0;i<listaAbonado.size();i++) {
+			 fechaMasReciente=listaAbonado.get(i).fechaReciente();
+			 periodo = Period.between(fechaRecibida,fechaMasReciente);
+			 for(int j=0;j<periodo.getMonths();j++) {
+				 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
+				 crearFactura(listaAbonado.get(i),"Impago");
+			 }
+			 listaAbonado.get(i).cambiaEstado();
+		 }
+		 fecha=fechaRecibida;
+	}
 	
 	
 	public FactoryPago getCreacion() {

@@ -1,6 +1,7 @@
 package abonado;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 
 import empresa.MesaDeSolicitudDeTecnicos;
 
@@ -42,4 +43,9 @@ public class Fisica extends Abonado {
 		clon = (Fisica) super.clone();
 		return clon;
 	}
+	@Override
+	public void cambiaEstado() {
+		this.estado.chequeaCambio();
+	}
+
 }
