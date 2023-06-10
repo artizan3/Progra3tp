@@ -38,7 +38,7 @@ public class VentanaCrearServicio extends JDialog {
 		textField_camaras.setColumns(10);
 		
 		btn_aceptar = new JButton("Aceptar");
-		btn_aceptar.setActionCommand("Agregar contratacion");
+		btn_aceptar.setActionCommand("Agregar servicio");
 		btn_aceptar.setBounds(159, 213, 89, 23);
 		btn_aceptar.addActionListener(actionListener);
 		getContentPane().add(btn_aceptar);

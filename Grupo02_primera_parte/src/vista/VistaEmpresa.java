@@ -62,7 +62,6 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private JButton btn_calendario_simular_fecha;
 	private JButton btn_guardar;
 	private JButton btn_cargar;
-	private JButton btnNewButton;
 	private JScrollPane scrollPane_consola;
 	private JTextArea textArea_consola;
 	private JTable table_contrataciones;
@@ -177,6 +176,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_contratacion_nuevo);
         
         btn_servicio_nuevo = new JButton("Agregar");
+        btn_servicio_nuevo.setActionCommand("Abrir ventana crear servicio");
         btn_servicio_nuevo.setEnabled(false);
         btn_servicio_nuevo.setBounds(275, 485, 89, 23);
         getContentPane().add(btn_servicio_nuevo);
@@ -287,6 +287,25 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         table_factura = new JTable();
         table_factura.setModel(new DefaultTableModel(
         	new Object[][] {
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
         		{null, null, null},
         		{null, null, null},
         		{null, null, null},
@@ -466,6 +485,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_contratacion_nuevo.addActionListener(actionListener);
 		this.btn_abonado_solicitarReparacion.addActionListener(actionListener);
 		this.btn_contratacion_eliminar.addActionListener(actionListener);
+		this.btn_servicio_nuevo.addActionListener(actionListener);
 	}
 
 	@Override
@@ -636,14 +656,15 @@ private void actualizarTablaDeServicios() {
 	    		cantidadDeCamaras++;
 	    	else if (servicio.getTipo().equals("Boton"))
 	    		cantidadDeBotones++;
+	    }
 	    
 	    	if (cantidadDeAcompaniamientos > 0) {	
-	    	tablaServiciosNueva.setValueAt("Acompaniamiento",i,0);
+	    	tablaServiciosNueva.setValueAt("Acompaniamientos",i,0);
 	    	tablaServiciosNueva.setValueAt(cantidadDeAcompaniamientos, i,1);	
 		i++;
 	    }
 	    if (cantidadDeBotones > 0) {	
-	    	tablaServiciosNueva.setValueAt("B",i,0);
+	    	tablaServiciosNueva.setValueAt("Botones",i,0);
 	    	tablaServiciosNueva.setValueAt(cantidadDeBotones, i,1);	
 		i++;
 	    }
@@ -652,8 +673,7 @@ private void actualizarTablaDeServicios() {
 	    	tablaServiciosNueva.setValueAt(cantidadDeCamaras, i,1);	
 		i++;
 	    }
-		
-	    }
+	    
 	    table_servicio.setModel(tablaServiciosNueva);
 	}
 	
@@ -719,6 +739,68 @@ private void actualizarTablaDeServicios() {
 	    for (Abonado abonado : this.listaAbonados) {
 	    	tablaAbonadosNueva.setValueAt(abonado.getNombre(), i,0);
 	    	tablaAbonadosNueva.setValueAt(abonado.getDni(), i,1);	
+		i++;
+	    }
+	    table_abonado.setModel(tablaAbonadosNueva);
+	}
+	
+	
+	public void actualizaListaFacturas(ArrayList<Factura> listaFacturas) {
+        this.listaFacturas.clear();
+        for (Factura factura : listaFacturas) {
+            this.listaFacturas.add(factura);
+        }
+        actualizarTablaDeFacturas();	
+	}
+	
+	
+	private void actualizarTablaDeFacturas() {
+		@SuppressWarnings("serial")
+		DefaultTableModel tablaAbonadosNueva = new DefaultTableModel(
+	        	new Object[][] {
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        	},
+	        	new String[] {
+	        		"Fecha emision", "Monto", "Estado"
+	        	}
+	        ) {
+	        	boolean[] columnEditables = new boolean[] {
+	        		false, false, false
+	        	};
+	        	public boolean isCellEditable(int row, int column) {
+	        		return columnEditables[column];
+	        	}
+	        };
+	    int i=0;
+	    for (Factura factura : this.listaFacturas) {
+	    	tablaAbonadosNueva.setValueAt(factura.getFechaDeEmision(),i,0);
+	    	tablaAbonadosNueva.setValueAt(factura.getMonto(), i,1);
+	    	if (factura.getFechaDePago()==null)
+	    		tablaAbonadosNueva.setValueAt("Impaga", i,2);
+	    	else 
+	    		tablaAbonadosNueva.setValueAt("Paga", i,2);
 		i++;
 	    }
 	    table_abonado.setModel(tablaAbonadosNueva);

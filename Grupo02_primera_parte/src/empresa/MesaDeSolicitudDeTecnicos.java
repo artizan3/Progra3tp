@@ -50,7 +50,7 @@ public class MesaDeSolicitudDeTecnicos extends Observable implements Serializabl
 		return respuesta;
 	}
 
-	public synchronized void informarFinDeTrabajo (Tecnico tecnico) {
+	public void informarFinDeTrabajo (Tecnico tecnico) {
 		tecnico.getAbonado().setNecesitaReparacion(false);
 		this.setChanged();
 		notifyObservers("El tecnico " + tecnico.getNombre() +" ha terminado a trabajar en la reparación solicitada por " + tecnico.getAbonado().getNombre());
