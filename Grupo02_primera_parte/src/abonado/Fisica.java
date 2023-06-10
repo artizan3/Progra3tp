@@ -3,7 +3,9 @@ package abonado;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import empresa.Factura;
 import empresa.MesaDeSolicitudDeTecnicos;
+import excepciones.FacturaInexistenteException;
 
 public class Fisica extends Abonado {
 	
@@ -47,5 +49,15 @@ public class Fisica extends Abonado {
 	public void cambiaEstado() {
 		this.estado.chequeaCambio();
 	}
+	@Override
+	public void PagoEstado(Factura factura, LocalDate fechaDePago) {
+		try {
+			estado.pagarFactura(factura, fechaDePago);
+		} catch (FacturaInexistenteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+
 
 }

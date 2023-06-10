@@ -27,7 +27,6 @@ private Fisica abonado;
 			   i++;
 		   j++;   
 		}  
-		Empresa.getInstance().getFactura(abonado).setFechaDePago(fechaDePago);
 		//Paga la factura con un recargo del 30%
 		i--; //porque pago una
 		if (i < 2) {

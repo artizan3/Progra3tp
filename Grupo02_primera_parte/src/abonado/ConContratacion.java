@@ -27,7 +27,6 @@ private Fisica abonado;
 		   j++; 		   
 		}   
 		this.abonado.cantidadFacturasImpagas--;
-		Empresa.getInstance().getFactura(abonado).setFechaDePago(fechaDePago);
 		if (i >= 2) {
 			abonado.setEstado(new Moroso(abonado));
 			abonado.setRecargo(1.3);

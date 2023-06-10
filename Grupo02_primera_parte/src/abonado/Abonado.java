@@ -194,6 +194,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	}
 	
 	public abstract void cambiaEstado();
+	public abstract void PagoEstado(Factura factura,LocalDate fechaDePago);
 	/**
 	 * El metodo clona el objeto de tipo abonado. <br>
 	 * <br>
