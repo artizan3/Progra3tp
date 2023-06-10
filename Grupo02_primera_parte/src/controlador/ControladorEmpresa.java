@@ -3,6 +3,9 @@ package controlador;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,6 +18,7 @@ import abonado.Fisica;
 import abonado.Juridica;
 import empresa.Contratacion;
 import empresa.Empresa;
+import empresa.Factura;
 import empresa.MesaDeSolicitudDeTecnicos;
 import empresa.Tecnico;
 import excepciones.AbonadoInexistenteException;
@@ -283,13 +287,32 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			vista.actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
 			this.ventanaCrearServicio.dispose();
 		}
+		
+		else if(e.getActionCommand().equals("Cambiar fecha")) {
+			
+	        ZoneId defaultZoneId = ZoneId.systemDefault();
+	        Instant instant = vista.getCalendar().getDate().toInstant();
+	        LocalDate localDate = instant.atZone(defaultZoneId).toLocalDate();
+	        try {
+				empresa.actualizaEstado(localDate);
+			} catch (FactoryInvalidoException e1) {
+				e1.printStackTrace();
+			}
+	        if (getAbonadoSeleccionado()!=null)
+	        	vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
+	        System.out.println(empresa.getFecha());
+			
+		}
 	}
 	private void refrescarVista() {
 		vista.actualizarListaTecnicos(empresa.getListaTecnico());
 		vista.actualizarListaAbonados(empresa.getListaAbonado());
-		vista.actualizaListaServicios(null);
-		vista.actualizaListaContrataciones(null);
-		vista.actualizaListaFacturas(null);
+		if (getContratacionSeleccionada()!=null)
+			vista.actualizaListaServicios(this.getContratacionSeleccionada().getListaServicio());
+		if (getAbonadoSeleccionado()!=null)
+			vista.actualizaListaContrataciones(this.getAbonadoSeleccionado().getListaDeContrataciones());
+		if (getAbonadoSeleccionado()!=null)
+			vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
 	}
 	
 	private Abonado getAbonadoSeleccionado() {
