@@ -237,9 +237,13 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		return listaDeFacturas;
 	}
 	
+	public void addFactura (Factura factura) {
+		this.listaDeFacturas.add(factura);
+	}
+	
 	public void run() {
 	};
-	
+
 	public boolean isNecesitaReparacion() {
 		return necesitaReparacion;
 	}
