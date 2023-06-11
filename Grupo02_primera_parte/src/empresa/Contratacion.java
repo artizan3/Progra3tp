@@ -190,7 +190,6 @@ public class Contratacion implements Cloneable, Serializable {
 		}
 		return clon;
 	}
-
 	public Promo getPromo() {
 		// TODO Auto-generated method stub
 		return promo;

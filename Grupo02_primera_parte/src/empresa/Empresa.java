@@ -85,6 +85,7 @@ public class Empresa {
 		DecoratorPago aux = creacion.getMetodoDePago(abonado, tipodepago);
 		Factura factura = new Factura(aux);
 		aniadirFactura(factura);
+		abonado.addFactura(factura);
 	}
 	public void pagaFactura(Abonado abonado,Factura factura) {
 		int i=0;
@@ -302,11 +303,13 @@ public class Empresa {
 	public void actualizaEstado(LocalDate fechaRecibida) throws FactoryInvalidoException {
 		LocalDate fechaMasReciente;
 		Period periodo;
+		LocalDate fechaAux=fecha;
 		 for(int i=0;i<listaAbonado.size();i++) {
+			 fecha=fechaAux;
 			 fechaMasReciente=listaAbonado.get(i).fechaReciente();
-			 periodo = Period.between(fechaRecibida,fechaMasReciente);
-			 System.out.println(periodo);
+			 periodo = Period.between(fechaMasReciente,fechaRecibida);
 			 for(int j=0;j<periodo.getMonths();j++) {
+				 fecha=fecha.plusMonths(1);
 				 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
 				 crearFactura(listaAbonado.get(i),"Impago");
 			 }

@@ -19,7 +19,7 @@ public class Factura implements Cloneable, Serializable {
 	
 	public Factura(DecoratorPago abonado) {
 		this.abonado = abonado;
-		this.fechaDeEmision= LocalDate.now();
+		this.fechaDeEmision= Empresa.getInstance().getFecha();
 		this.fechaDePago=null;
 		this.pago=false;
 		this.monto=calcularMonto();

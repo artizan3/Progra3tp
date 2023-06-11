@@ -297,10 +297,9 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				empresa.actualizaEstado(localDate);
 			} catch (FactoryInvalidoException e1) {
 				e1.printStackTrace();
-			}
+			}        
 	        if (getAbonadoSeleccionado()!=null)
 	        	vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
-	        System.out.println(empresa.getFecha());
 			
 		}
 	}
