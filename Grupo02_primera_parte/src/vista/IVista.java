@@ -68,5 +68,7 @@ public interface IVista {
 
 	void refrescarVista(ArrayList<Abonado> listaAbonado, ArrayList<Tecnico> listaTecnico);
 
+	void enableButtons();
+
 	
 }

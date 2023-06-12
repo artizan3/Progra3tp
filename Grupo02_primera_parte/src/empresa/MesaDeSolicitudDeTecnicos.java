@@ -1,12 +1,9 @@
 package empresa;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.Observable;
-import java.util.Queue;
 
 import abonado.Abonado;
-import excepciones.ReparacionYaSolicitadaException;
 
 public class MesaDeSolicitudDeTecnicos extends Observable implements Serializable{
 

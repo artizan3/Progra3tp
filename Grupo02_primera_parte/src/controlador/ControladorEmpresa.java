@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -262,7 +263,10 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		
 		else if (e.getActionCommand().equals("Cambio metodo de pago")) {
 			try {
-				this.empresa.cambiarMetodoPago(getFacturaSeleccionada(), getAbonadoSeleccionado(), (String) this.ventanaPagarFactura.getComboBox_tipo_de_pago().getSelectedItem());
+				for (Factura factura : getFacturasSeleccionadas()) {
+					this.empresa.cambiarMetodoPago(factura, getAbonadoSeleccionado(), (String) this.ventanaPagarFactura.getComboBox_tipo_de_pago().getSelectedItem());
+				}
+				
 			} catch (FactoryInvalidoException e1) {
 				e1.printStackTrace();
 			}
@@ -275,7 +279,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			this.ventanaCrearServicio.setVisible(true);
 		}
 		else if(e.getActionCommand().equals("Abrir ventana pagar factura")) {
-			this.ventanaPagarFactura = new VentanaPagarFactura(this, this.getFacturaSeleccionada());
+			this.ventanaPagarFactura = new VentanaPagarFactura(this, this.getFacturasSeleccionadas());
 			this.ventanaPagarFactura.setModal(true);
 			this.ventanaPagarFactura.setVisible(true);
 		}
@@ -314,9 +318,12 @@ public class ControladorEmpresa implements ActionListener, Observer {
 	        this.vista.actualizarListaAbonados(this.empresa.getListaAbonado());
 		}
 		else if (e.getActionCommand().equals("Pagar factura")) {
-			this.empresa.pagaFactura(getAbonadoSeleccionado(), getFacturaSeleccionada());
+			for ( Factura factura : getFacturasSeleccionadas()) {
+				this.empresa.pagaFactura(getAbonadoSeleccionado(), factura);
+			}
 			this.vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
 			this.vista.actualizarListaAbonados(this.empresa.getListaAbonado());
+			this.ventanaPagarFactura.dispose();
 		}
 		else if(e.getActionCommand().equals("Eliminar servicio")) {
 			if (this.getContratacionSeleccionada()!=null) {
@@ -338,10 +345,12 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			 else {
 				 this.getContratacionSeleccionada().setPromo(null);
 			 }
+			 vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());
 			 
 		}
 		
-		vista.refrescarVista(empresa.getListaAbonado(), empresa.getListaTecnico());
+	//	vista.refrescarVista(empresa.getListaAbonado(), empresa.getListaTecnico());
+		vista.enableButtons();
 	}
 	private void refrescarVista() {
 
@@ -373,12 +382,17 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		return contratacion;
 	}
 	
-	private Factura getFacturaSeleccionada() {
-		Factura factura = null;
-		if (vista.getTable_factura().getSelectedRow()!= -1 && vista.getTable_factura().getSelectedRow() < vista.getListaFacturas().size() ){
-			factura = (vista.getListaFacturas().get(vista.getTable_factura().getSelectedRow()));
-		}
-		return factura;
+	private ArrayList<Factura> getFacturasSeleccionadas() {
+	    ArrayList<Factura> facturasSeleccionadas = new ArrayList<>();
+	    
+	    int[] filasSeleccionadas = vista.getTable_factura().getSelectedRows();
+	    for (int fila : filasSeleccionadas) {
+	        if (fila >= 0 && fila < vista.getListaFacturas().size()) {
+	            Factura factura = vista.getListaFacturas().get(fila);
+	            facturasSeleccionadas.add(factura);
+	        }
+	    }	    
+	    return facturasSeleccionadas;
 	}
 	private String getServicioSeleccionado() {
 		String servicio = null;

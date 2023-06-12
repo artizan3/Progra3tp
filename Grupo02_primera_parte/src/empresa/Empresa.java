@@ -306,15 +306,17 @@ public class Empresa {
 		LocalDate fechaAux=fecha;
 
 		 for(int i=0;i<listaAbonado.size();i++) {
-			 fecha=fechaAux;
-			 fechaMasReciente=listaAbonado.get(i).fechaReciente();
-			 periodo = Period.between(fechaMasReciente,fechaRecibida);
-			 for(int j=0;j<(periodo.getMonths()+periodo.getYears()*12);j++) {
-				 fecha=fecha.plusMonths(1);
-				 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
-				 crearFactura(listaAbonado.get(i),"Impago");
-			 }
-			 listaAbonado.get(i).cambiaEstado();
+			 if (!listaAbonado.get(i).getListaDeContrataciones().isEmpty()) {
+				 fecha=fechaAux;
+				 fechaMasReciente=listaAbonado.get(i).fechaReciente();
+				 periodo = Period.between(fechaMasReciente,fechaRecibida);
+				 for(int j=0;j<(periodo.getMonths()+periodo.getYears()*12);j++) {
+					 fecha=fecha.plusMonths(1);
+					 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
+					 crearFactura(listaAbonado.get(i),"Impago");
+				 }
+				 listaAbonado.get(i).cambiaEstado();
+				 }
 		 }
 		 fecha=fechaRecibida;
 	}

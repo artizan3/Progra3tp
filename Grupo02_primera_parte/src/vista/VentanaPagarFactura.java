@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import empresa.Factura;
 
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.awt.event.ItemEvent;
 
 public class VentanaPagarFactura extends JDialog {
@@ -22,15 +23,15 @@ public class VentanaPagarFactura extends JDialog {
 	private JLabel lbl_metododepago;
 	private JComboBox comboBox_tipo_de_pago;
 	private JButton btn_aceptar;
-	private Factura factura;
+	private ArrayList<Factura> factura;
 	private JLabel lbl_monto_valor_final;
 	private JLabel lbl_Monto_texto_2;
 	private JLabel lbl_monto_valor;
 	
 	
-	public VentanaPagarFactura(ActionListener actionListener, Factura factura) {
+	public VentanaPagarFactura(ActionListener actionListener, ArrayList<Factura> facturas) {
 		this.actionListener=actionListener;
-		this.factura=factura;
+		this.factura=facturas;
 		
 		setSize(341, 294);
 		setLocationRelativeTo(null);
@@ -49,7 +50,12 @@ public class VentanaPagarFactura extends JDialog {
 			public void itemStateChanged(ItemEvent e) {
 				ActionEvent actionEvent = new ActionEvent(this,ActionEvent.ACTION_PERFORMED,"Cambio metodo de pago");
 				actionListener.actionPerformed(actionEvent);
-				lbl_monto_valor_final.setText(Double.toString(factura.getAbonado().valorDeTipoPago()));	
+				double monto_final=0; 
+				for (Factura facturaAux : facturas) {
+					monto_final+=facturaAux.getAbonado().valorDeTipoPago();
+				}
+				
+				lbl_monto_valor_final.setText(Double.toString(monto_final));	
 				}
 		});
 		comboBox_tipo_de_pago.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Tarjeta", "Cheque"}));
@@ -62,7 +68,12 @@ public class VentanaPagarFactura extends JDialog {
 		btn_aceptar.addActionListener(actionListener);
 		getContentPane().add(btn_aceptar);
 		
-		lbl_monto_valor = new JLabel(Double.toString(factura.getMonto()));
+		double monto_final=0; 
+		for (Factura facturaAux : facturas) {
+			monto_final+=facturaAux.getMonto();
+		}
+			
+		lbl_monto_valor = new JLabel(Double.toString(monto_final));
 		lbl_monto_valor.setBounds(149, 40, 46, 14);
 		getContentPane().add(lbl_monto_valor);
 		
