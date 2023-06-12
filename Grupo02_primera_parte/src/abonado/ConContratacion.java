@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import empresa.Contratacion;
-import empresa.Empresa;
-import empresa.Factura;
+import empresa.IFactura;
 import excepciones.ContratacionInvalidaException;
 import excepciones.FacturaInexistenteException;
 
@@ -18,21 +17,10 @@ private Fisica abonado;
 	}
 
 	@Override
-	public void pagarFactura(Factura factura, LocalDate fechaDePago) throws FacturaInexistenteException { 
-			
-        int i = 0, j = 0;
-		while (i < 2 && j < abonado.listaDeFacturas.size()) {
-		   if (!abonado.listaDeFacturas.get(j).isPago())
-			   i++;
-		   j++; 		   
-		}   
-		this.abonado.cantidadFacturasImpagas--;
-		if (i >= 2) {
-			abonado.setEstado(new Moroso(abonado));
-			abonado.setRecargo(1.3);
-		}
-
-	}
+    public void pagarFactura(IFactura factura, LocalDate fechaDePago) throws FacturaInexistenteException { 
+        if (abonado.cantidadDeFacturasImpagas()>= 2) 
+        chequeaCambio();
+    }
 
 	@Override
 	public void contratarServicio(Contratacion contrato) {
@@ -48,7 +36,7 @@ private Fisica abonado;
 	}
 	@Override
 	public void chequeaCambio() {
-		if(abonado.cantidadFacturasImpagas>2)
+		if(abonado.cantidadDeFacturasImpagas()>2)
 			abonado.setEstado(new Moroso(abonado));
 		if (this.abonado.getListaDeContrataciones().isEmpty()) {
 			this.abonado.setEstado(new SinContratacion(this.abonado));
@@ -60,5 +48,11 @@ private Fisica abonado;
 		return "C/C";
 	}
 	
+	public double valorTotal() {
+		double aux = 0;
+		for(Contratacion contratacion :this.abonado.getListaDeContrataciones() )
+			aux+=contratacion.getValorTotal();			
+		return aux;
+	}
 	
 }

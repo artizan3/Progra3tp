@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -29,10 +30,9 @@ import abonado.Abonado;
 import abonado.Fisica;
 import abonado.Juridica;
 import empresa.Contratacion;
-import empresa.Empresa;
 import empresa.Factura;
+import empresa.IFactura;
 import empresa.Tecnico;
-import promo.Promo;
 import servicio.Servicio;
 
 public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseListener {
@@ -42,7 +42,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private ArrayList<Tecnico> listaTecnicos = new ArrayList<Tecnico>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
 	private ArrayList<Servicio> listaServicios = new ArrayList<Servicio>();
-	private ArrayList<Factura> listaFacturas = new ArrayList<Factura>();
+	private ArrayList<IFactura> listaFacturas = new ArrayList<IFactura>();
     private JTable table_abonado;
 	private JButton btn_abonado_nuevo;
 	private JButton btn_abonado_eliminar;
@@ -56,7 +56,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private JLabel lbl_servicio;
 	private JLabel lbl_factura;
 	private JLabel lbl_tecnicos;
-	private JScrollPane scrollPane_domicilio;
+	private JScrollPane scrollPane_contrataciones;
 	private JScrollPane scrollPane_servicio;
 	private JScrollPane scrollPane_factura;
 	private JScrollPane scrollPane_Tecnico;
@@ -82,6 +82,8 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private DefaultTableModel model_tecnico;
 	private DefaultTableModel model_factura;
 	private DefaultTableModel model_abonado;
+	private JLabel lblNewLabel;
+	private JLabel lbl_fecha;
 	
     public JTextArea getTextArea_consola() {
 		return textArea_consola;
@@ -150,6 +152,10 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         				btn_abonado_solicitarReparacion.setEnabled(false);
         				actualizaListaContrataciones(new ArrayList<Contratacion>());
         			}
+        			actualizaListaServicios(new ArrayList<Servicio>());
+        			table_contrataciones.clearSelection();
+        			table_factura.clearSelection();
+        			table_servicio.clearSelection();
         			enableButtons();
         	}
         	
@@ -213,9 +219,9 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         lbl_tecnicos.setBounds(867, 41, 114, 14);
         getContentPane().add(lbl_tecnicos);
         
-        scrollPane_domicilio = new JScrollPane();
-        scrollPane_domicilio.setBounds(275, 66, 199, 146);
-        getContentPane().add(scrollPane_domicilio);
+        scrollPane_contrataciones = new JScrollPane();
+        scrollPane_contrataciones.setBounds(275, 66, 199, 146);
+        getContentPane().add(scrollPane_contrataciones);
         
         table_contrataciones = new JTable();
         table_contrataciones.addMouseListener(new MouseAdapter() {
@@ -249,11 +255,11 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
             	new Object[][] {
             	},
             	new String[] {
-            		"Domicilio", "Promo", "Valor total"
+            		"Domicilio", "Tipo", "Promo", "Valor total"
             	}
             ) {
             	boolean[] columnEditables = new boolean[] {
-            		false, false, false
+            		false, false, false, false
             	};
             	public boolean isCellEditable(int row, int column) {
             		return columnEditables[column];
@@ -262,10 +268,10 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
             };
         table_contrataciones.setModel(model_contrataciones);
         table_contrataciones.getColumnModel().getColumn(0).setPreferredWidth(88);
-        table_contrataciones.getColumnModel().getColumn(1).setPreferredWidth(62);
-        table_contrataciones.getColumnModel().getColumn(2).setPreferredWidth(70);
+        table_contrataciones.getColumnModel().getColumn(2).setPreferredWidth(62);
+        table_contrataciones.getColumnModel().getColumn(3).setPreferredWidth(70);
         table_contrataciones.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        scrollPane_domicilio.setViewportView(table_contrataciones);
+        scrollPane_contrataciones.setViewportView(table_contrataciones);
                
         scrollPane_servicio = new JScrollPane();
         scrollPane_servicio.setBounds(275, 340, 199, 134);
@@ -460,6 +466,14 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         comboBox_promo.setBounds(316, 282, 114, 22);
         getContentPane().add(comboBox_promo);
         
+        lblNewLabel = new JLabel("Fecha de hoy:");
+        lblNewLabel.setBounds(368, 4, 88, 14);
+        getContentPane().add(lblNewLabel);
+        
+        lbl_fecha = new JLabel(LocalDate.now().toString());
+        lbl_fecha.setBounds(451, 4, 67, 14);
+        getContentPane().add(lbl_fecha);
+        
         setVisible(true);
         
     }
@@ -584,8 +598,8 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private void actualizarTablaDeContrataciones() {
 	    model_contrataciones.setRowCount(0);
 	    for (Contratacion contratacion : this.listaContrataciones) {	 
-	    	Object[] fila = {contratacion.getDomicilio().getNombre() , contratacion.getPromo(), contratacion.getValorTotal()};
-	    	model_contrataciones.addRow(fila); 
+	    	Object[] fila = {contratacion.getDomicilio().getNombre() , contratacion.getDomicilio().getTipoDom().charAt(0) ,contratacion.getPromo(), contratacion.getValorTotal()};
+	    	model_contrataciones.addRow(fila);
 	    }
 	}
     
@@ -593,6 +607,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	
 	public void actualizaListaServicios(ArrayList<Servicio> listaServicios) {
         int aux = this.table_servicio.getSelectedRow();
+        if(this.getContratacionSeleccionada() == null || getContratacionSeleccionada().getPromo() == null)
+			this.comboBox_promo.setSelectedItem("Sin promo");
+        else if (this.getContratacionSeleccionada().getPromo().toString() == "Platino")
+        	this.comboBox_promo.setSelectedItem("Promo platino");
+        else if(this.getContratacionSeleccionada().getPromo().toString() == "Dorada" )
+        	this.comboBox_promo.setSelectedItem("Promo dorada");
 		this.listaServicios.clear();
         for (Servicio servicio : listaServicios) {
             this.listaServicios.add(servicio);
@@ -692,10 +712,10 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	    }
 	};
 	
-	public void actualizaListaFacturas(ArrayList<Factura> listaFacturas) {
+	public void actualizaListaFacturas(ArrayList<IFactura> listaFacturas) {
 		int[] aux = this.table_factura.getSelectedRows();
 		this.listaFacturas.clear();
-        for (Factura factura : listaFacturas) {
+        for (IFactura factura : listaFacturas) {
             this.listaFacturas.add(factura);
             
         }
@@ -709,13 +729,13 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	
 	private void actualizarTablaDeFacturas() {
 		this.model_factura.setRowCount(0);
-	    for (Factura factura : this.listaFacturas) {
+	    for (IFactura factura : this.listaFacturas) {
 	    	if (factura.getFechaDePago()==null) {
-		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMonto(), "Impaga"};
+		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMontoSinTipoDePago(), "Impaga"};
 		    	model_factura.addRow(fila);
 	    	}
 	    	else {
-		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMonto(), "Paga"};
+		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMontoSinTipoDePago(), "Paga"};
 		    	model_factura.addRow(fila);
 		    	}
 	    	}
@@ -730,7 +750,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		return listaContrataciones;
 	}
 
-	public ArrayList<Factura> getListaFacturas() {
+	public ArrayList<IFactura> getListaFacturas() {
 		return listaFacturas;
 	}
 
@@ -769,8 +789,8 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		return this.btn_factura_pagar_factura;
 	}
 	
-	private Factura getFacturaSeleccionada() {
-		Factura factura = null;
+	private IFactura getFacturaSeleccionada() {
+		IFactura factura = null;
 		if (getTable_factura().getSelectedRow()!= -1 && getTable_factura().getSelectedRow() < getListaFacturas().size() ){
 			factura = (getListaFacturas().get(getTable_factura().getSelectedRow()));
 		}
@@ -828,12 +848,15 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		else {
 			this.comboBox_promo.setEnabled(false);
 		}
-		if (getAbonadoSeleccionado()!=null)
-			actualizaListaContrataciones(this.getAbonadoSeleccionado().getListaDeContrataciones());
-		if (getAbonadoSeleccionado()!=null)
+		if (getAbonadoSeleccionado()!=null) {
 			actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
+			actualizaListaContrataciones(this.getAbonadoSeleccionado().getListaDeContrataciones());
+			if (getContratacionSeleccionada()!=null)
+				this.actualizaListaServicios(getContratacionSeleccionada().getListaServicio());			
+			else
+				this.actualizaListaServicios(new ArrayList<Servicio>());
+		}
 
-		
 	}
 	
 	public void enableButtons() {
@@ -877,7 +900,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		if (this.getServicioSeleccionado()!=null)
 			this.btn_servicio_eliminar.setEnabled(true);
 		else
-			this.btn_servicio_eliminar.setEnabled(true);
+			this.btn_servicio_eliminar.setEnabled(false);
 			
 		if(this.getFacturaSeleccionada()!=null) {
 			if (this.getFacturaSeleccionada().isPago())
@@ -894,5 +917,16 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		else
 			this.btn_tecnico_eliminar.setEnabled(false);	
 		
+	}
+	public void deselectAll() {
+		this.table_contrataciones.clearSelection();
+		this.table_factura.clearSelection();
+		this.table_servicio.clearSelection();
+		this.table_tecnico.clearSelection();
+		this.table_abonado.clearSelection();
+	}
+	
+	public void actualizarFecha(LocalDate fecha) {
+		this.lbl_fecha.setText(fecha.toString());
 	}
 }

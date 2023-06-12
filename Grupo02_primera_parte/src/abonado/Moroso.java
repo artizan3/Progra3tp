@@ -4,8 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import empresa.Contratacion;
-import empresa.Empresa;
-import empresa.Factura;
+import empresa.IFactura;
 import excepciones.ContratacionInvalidaException;
 
 public class Moroso implements IState, Serializable {
@@ -18,23 +17,11 @@ private Fisica abonado;
 	}
 
 	@Override
-	public void pagarFactura(Factura factura, LocalDate fechaDePago) {
-		
-        int i = 0, j = 0;
-		
-		while (i < 2 && j < abonado.listaDeFacturas.size()) {
-		   if (!abonado.listaDeFacturas.get(j).isPago())
-			   i++;
-		   j++;   
-		}  
-		//Paga la factura con un recargo del 30%
-		i--; //porque pago una
-		if (i < 2) {
-			abonado.setEstado(new ConContratacion(abonado));
-			abonado.setRecargo(1);
-		}
-		
-	}
+    public void pagarFactura(IFactura factura, LocalDate fechaDePago) {
+        //Paga la factura con un recargo del 30%
+        if (abonado.cantidadDeFacturasImpagas()< 2);
+        chequeaCambio();
+    }
 
 	@Override
 	public void contratarServicio(Contratacion contrato) {
@@ -50,7 +37,7 @@ private Fisica abonado;
 
 	@Override
 	public void chequeaCambio() {
-		if(abonado.cantidadFacturasImpagas<1)
+		if(abonado.cantidadDeFacturasImpagas()<2)
 			abonado.setEstado(new ConContratacion(abonado));
 		
 	}
@@ -58,5 +45,14 @@ private Fisica abonado;
 	public String toString() {
 		return "Moroso";
 	}
+
+	@Override
+	public double valorTotal() {
+		double aux = 0;
+		for(Contratacion contratacion :this.abonado.getListaDeContrataciones() )
+			aux+=contratacion.getValorTotal();			
+		return aux*1.3;
+	}
+	
 	
 }

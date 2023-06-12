@@ -3,33 +3,31 @@ package empresa;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import abonado.Abonado;
 import metodosdepago.DecoratorPago;
 /*
  * esta clase es la encargada de recopilar todas las contrataciones de un determinado abonado
  * y operarlas de forma tal que nos devuelva informacion valiosa, en este caso, lo que debera pagar
  * el abonado
  */
-public class Factura implements Cloneable, Serializable {
-	private DecoratorPago abonado;
+public class Factura implements Cloneable, Serializable, IFactura {
+	private Abonado abonado;
 	private LocalDate fechaDeEmision;
 	private LocalDate fechaDePago;
-	private boolean pago;
+
 	private double monto;
 	
 	
-	public Factura(DecoratorPago abonado) {
+	public Factura(Abonado abonado) {
 		this.abonado = abonado;
 		this.fechaDeEmision= Empresa.getInstance().getFecha();
 		this.fechaDePago=null;
-		this.pago=false;
 		this.monto=calcularMonto();
 	}
 	
-	private double calcularMonto() {
-	
-		double respuesta= this.abonado.valorSinTipoPago();
+	private double calcularMonto() {	
 		
-		return respuesta;
+		return this.abonado.valorTotal();
 	}
 	
 	public LocalDate getFechaDePago() {
@@ -37,14 +35,13 @@ public class Factura implements Cloneable, Serializable {
 	}
 
 	public void setFechaDePago(LocalDate fechaDePago) {
-		this.pago = true;
 		this.fechaDePago = fechaDePago;
 	}
 	public LocalDate getFechaDeEmision() {
 		return fechaDeEmision;
 	}
 	public boolean isPago() {
-		return this.pago;
+		return this.fechaDePago!=null;
 	}
 	/**
 	 * Constructor de la clase <br>
@@ -54,51 +51,17 @@ public class Factura implements Cloneable, Serializable {
 	 * <b>Post</b>: Se setea el valor del atributo abonado<br>
 	 */
 
-	
-	/**
-	 * Este metodo le asigna una instancia de abonado al atributo abonado.</br>
-	 * </br>
-	 * <b>Pre</b>:<br>
-	 * El abonado debe ser distinto de null y debe existir.<br>
-	 * <b>Inv</b>:<br>
-	 * <b>Post</b>: Se asigna el atributo abonado.<br>
-	 * 
-	 * @param Abonado es el abonado que se le asigna al atributo.
-	 */
-	public void setAbonado(DecoratorPago abonado) {
-		this.abonado = abonado;
-	}
 
 	/**
 	 * <b>Pre</b>:<br>
 	 * <b>Inv</b>:<br>
 	 * <b>Post<b>: Retorna el abonado. <br>
 	 */
-	public DecoratorPago getAbonado() {
+	public Abonado getAbonado() {
 		return abonado;
 	}
 
-	/**
-	 * Este metodo da todas las caracteristicas de la factura, tanto abonado como
-	 * domicilios, contrataciones y servicios junto con los respectivos valores.
-	 * </br>
-	 * <br>
-	 * <b>Pre</b>:<br>
-	 * <b>Inv</b>:<br>
-	 * <b>Post</b>: Devuelve un tipo String con toda la informacion.<br>
-	 * 
-	 * @return toda la informacion de la factura.
-	 */
-	public String ImprimeFactura() {
-		String aux = "";
-		aux += this.abonado.toString() + "|tipo de pago: " + this.abonado.tipoDePago() + "\n";
-		for (int i = 0; i < this.abonado.getLista().size(); i++) {
-			aux += this.abonado.getLista().get(i).descripcion() + "\n";
-		}
-		aux += "Precio neto(sin metodo de pago):" + this.abonado.valorSinTipoPago() + "\n";
-		aux += "Precio con metodo de pago:" + this.abonado.valorDeTipoPago() + "\n";
-		return aux;
-	}
+
 
 	/**
 	 * Este metodo se dedica a crear y devolver un clon de clase factura</br>
@@ -114,11 +77,20 @@ public class Factura implements Cloneable, Serializable {
 	public Object clone() throws CloneNotSupportedException {
 		Factura clon = null;
 		clon = (Factura) super.clone();
-		clon.abonado = (DecoratorPago) this.abonado.clone();
+		clon.abonado = (Abonado) this.abonado.clone();
 		return clon;
 	}
 
 	public double getMonto() {
+		return monto;
+	}
+	
+	public IFactura getFactura() {
+		return this;
+	}
+
+	@Override
+	public double getMontoSinTipoDePago() {
 		return monto;
 	}
 }

@@ -16,8 +16,6 @@ public class VentanaCrearAbonado extends JDialog {
 	private JTextField textField_DNI;
 	private JLabel lbl_Nombre;
 	private JLabel lbl_DNI;
-	private JLabel lbl_metododepago;
-	private JComboBox comboBox_tipo_de_pago;
 	private JButton btn_aceptar;
 	private JComboBox comboBox_tipo_de_abonado;
 	private JLabel lbl_tipo_de_abonado;
@@ -48,15 +46,6 @@ public class VentanaCrearAbonado extends JDialog {
 		getContentPane().add(textField_DNI);
 		textField_DNI.setColumns(10);
 		
-		lbl_metododepago = new JLabel("Metodo de pago:");
-		lbl_metododepago.setBounds(10, 123, 125, 14);
-		getContentPane().add(lbl_metododepago);
-		
-		comboBox_tipo_de_pago = new JComboBox();
-		comboBox_tipo_de_pago.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Tarjeta", "Cheque"}));
-		comboBox_tipo_de_pago.setBounds(10, 149, 125, 22);
-		getContentPane().add(comboBox_tipo_de_pago);
-		
 		btn_aceptar = new JButton("Aceptar");
 		btn_aceptar.setActionCommand("Agregar abonado");
 		btn_aceptar.setBounds(159, 213, 89, 23);
@@ -65,11 +54,11 @@ public class VentanaCrearAbonado extends JDialog {
 		
 		comboBox_tipo_de_abonado = new JComboBox();
 		comboBox_tipo_de_abonado.setModel(new DefaultComboBoxModel(new String[] {"Físico", "Jurídico"}));
-		comboBox_tipo_de_abonado.setBounds(231, 149, 138, 22);
+		comboBox_tipo_de_abonado.setBounds(135, 151, 138, 22);
 		getContentPane().add(comboBox_tipo_de_abonado);
 		
 		lbl_tipo_de_abonado = new JLabel("Tipo de abonado:");
-		lbl_tipo_de_abonado.setBounds(231, 123, 106, 14);
+		lbl_tipo_de_abonado.setBounds(167, 126, 106, 14);
 		getContentPane().add(lbl_tipo_de_abonado);
 	}
 
@@ -99,9 +88,6 @@ public class VentanaCrearAbonado extends JDialog {
 		return textField_DNI;
 	}
 
-	public JComboBox getComboBox_tipo_de_pago() {
-		return comboBox_tipo_de_pago;
-	}
 
 	public JButton getBtn_aceptar() {
 		return btn_aceptar;

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Domicilio.Domicilio;
 import empresa.Contratacion;
 import empresa.Factura;
+import empresa.IFactura;
 import empresa.MesaDeSolicitudDeTecnicos;
 import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
@@ -21,10 +22,9 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	protected int dni;
 	protected ArrayList<Contratacion> listaDeContrataciones = new ArrayList<Contratacion>();
 	protected ArrayList<Domicilio> listaDeDomicilios = new ArrayList<Domicilio>();
-	protected ArrayList<Factura> listaDeFacturas = new ArrayList<Factura>();
+	protected ArrayList<IFactura> listaDeFacturas = new ArrayList<IFactura>();
 	protected boolean necesitaReparacion;
 	protected MesaDeSolicitudDeTecnicos mesa;
-	protected int cantidadFacturasImpagas=0; //contador de cantidad de facturas impagas
 
 	/**
 	 * Constructor de la clase <br>
@@ -163,12 +163,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		this.cambiaEstado();
 	}
 	
-	public int getCont() {
-		return cantidadFacturasImpagas;
-	}
-	public void incrementCont() {
-		this.cantidadFacturasImpagas++;
-	}
+
 	public LocalDate fechaReciente(){
 		 LocalDate fechaMasReciente;
 		 
@@ -177,8 +172,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 			 for(int k=1;k<getListaDeFacturas().size();k++) {
 				 if(getListaDeFacturas().get(k).getFechaDeEmision().isAfter(fechaMasReciente))
 					 fechaMasReciente=getListaDeFacturas().get(k).getFechaDeEmision();
-				 if(!getListaDeFacturas().get(k).isPago())
-					 cantidadFacturasImpagas++;
+
 			 }
 		 }
 		 else {
@@ -192,7 +186,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	}
 	
 	public abstract void cambiaEstado();
-	public abstract void PagoEstado(Factura factura,LocalDate fechaDePago);
+	public abstract void PagoEstado(IFactura factura,LocalDate fechaDePago);
 	/**
 	 * El metodo clona el objeto de tipo abonado. <br>
 	 * <br>
@@ -214,7 +208,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		for (int i = 0; i < this.listaDeContrataciones.size(); i++)
 			clon.listaDeContrataciones.add((Contratacion) this.listaDeContrataciones.get(i).clone());
 		
-		clon.listaDeFacturas = (ArrayList<Factura>) this.listaDeFacturas.clone();
+		clon.listaDeFacturas = (ArrayList<IFactura>) this.listaDeFacturas.clone();
 		clon.listaDeFacturas.clear();
 		for (int i = 0; i < this.listaDeFacturas.size(); i++)
 			clon.listaDeFacturas.add((Factura) this.listaDeFacturas.get(i).clone());
@@ -231,11 +225,11 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	public ArrayList<Domicilio> getListaDeDomicilios() {
 		return listaDeDomicilios;
 	}
-	public ArrayList<Factura> getListaDeFacturas() {
+	public ArrayList<IFactura> getListaDeFacturas() {
 		return listaDeFacturas;
 	}
 	
-	public void addFactura (Factura factura) {
+	public void addFactura (IFactura factura) {
 		this.listaDeFacturas.add(factura);
 	}
 	
@@ -259,5 +253,14 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		return null;
 	};
 	
+	public int cantidadDeFacturasImpagas() {
+		int respuesta = 0 ;
+		for (IFactura factura : this.getListaDeFacturas()) {
+			if (factura.getFechaDePago()==null)
+				respuesta++;
+		}
+		return respuesta;
+			
+	}
 	
 }

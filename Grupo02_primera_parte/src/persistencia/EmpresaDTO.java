@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import abonado.Abonado;
 import empresa.Contratacion;
 import empresa.Factura;
+import empresa.IFactura;
 import empresa.Tecnico;
 import metodosdepago.FactoryPago;
 
@@ -14,7 +15,7 @@ public class EmpresaDTO implements Serializable {
 
 	private ArrayList<Abonado> listaAbonado = new ArrayList<Abonado>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
-	private ArrayList<Factura> listaFactura = new ArrayList<Factura>();
+	private ArrayList<IFactura> listaFactura = new ArrayList<IFactura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private transient FactoryPago creacion = new FactoryPago();
 	private int fechaMes;
@@ -51,11 +52,11 @@ public class EmpresaDTO implements Serializable {
 	public void setListaContrataciones(ArrayList<Contratacion> listaContrataciones) {
 		this.listaContrataciones = listaContrataciones;
 	}
-	public ArrayList<Factura> getListaFactura() {
+	public ArrayList<IFactura> getListaFactura() {
 		return listaFactura;
 	}
-	public void setListaFactura(ArrayList<Factura> listaFactura) {
-		this.listaFactura = listaFactura;
+	public void setListaFactura(ArrayList<IFactura> arrayList) {
+		this.listaFactura = arrayList;
 	}
 	public ArrayList<Tecnico> getListaTecnico() {
 		return listaTecnico;

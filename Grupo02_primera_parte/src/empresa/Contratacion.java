@@ -33,7 +33,7 @@ public class Contratacion implements Cloneable, Serializable {
 		this.domicilio = domicilio;
 		counter++;
 		this.id = counter;
-		this.fechaContratacion=LocalDate.now();
+		this.fechaContratacion=Empresa.getInstance().getFecha();
 	}
 	
 	public LocalDate getFechaContratacion() {

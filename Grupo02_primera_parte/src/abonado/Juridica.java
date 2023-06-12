@@ -1,9 +1,8 @@
 package abonado;
 
 import java.time.LocalDate;
-import java.time.Period;
 
-import empresa.Factura;
+import empresa.IFactura;
 import empresa.MesaDeSolicitudDeTecnicos;
 
 public class Juridica extends Abonado {
@@ -38,7 +37,7 @@ public class Juridica extends Abonado {
 		//no hace nada ya que el tipo juridico no tiene estado
 	}
 	@Override
-	public void PagoEstado(Factura factura, LocalDate fechaDePago) {
+	public void PagoEstado(IFactura factura, LocalDate fechaDePago) {
 		//no hace nada ya que el tipo juridico no tiene estado
 		
 	}

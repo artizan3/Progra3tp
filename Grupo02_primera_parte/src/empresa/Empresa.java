@@ -30,7 +30,7 @@ public class Empresa {
 	private static Empresa instance = null;
 	private ArrayList<Abonado> listaAbonado = new ArrayList<Abonado>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
-	private ArrayList<Factura> listaFactura = new ArrayList<Factura>();
+	private ArrayList<IFactura> listaFactura = new ArrayList<IFactura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private FactoryPago creacion = new FactoryPago();
 	private LocalDate fecha = LocalDate.now();
@@ -81,40 +81,15 @@ public class Empresa {
 
 		assert abonado != null : "El abonado debe ser distinto de null";
 		assert tipodepago != null : "El tipo de pago debe ser distinto de null";
-		DecoratorPago aux = creacion.getMetodoDePago(abonado, tipodepago);
-		Factura factura = new Factura(aux);
+		IFactura factura = new Factura(abonado);
 		aniadirFactura(factura);
 		abonado.addFactura(factura);
 	}
-	public void pagaFactura(Abonado abonado,Factura factura) {
-		int i=0;
-		while(i<this.listaFactura.size() && !this.listaFactura.get(i).equals(factura)) {
-			i++;
-		}
-		if(i<this.listaFactura.size()) {
-			this.listaFactura.get(i).setFechaDePago(this.fecha);
-			abonado.PagoEstado(factura, fecha);
-		}
-		abonado.cambiaEstado();
-	}
-	/**
-	 * Este metodo cambia el metodo de pago de un abonado.<br>
-	 * <br>
-	 * <b>Pre</b>: la factura debe ser disntinto de null. El abonado debe ser
-	 * distinto de null al igual que tipodepago.<br>
-	 * <b>Inv</b>: la factura y el abonado estan en las listas.<br>
-	 * <b>Post</b>: se actualiza el metodo de pago de la factura del abonado.<br>
-	 * 
-	 * @param factura    es la factura que cambiara su metodo de pago.<br>
-	 * @param abonado    es el abonado de la factura.<br>
-	 * @param tipodepago el metodo de pago nuevo para la factura.<br>
-	 * @throws FactoryInvalidoException si el tipo de pago fue incorrecto o no
-	 *                                  existente.<br>
-	 */
-	public void cambiarMetodoPago(Factura factura, Abonado abonado, String tipodepago) throws FactoryInvalidoException {
-		DecoratorPago aux = creacion.getMetodoDePago(abonado, tipodepago);
-		factura.setAbonado(aux);
-	}
+	public void pagaFactura(Abonado abonado,IFactura factura) {
+        factura.setFechaDePago(this.fecha);
+        abonado.PagoEstado(factura, fecha);
+    }
+
 	/**
 	 * Este metodo agrega domicilio un abonado.<br>
 	 * <br>
@@ -185,12 +160,12 @@ public class Empresa {
 	 * 
 	 * @param factura es la factura que queremos quitar del sistema.<br>
 	 */
-	public void EliminarFactura(Factura factura)throws FacturaInexistenteException {
+	public void EliminarFactura(IFactura factura)throws FacturaInexistenteException {
 		assert factura != null : "La factura debe ser distinto de null";
 		if(this.listaFactura.contains(factura))
 			this.listaFactura.remove(factura);
 		else
-			throw new FacturaInexistenteException("Factura inexistente",factura);		
+			throw new FacturaInexistenteException("IFactura inexistente",factura);		
 	}
 	/**
 	 * Este metodo crea una contratacion la añade a la lista y a la facutra
@@ -263,7 +238,7 @@ public class Empresa {
 	 * 
 	 * @param factura es la factura nueva que vamos a añadir.<br>
 	 */
-	private void aniadirFactura(Factura factura) {
+	private void aniadirFactura(IFactura factura) {
 		assert factura!=null:"La factura debe ser distinta de null";
 		this.listaFactura.add(factura);
 	}
@@ -288,17 +263,6 @@ public class Empresa {
 	 * 
 	 * @param contrato es el contrato que se añade.<br>
 	 */
-	public Factura getFactura(Abonado abonado) {
-		int i=0;
-		assert abonado != null : "El abonado debe ser distinto de null";
-		
-		while (this.listaFactura.get(i).getAbonado().getAbonadotype()!=abonado)
-			i++;
-		if (this.listaFactura.get(i)!=null)
-			return this.listaFactura.get(i);
-		else
-			return null;
-	}
 	
 	public void actualizaEstado(LocalDate fechaRecibida) throws FactoryInvalidoException {
 		LocalDate fechaMasReciente;
@@ -312,7 +276,6 @@ public class Empresa {
 				 periodo = Period.between(fechaMasReciente,fechaRecibida);
 				 for(int j=0;j<(periodo.getMonths()+periodo.getYears()*12);j++) {
 					 fecha=fecha.plusMonths(1);
-					 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
 					 crearFactura(listaAbonado.get(i),"Impago");
 				 }
 				 listaAbonado.get(i).cambiaEstado();
@@ -335,8 +298,8 @@ public class Empresa {
 	public void setListaContrataciones(ArrayList<Contratacion> listaContrataciones) {
 		this.listaContrataciones = listaContrataciones;
 	}
-	public void setListaFactura(ArrayList<Factura> listaFactura) {
-		this.listaFactura = listaFactura;
+	public void setListaFactura(ArrayList<IFactura> arrayList) {
+		this.listaFactura = arrayList;
 	}
 	public ArrayList<Abonado> getListaAbonado() {
 		return listaAbonado;
@@ -344,7 +307,7 @@ public class Empresa {
 	public ArrayList<Contratacion> getListaContrataciones() {
 		return listaContrataciones;
 	}
-	public ArrayList<Factura> getListaFactura() {
+	public ArrayList<IFactura> getListaFactura() {
 		return listaFactura;
 	}
 	public ArrayList<Tecnico> getListaTecnico() {
@@ -372,8 +335,8 @@ public class Empresa {
 	 * @throws CloneNotSupportedException no se pudo clonar la factura.<br>
 	 * @return clon determinada factura.<br>
 	 */
-	public Object ClonarFactura(Factura factura) throws CloneNotSupportedException {
-		Factura clon = (Factura) factura.clone();
+	public Object ClonarFactura(IFactura factura) throws CloneNotSupportedException {
+		IFactura clon = (IFactura) factura.clone();
 		return clon;
 	}
 	public LocalDate getFecha() {
@@ -398,6 +361,20 @@ public class Empresa {
 	
 	public void eliminarServicio(Contratacion contratacion, Servicio servicio) {
 		contratacion.eliminarServicio(servicio);
+	}
+	public IFactura cambiarMetodoPago(IFactura factura, String tipoDePago) {
+		FactoryPago f = new FactoryPago();
+		IFactura aux=null;
+		try {
+			aux = f.getMetodoDePago(factura, tipoDePago);
+		} catch (FactoryInvalidoException e) {
+			e.printStackTrace();
+		}
+		return aux;
+		
+	}
+	public void addAbonado(Abonado abonado) {
+		this.listaAbonado.add(abonado);	
 	}
 
 }

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import empresa.Contratacion;
-import empresa.Factura;
+import empresa.IFactura;
 import excepciones.ContratacionInvalidaException;
 
 public class SinContratacion implements IState, Serializable {
@@ -20,7 +20,7 @@ public class SinContratacion implements IState, Serializable {
 	}
 
 	@Override
-	public void pagarFactura(Factura factura,LocalDate fechaDePago) {
+	public void pagarFactura(IFactura factura,LocalDate fechaDePago) {
 		//No puede pagar ya que no contrato nada
 		//Mensaje a traves de la ventana
 	}
@@ -47,5 +47,9 @@ public class SinContratacion implements IState, Serializable {
 	@Override
 	public String toString() {
 		return "S/C";
+	}
+	
+	public double valorTotal() {		
+		return 0;
 	}
 }

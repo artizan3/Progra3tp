@@ -1,6 +1,7 @@
 package vista;
 
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import com.toedter.calendar.JCalendar;
 import abonado.Abonado;
 import empresa.Contratacion;
 import empresa.Factura;
+import empresa.IFactura;
 import empresa.Tecnico;
 import servicio.Servicio;
 
@@ -43,7 +45,7 @@ public interface IVista {
 
 	ArrayList<Contratacion> getListaContrataciones();
 
-	ArrayList<Factura> getListaFacturas();
+	ArrayList<IFactura> getListaFacturas();
 
 	JButton getBtn_contratacion_nuevo();
 	
@@ -58,7 +60,7 @@ public interface IVista {
 
 	void actualizaListaServicios(ArrayList<Servicio> listaDeServicios);
 
-	void actualizaListaFacturas(ArrayList<Factura> listaFacturas);
+	void actualizaListaFacturas(ArrayList<IFactura> listaDeFacturas);
 
 	public JCalendar getCalendar();
 
@@ -69,6 +71,10 @@ public interface IVista {
 	void refrescarVista(ArrayList<Abonado> listaAbonado, ArrayList<Tecnico> listaTecnico);
 
 	void enableButtons();
+
+	void deselectAll();
+
+	void actualizarFecha(LocalDate fecha);
 
 	
 }
