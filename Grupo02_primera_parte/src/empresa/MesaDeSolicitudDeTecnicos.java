@@ -26,7 +26,7 @@ public class MesaDeSolicitudDeTecnicos extends Observable implements Serializabl
 		notifyAll();
 	}
 
-	public synchronized Abonado getAbonado (Tecnico tecnico) {
+	public synchronized void getAbonado (Tecnico tecnico) {
 		
 		this.setChanged();
 		notifyObservers("El tecnico " +tecnico.getNombre()+ " está esperando para reparar");
@@ -39,12 +39,12 @@ public class MesaDeSolicitudDeTecnicos extends Observable implements Serializabl
 			}
 
 		}
-		Abonado respuesta = this.abonadoEsperando;
+		tecnico.setAbonado(this.abonadoEsperando);
 		this.abonadoEsperando=null;
 		notifyAll();
 		this.setChanged();
-		notifyObservers("El tecnico " + tecnico.getNombre() +" ha comenzado a trabajar en la reparación solicitada por " + respuesta.getNombre());		
-		return respuesta;
+		notifyObservers("El tecnico " + tecnico.getNombre() +" ha comenzado a trabajar en la reparación solicitada por " + tecnico.getAbonado().getNombre());		
+		
 	}
 
 	public void informarFinDeTrabajo (Tecnico tecnico) {

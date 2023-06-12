@@ -47,7 +47,7 @@ public class Tecnico extends Thread implements Serializable {
 		
 		while (true) {
 			
-			abonado=this.mesa.getAbonado(this);
+			mesa.getAbonado(this);
 			try {
 				sleep(8000); //tiempo simulado que tarda en reparar
 			} catch (InterruptedException e) {

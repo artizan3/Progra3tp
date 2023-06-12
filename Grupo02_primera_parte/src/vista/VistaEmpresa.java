@@ -150,7 +150,6 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         				btn_abonado_solicitarReparacion.setEnabled(false);
         				actualizaListaContrataciones(new ArrayList<Contratacion>());
         			}
-        			comboBox_promo.setEnabled(false);
         			enableButtons();
         	}
         	
@@ -223,7 +222,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         	@Override
         	public void mouseReleased(MouseEvent e) {
         			if (getContratacionSeleccionada()!=null) {
-        				comboBox_promo.setEnabled(true);
+        				/*comboBox_promo.setEnabled(true);
         				btn_servicio_nuevo.setEnabled(true);
         				if ((getAbonadoSeleccionado() instanceof Fisica) &&!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
         					btn_contratacion_eliminar.setEnabled(true);
@@ -233,15 +232,15 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         					btn_contratacion_eliminar.setEnabled(false);
         					btn_servicio_nuevo.setEnabled(false);
         					comboBox_promo.setEnabled(false);
-        				}
+        				}*/
         				actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
         		}
         			else {
-        				btn_servicio_nuevo.setEnabled(false);
-        				btn_contratacion_eliminar.setEnabled(false);
+        				/*btn_servicio_nuevo.setEnabled(false);
+        				btn_contratacion_eliminar.setEnabled(false);*/
         				actualizaListaServicios(new ArrayList<Servicio>());
         			}
-        
+        			enableButtons();
         	}
         		
         	}
@@ -859,7 +858,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		if (this.getContratacionSeleccionada()!=null) {
 			comboBox_promo.setEnabled(true);
 			btn_servicio_nuevo.setEnabled(true);
-			if ((getAbonadoSeleccionado() instanceof Fisica) &&!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
+			if ((getAbonadoSeleccionado() instanceof Juridica) || ((getAbonadoSeleccionado() instanceof Fisica) &&!getAbonadoSeleccionado().getEstado().toString().equals("Moroso"))) {
 				btn_contratacion_eliminar.setEnabled(true);
 				btn_servicio_nuevo.setEnabled(true);
 			}

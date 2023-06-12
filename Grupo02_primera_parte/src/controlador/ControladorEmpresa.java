@@ -82,6 +82,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				String mensaje = (String) arg;
 				this.vista.getTextArea_consola().append(mensaje+"\n");
 			}
+			vista.actualizarListaTecnicos(Empresa.getInstance().getListaTecnico());
 	}
 
     public void agregarAbonado(Abonado abonado) throws FactoryInvalidoException {
@@ -142,6 +143,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		else if (e.getActionCommand().equals("Solicitar Reparación")) {
 			Abonado abonadoSeleccionado = empresa.getListaAbonado().get((this.vista.getTable_abonado().getSelectedRow()));
 			abonadoSeleccionado.solicitarReparacion();
+			vista.actualizarListaTecnicos(Empresa.getInstance().getListaTecnico());
 		}
 					
 		else if(e.getActionCommand().equals("Abrir ventana para crear tecnicos")) {
