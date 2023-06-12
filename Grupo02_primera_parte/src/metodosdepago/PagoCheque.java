@@ -25,7 +25,6 @@ public class PagoCheque extends DecoratorPago implements IFactura {
 	public double getMonto() {
 		BigDecimal numeroRedondeado = new BigDecimal(factura.getMonto()* 1.1).setScale(2, BigDecimal.ROUND_HALF_UP);		
 		return numeroRedondeado.doubleValue();
-		
 	}
 	@Override
 	public LocalDate getFechaDePago() {

@@ -6,7 +6,6 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -15,7 +14,8 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 
-import empresa.Factura;
+import abonado.Abonado;
+import abonado.Fisica;
 import empresa.IFactura;
 
 public class VentanaPagarFactura extends JDialog {
@@ -28,11 +28,14 @@ public class VentanaPagarFactura extends JDialog {
 	private JLabel lbl_monto_valor_final;
 	private JLabel lbl_Monto_texto_2;
 	private JLabel lbl_monto_valor;
+	private Abonado abonado;
+	private JLabel lbl_moroso;
 	
 	
-	public VentanaPagarFactura(ActionListener actionListener, ArrayList<IFactura> facturas) {
+	public VentanaPagarFactura(ActionListener actionListener, ArrayList<IFactura> facturas,Abonado abonado) {
 		this.actionListener=actionListener;
 		this.facturas=facturas;
+		this.abonado=abonado;
 		
 		setSize(341, 294);
 		setLocationRelativeTo(null);
@@ -45,6 +48,9 @@ public class VentanaPagarFactura extends JDialog {
 		lbl_metododepago = new JLabel("Metodo de pago:");
 		lbl_metododepago.setBounds(23, 119, 125, 14);
 		getContentPane().add(lbl_metododepago);
+		
+		lbl_moroso = new JLabel("(30% recargo por moroso)");
+		lbl_moroso.setBounds(78, 65, 137, 14);
 		
 		comboBox_tipo_de_pago = new JComboBox();
 		comboBox_tipo_de_pago.addMouseListener(new MouseAdapter() {
@@ -66,8 +72,8 @@ public class VentanaPagarFactura extends JDialog {
 				for (IFactura facturaAux : facturas) {
 					monto_final+=facturaAux.getMonto();
 				}
-	
-				lbl_monto_valor_final.setText(Double.toString(monto_final));	
+				lbl_monto_valor_final.setText(Double.toString(monto_final));
+				
 				}
 		});
 		comboBox_tipo_de_pago.setModel(new DefaultComboBoxModel(new String[] {"","Efectivo", "Tarjeta", "Cheque"}));
@@ -85,6 +91,8 @@ public class VentanaPagarFactura extends JDialog {
 		for (IFactura facturaAux : facturas) {
 			monto+=facturaAux.getMontoSinTipoDePago();
 		}
+		if (this.abonado instanceof Fisica && this.abonado.getEstado().toString().equals("Moroso"))
+			getContentPane().add(lbl_moroso);
 		lbl_monto_valor = new JLabel(Double.toString(monto));
 		lbl_monto_valor.setBounds(149, 40, 102, 14);
 		getContentPane().add(lbl_monto_valor);
@@ -96,6 +104,10 @@ public class VentanaPagarFactura extends JDialog {
 		lbl_monto_valor_final = new JLabel("");
 		lbl_monto_valor_final.setBounds(149, 171, 102, 14);
 		getContentPane().add(lbl_monto_valor_final);
+		
+
+		
+		
 	}
 
 	public void setActionListener(ActionListener actionListener) {

@@ -88,7 +88,6 @@ public class VentanaCrearAbonado extends JDialog {
 		return textField_DNI;
 	}
 
-
 	public JButton getBtn_aceptar() {
 		return btn_aceptar;
 	}

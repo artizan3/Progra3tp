@@ -81,8 +81,13 @@ public class Factura implements Cloneable, Serializable, IFactura {
 		return clon;
 	}
 
+	public boolean isAbonadoMoroso() {
+		return this.getAbonado().getEstado().toString().equals("Moroso");
+	}
 	public double getMonto() {
-		return monto;
+		if (isAbonadoMoroso())
+			return monto*1.3;
+		else return monto;
 	}
 	
 	public IFactura getFactura() {
@@ -91,6 +96,9 @@ public class Factura implements Cloneable, Serializable, IFactura {
 
 	@Override
 	public double getMontoSinTipoDePago() {
-		return monto;
+			if (isAbonadoMoroso())
+				return monto*1.3;
+			else
+				return monto;
 	}
 }

@@ -293,7 +293,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			this.ventanaCrearServicio.setVisible(true);
 		}
 		else if(e.getActionCommand().equals("Abrir ventana pagar factura")) {
-			this.ventanaPagarFactura = new VentanaPagarFactura(this, this.getFacturasSeleccionadas());
+			this.ventanaPagarFactura = new VentanaPagarFactura(this, this.getFacturasSeleccionadas(),this.getAbonadoSeleccionado());
 			this.ventanaPagarFactura.setModal(true);
 			this.ventanaPagarFactura.setVisible(true);
 		}

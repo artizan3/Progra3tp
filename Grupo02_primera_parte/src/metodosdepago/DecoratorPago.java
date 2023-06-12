@@ -35,6 +35,8 @@ public abstract class DecoratorPago implements Cloneable, IFactura, Serializable
 		return this.factura.getMonto();
 	}
 	
+
+	
 	public Object clone() throws CloneNotSupportedException{
 		return this;
 	};
