@@ -57,6 +57,7 @@ public class Fisica extends Abonado {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
+		this.cantidadFacturasImpagas--;
 	}
 
 

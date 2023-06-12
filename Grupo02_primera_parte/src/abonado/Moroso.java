@@ -50,10 +50,13 @@ private Fisica abonado;
 
 	@Override
 	public void chequeaCambio() {
-		if(abonado.cantidadFacturasImpagas<2)
+		if(abonado.cantidadFacturasImpagas<1)
 			abonado.setEstado(new ConContratacion(abonado));
 		
 	}
-	
+	@Override
+	public String toString() {
+		return "Moroso";
+	}
 	
 }

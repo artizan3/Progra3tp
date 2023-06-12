@@ -63,7 +63,6 @@ public class Empresa {
 		assert abonado != null : "El abonado debe ser distinto de null";
 		assert tipodepago != null : "El tipo de pago debe ser distinto de null";
 		listaAbonado.add(abonado);
-		crearFactura(abonado, tipodepago);
 	}
 	/**
 	 * Este metodo crea y agrega una factura a la lista de facturas.<br>
@@ -96,6 +95,7 @@ public class Empresa {
 			this.listaFactura.get(i).setFechaDePago(this.fecha);
 			abonado.PagoEstado(factura, fecha);
 		}
+		abonado.cambiaEstado();
 	}
 	/**
 	 * Este metodo cambia el metodo de pago de un abonado.<br>
@@ -304,11 +304,12 @@ public class Empresa {
 		LocalDate fechaMasReciente;
 		Period periodo;
 		LocalDate fechaAux=fecha;
+
 		 for(int i=0;i<listaAbonado.size();i++) {
 			 fecha=fechaAux;
 			 fechaMasReciente=listaAbonado.get(i).fechaReciente();
 			 periodo = Period.between(fechaMasReciente,fechaRecibida);
-			 for(int j=0;j<periodo.getMonths();j++) {
+			 for(int j=0;j<(periodo.getMonths()+periodo.getYears()*12);j++) {
 				 fecha=fecha.plusMonths(1);
 				 listaAbonado.get(i).incrementCont(); //por cada factura nueva incrementa contador de facturas impagas
 				 crearFactura(listaAbonado.get(i),"Impago");
@@ -390,6 +391,11 @@ public class Empresa {
 
 		abonado.getListaDeContrataciones().remove(contratacion);
 		this.listaContrataciones.remove(contratacion);
+		abonado.cambiaEstado();
+	}
+	
+	public void eliminarServicio(Contratacion contratacion, Servicio servicio) {
+		contratacion.eliminarServicio(servicio);
 	}
 
 }

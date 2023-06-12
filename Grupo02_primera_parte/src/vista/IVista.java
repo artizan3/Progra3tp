@@ -61,5 +61,12 @@ public interface IVista {
 	void actualizaListaFacturas(ArrayList<Factura> listaFacturas);
 
 	public JCalendar getCalendar();
+
+	JButton getBtn_pagar_factura();
+
+	ArrayList<Servicio> getListaServicios();
+
+	void refrescarVista(ArrayList<Abonado> listaAbonado, ArrayList<Tecnico> listaTecnico);
+
 	
 }

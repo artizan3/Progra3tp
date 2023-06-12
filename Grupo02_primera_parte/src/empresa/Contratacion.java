@@ -198,4 +198,11 @@ public class Contratacion implements Cloneable, Serializable {
 	public ArrayList<Servicio> getListaServicio() {
 		return this.listaServicio;
 	}
+	
+	public void eliminarServicio(Servicio servicio) {
+
+				this.listaServicio.remove(servicio);
+
+	}
+	
 }

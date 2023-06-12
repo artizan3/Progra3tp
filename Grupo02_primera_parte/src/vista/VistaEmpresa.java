@@ -2,6 +2,8 @@ package vista;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -9,10 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -22,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JCalendar;
 
 import abonado.Abonado;
+import abonado.Fisica;
+import abonado.Juridica;
 import empresa.Contratacion;
 import empresa.Factura;
 import empresa.Tecnico;
@@ -68,6 +73,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private JButton btn_factura_pagar_factura;
 	private JButton btn_abonado_solicitarReparacion;
 	private JCalendar calendar;
+	private JComboBox comboBox_promo;
 	
     public JTextArea getTextArea_consola() {
 		return textArea_consola;
@@ -91,69 +97,86 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         table_abonado = new JTable();
 
         table_abonado.setModel(new DefaultTableModel(
-        	new String[][] {
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
-        		{null, null},
+        	new Object[][] {
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
         	},
         	new String[] {
-        		"Nombre", "Dni"
+        		"Nombre", "Dni", "Estado"
         	}
         ) {
         	boolean[] columnEditables = new boolean[] {
-        		false, false
+        		false, false, false
         	};
         	public boolean isCellEditable(int row, int column) {
         		return columnEditables[column];
         	}
         });
-        
         table_abonado.getColumnModel().getColumn(0).setResizable(false);
-        table_abonado.getColumnModel().getColumn(1).setResizable(false);
+        table_abonado.getColumnModel().getColumn(1).setPreferredWidth(80);
+        table_abonado.getColumnModel().getColumn(2).setPreferredWidth(70);
         scrollPane_abonado.setViewportView(table_abonado);
         
         table_abonado.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        	ActionEvent event = new ActionEvent(table_abonado,ActionEvent.ACTION_PERFORMED,"Clic en tabla de abonados");
-        	actionListener.actionPerformed(event);
+        			if (getAbonadoSeleccionado()!=null) {
+        				if ((boolean)getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
+        					btn_contratacion_nuevo.setEnabled(false);
+            				btn_contratacion_eliminar.setEnabled(false);
+        				}
+        				else {
+        					btn_contratacion_nuevo.setEnabled(true);
+        				}
+        				btn_abonado_eliminar.setEnabled(true);
+        				btn_abonado_solicitarReparacion.setEnabled(true);
+        				actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());
+        				actualizaListaFacturas(getAbonadoSeleccionado().getListaDeFacturas());
+        		}
+        			else {
+        				btn_contratacion_nuevo.setEnabled(false);
+        				btn_abonado_eliminar.setEnabled(false);
+        				btn_abonado_solicitarReparacion.setEnabled(false);
+        				actualizaListaContrataciones(new ArrayList<Contratacion>());
+        			}
         	}
         });
         
@@ -183,6 +206,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(btn_servicio_nuevo);
         
         btn_servicio_eliminar = new JButton("Eliminar");
+        btn_servicio_eliminar.setActionCommand("Eliminar servicio");
         btn_servicio_eliminar.setEnabled(false);
 
         btn_servicio_eliminar.setBounds(385, 485, 89, 23);
@@ -203,7 +227,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(lbl_domicilio);
         
         lbl_servicio = new JLabel("Servicios contratados");
-        lbl_servicio.setBounds(314, 272, 114, 14);
+        lbl_servicio.setBounds(316, 315, 114, 14);
         getContentPane().add(lbl_servicio);
         
         lbl_factura = new JLabel("Facturas");
@@ -222,43 +246,79 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         table_contrataciones.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseClicked(MouseEvent e) {
-        		ActionEvent actionEvent = new ActionEvent(table_contrataciones,ActionEvent.ACTION_PERFORMED,"Clic en tabla de contrataciones");
-        		actionListener.actionPerformed(actionEvent);
+        			if (getContratacionSeleccionada()!=null) {
+        				btn_servicio_nuevo.setEnabled(true);
+        				if (!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
+        					btn_contratacion_eliminar.setEnabled(true);
+        					btn_servicio_nuevo.setEnabled(true);
+        				}
+        				else {
+        					btn_contratacion_eliminar.setEnabled(false);
+        					btn_servicio_nuevo.setEnabled(false);
+        				}
+        				actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
+        		}
+        			else {
+        				btn_servicio_nuevo.setEnabled(false);
+        				btn_contratacion_eliminar.setEnabled(false);
+        				actualizaListaServicios(new ArrayList<Servicio>());
+        			}
+        			
+        		}
         		
         	}
-        });
+        );
         table_contrataciones.setModel(new DefaultTableModel(
         	new Object[][] {
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
-        		{null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
+        		{null, null, null},
         	},
         	new String[] {
-        		"Domicilio"
+        		"Domicilio", "Promo", "Valor total"
         	}
         ) {
         	boolean[] columnEditables = new boolean[] {
-        		false
+        		false, false, false
         	};
         	public boolean isCellEditable(int row, int column) {
         		return columnEditables[column];
         	}
         });
-        table_contrataciones.getColumnModel().getColumn(0).setResizable(false);
+        table_contrataciones.getColumnModel().getColumn(0).setPreferredWidth(88);
+        table_contrataciones.getColumnModel().getColumn(1).setPreferredWidth(62);
+        table_contrataciones.getColumnModel().getColumn(2).setPreferredWidth(70);
         scrollPane_domicilio.setViewportView(table_contrataciones);
                
         scrollPane_servicio = new JScrollPane();
-        scrollPane_servicio.setBounds(275, 297, 199, 177);
+        scrollPane_servicio.setBounds(275, 340, 199, 134);
         getContentPane().add(scrollPane_servicio);
         
         table_servicio = new JTable();
+        table_servicio.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		if (getServicioSeleccionado() !=null) {
+    				if (!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
+    					btn_servicio_eliminar.setEnabled(true);
+    					btn_servicio_nuevo.setEnabled(true);
+    				}
+    				else {
+    					btn_servicio_eliminar.setEnabled(false);
+    					btn_servicio_nuevo.setEnabled(false);
+    				}
+        		}
+        		else
+        			btn_servicio_eliminar.setEnabled(false);
+        	}
+        });
         table_servicio.setModel(new DefaultTableModel(
         	new Object[][] {
         		{null, null},
@@ -286,43 +346,23 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(scrollPane_factura);
         
         table_factura = new JTable();
-        table_factura.setModel(new DefaultTableModel(
-        	new Object[][] {
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        		{null, null, null},
-        	},
-        	new String[] {
-        		"Fecha emision", "Monto", "Estado"
-        	}
-        ) {
-        	boolean[] columnEditables = new boolean[] {
-        		false, false, false
-        	};
-        	public boolean isCellEditable(int row, int column) {
-        		return columnEditables[column];
+        table_factura.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+    			if (getFacturaSeleccionada()!=null) {	
+    				if (!getFacturaSeleccionada().isPago())
+    					getBtn_pagar_factura().setEnabled(true);
+    				else {
+    					getBtn_pagar_factura().setEnabled(false);
+    				}
+
+    		}
+    			else {
+    				getBtn_pagar_factura().setEnabled(false);
+    			}
         	}
         });
+        table_factura.setModel(nuevaTablaFactura());
         table_factura.getColumnModel().getColumn(0).setResizable(false);
         table_factura.getColumnModel().getColumn(0).setPreferredWidth(80);
         table_factura.getColumnModel().getColumn(1).setResizable(false);
@@ -416,22 +456,43 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         
         btn_factura_pagar_factura = new JButton("Pagar factura");
         btn_factura_pagar_factura.setEnabled(false);
-        btn_factura_pagar_factura.setActionCommand("Abrir ventana crear abonado");
+        btn_factura_pagar_factura.setActionCommand("Abrir ventana pagar factura");
         btn_factura_pagar_factura.setBounds(507, 485, 205, 23);
         getContentPane().add(btn_factura_pagar_factura);
+        
+        comboBox_promo = new JComboBox();
+        comboBox_promo.addItemListener(new ItemListener() {
+        	public void itemStateChanged(ItemEvent e) {
+        		ActionEvent actionEvent = new ActionEvent(comboBox_promo, ActionEvent.ACTION_PERFORMED ,"Cambio de promo");
+        		actionListener.actionPerformed(actionEvent);
+        	}
+        });
+        
+        comboBox_promo.setModel(new DefaultComboBoxModel(new String[] {"Sin promo", "Promo platino", "Promo dorada"}));
+        comboBox_promo.setBounds(316, 282, 114, 22);
+        getContentPane().add(comboBox_promo);
         
         setVisible(true);
         
     }
 
     
+	
+	
+	public JComboBox getComboBox_promo() {
+		return comboBox_promo;
+	}
+
 	@Override
 	public void actualizarListaTecnicos(ArrayList<Tecnico> listaTecnicos) {
-        this.listaTecnicos.clear();
+        int aux = this.table_tecnico.getSelectedRow();
+		this.listaTecnicos.clear();
         for (Tecnico tecnico : listaTecnicos) {
             this.listaTecnicos.add(tecnico);
         }
         actualizarTablaDeTecnicos();	
+        if (aux > 0)
+        	this.table_tecnico.setRowSelectionInterval(aux, aux);
 	}
 
 	@SuppressWarnings("serial")
@@ -489,6 +550,8 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.btn_contratacion_eliminar.addActionListener(actionListener);
 		this.btn_servicio_nuevo.addActionListener(actionListener);
 		this.btn_calendario_simular_fecha.addActionListener(actionListener);
+		this.btn_factura_pagar_factura.addActionListener(actionListener);
+		this.btn_servicio_eliminar.addActionListener(actionListener);
 	}
 
 	@Override
@@ -564,11 +627,14 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 
 	@Override
 	public void actualizaListaContrataciones(ArrayList<Contratacion> listaDeContrataciones) {
-        this.listaContrataciones.clear();
+        int aux = this.table_contrataciones.getSelectedRow();
+		this.listaContrataciones.clear();
         for (Contratacion contratacion : listaDeContrataciones) {
             this.listaContrataciones.add(contratacion);
         }
-        actualizarTablaDeContrataciones();	
+        actualizarTablaDeContrataciones();
+        if (aux > 0)
+        	this.table_contrataciones.setRowSelectionInterval(aux, aux);
 	}
 
 	
@@ -577,23 +643,21 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		
 		DefaultTableModel tablaContratacionesNueva = new DefaultTableModel(
 	        	new Object[][] {
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
-	        		{null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
 	        	},
 	        	new String[] {
-	        		"Domicilio"
+	        		"Domicilio", "Promo", "Valor total"
 	        	}
-	        )
-		
-		{
+	        ) {
 	        	boolean[] columnEditables = new boolean[] {
 	        		false, false, false
 	        	};
@@ -604,26 +668,34 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	    int i=0;
 	    for (Contratacion contratacion : this.listaContrataciones) {
 	    	tablaContratacionesNueva.setValueAt(contratacion.getDomicilio().getNombre(), i,0);
-	
+	    	tablaContratacionesNueva.setValueAt(contratacion.getPromo(), i, 1);
+	    	tablaContratacionesNueva.setValueAt(contratacion.getValorTotal(), i, 2);
+	 
 		i++;
 	    }
 	    table_contrataciones.setModel(tablaContratacionesNueva);
 	}
     
 	public void actualizarListaAbonados(ArrayList<Abonado> listaAbonados) {
-        this.listaAbonados.clear();
+        int aux = this.table_abonado.getSelectedRow();
+		this.listaAbonados.clear();
         for (Abonado abonado : listaAbonados) {
             this.listaAbonados.add(abonado);
         }
         actualizarTablaDeAbonados();
+        if (aux > 0)
+        	this.table_abonado.setRowSelectionInterval(aux, aux);
     }
 	
 	public void actualizaListaServicios(ArrayList<Servicio> listaServicios) {
-        this.listaServicios.clear();
+        int aux = this.table_servicio.getSelectedRow();
+		this.listaServicios.clear();
         for (Servicio servicio : listaServicios) {
             this.listaServicios.add(servicio);
         }
         actualizarTablaDeServicios();
+        if (aux > 0)
+        	this.table_servicio.setRowSelectionInterval(aux, aux);
     }
 	
 private void actualizarTablaDeServicios() {
@@ -662,17 +734,17 @@ private void actualizarTablaDeServicios() {
 	    }
 	    
 	    	if (cantidadDeAcompaniamientos > 0) {	
-	    	tablaServiciosNueva.setValueAt("Acompaniamientos",i,0);
+	    	tablaServiciosNueva.setValueAt("Acompaniamiento",i,0);
 	    	tablaServiciosNueva.setValueAt(cantidadDeAcompaniamientos, i,1);	
 		i++;
 	    }
 	    if (cantidadDeBotones > 0) {	
-	    	tablaServiciosNueva.setValueAt("Botones",i,0);
+	    	tablaServiciosNueva.setValueAt("Boton",i,0);
 	    	tablaServiciosNueva.setValueAt(cantidadDeBotones, i,1);	
 		i++;
 	    }
 	    if (cantidadDeCamaras > 0) {	
-	    	tablaServiciosNueva.setValueAt("Camaras",i,0);
+	    	tablaServiciosNueva.setValueAt("Camara",i,0);
 	    	tablaServiciosNueva.setValueAt(cantidadDeCamaras, i,1);	
 		i++;
 	    }
@@ -685,82 +757,6 @@ private void actualizarTablaDeServicios() {
 		
 		@SuppressWarnings("serial")
 		DefaultTableModel tablaAbonadosNueva = new DefaultTableModel(
-	        	new String[][] {
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        		{null, null},
-	        	},
-	        	new String[] {
-	        		"Nombre", "Dni"
-	        	}
-	        ) {
-	        	boolean[] columnEditables = new boolean[] {
-	        		false, false
-	        	};
-	        	public boolean isCellEditable(int row, int column) {
-	        		return columnEditables[column];
-	        	}
-	        };
-	    int i=0;
-	    for (Abonado abonado : this.listaAbonados) {
-	    	tablaAbonadosNueva.setValueAt(abonado.getNombre(), i,0);
-	    	tablaAbonadosNueva.setValueAt(abonado.getDni(), i,1);	
-		i++;
-	    }
-	    table_abonado.setModel(tablaAbonadosNueva);
-	}
-	
-	
-	public void actualizaListaFacturas(ArrayList<Factura> listaFacturas) {
-		this.listaFacturas.clear();
-        for (Factura factura : listaFacturas) {
-            this.listaFacturas.add(factura);
-            
-        }
-        actualizarTablaDeFacturas();	
-	}
-	
-	
-	private void actualizarTablaDeFacturas() {
-		@SuppressWarnings("serial")
-		DefaultTableModel tablaFacturasNueva = new DefaultTableModel(
 	        	new Object[][] {
 	        		{null, null, null},
 	        		{null, null, null},
@@ -785,9 +781,26 @@ private void actualizarTablaDeServicios() {
 	        		{null, null, null},
 	        		{null, null, null},
 	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
 	        	},
 	        	new String[] {
-	        		"Fecha emision", "Monto", "Estado"
+	        		"Nombre", "Dni", "Estado"
 	        	}
 	        ) {
 	        	boolean[] columnEditables = new boolean[] {
@@ -797,6 +810,38 @@ private void actualizarTablaDeServicios() {
 	        		return columnEditables[column];
 	        	}
 	        };
+	    int i=0;
+	    for (Abonado abonado : this.listaAbonados) {
+	    	tablaAbonadosNueva.setValueAt(abonado.getNombre(), i,0);
+	    	tablaAbonadosNueva.setValueAt(abonado.getDni(), i,1);
+	    	if (abonado instanceof Juridica)
+	    		tablaAbonadosNueva.setValueAt("N/A", i,2);
+	    	else {
+	    		tablaAbonadosNueva.setValueAt(((Fisica) abonado).getEstado().toString(), i,2);
+	    	}
+	    		
+		i++;
+			
+	    }
+	    table_abonado.setModel(tablaAbonadosNueva);
+	}
+	
+	
+	public void actualizaListaFacturas(ArrayList<Factura> listaFacturas) {
+		int aux = this.table_factura.getSelectedRow();
+		this.listaFacturas.clear();
+        for (Factura factura : listaFacturas) {
+            this.listaFacturas.add(factura);
+            
+        }
+        actualizarTablaDeFacturas();
+        if (aux > 0)
+        	this.table_factura.setRowSelectionInterval(aux, aux);
+	}
+	
+	
+	private void actualizarTablaDeFacturas() {
+		DefaultTableModel tablaFacturasNueva = this.nuevaTablaFactura();
 	    int i=0;
 	    for (Factura factura : this.listaFacturas) {
 	    	tablaFacturasNueva.setValueAt(factura.getFechaDeEmision(),i,0);
@@ -852,7 +897,103 @@ private void actualizarTablaDeServicios() {
 	public JCalendar getCalendar() {
 		return calendar;
 	}
+
+	@Override
+	public JButton getBtn_pagar_factura() {
+		return this.btn_factura_pagar_factura;
+	}
 	
+	private Factura getFacturaSeleccionada() {
+		Factura factura = null;
+		if (getTable_factura().getSelectedRow()!= -1 && getTable_factura().getSelectedRow() < getListaFacturas().size() ){
+			factura = (getListaFacturas().get(getTable_factura().getSelectedRow()));
+		}
+		return factura;
 	
+	}
+	
+	private Contratacion getContratacionSeleccionada() {
+		Contratacion contratacion = null;
+		if (getTable_contratacion().getSelectedRow()!= -1 && getTable_contratacion().getSelectedRow() < getListaContrataciones().size() ){
+			contratacion = (getListaContrataciones().get(getTable_contratacion().getSelectedRow()));
+		}
+		return contratacion;
+	
+	}
+	
+	private Servicio getServicioSeleccionado() {
+		Servicio servicio = null;
+		if (getTable_servicio().getSelectedRow()!= -1 && getTable_servicio().getSelectedRow() < getListaServicios().size() ){
+			servicio = (getListaServicios().get(getTable_servicio().getSelectedRow()));
+		}
+		return servicio;
+	
+	}
+	private Abonado getAbonadoSeleccionado() {
+		Abonado abonado = null;
+		if (getTable_abonado().getSelectedRow()!= -1 && getTable_abonado().getSelectedRow() < getListaAbonados().size() ){
+			abonado = (getListaAbonados().get(getTable_abonado().getSelectedRow()));
+		}
+		return abonado;
+	
+	}
+
+	public ArrayList<Servicio> getListaServicios() {
+		return this.listaServicios;
+	}
+	
+	@SuppressWarnings("serial")
+	private DefaultTableModel nuevaTablaFactura() {
+		DefaultTableModel respuesta = new DefaultTableModel(
+	        	new Object[][] {
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        		{null, null, null},
+	        	},
+	        	new String[] {
+	        		"Fecha emision", "Monto", "Estado"
+	        	}
+	        ) {
+	        	boolean[] columnEditables = new boolean[] {
+	        		false, false, false
+	        	};
+	        	public boolean isCellEditable(int row, int column) {
+	        		return columnEditables[column];
+	        	}
+	        };
+		return respuesta;
+	}
+	
+	public void refrescarVista(ArrayList<Abonado> listaAbonado, ArrayList<Tecnico> listaTecnico) {
+		if (getContratacionSeleccionada()!=null)
+			actualizaListaServicios(this.getContratacionSeleccionada().getListaServicio());
+		if (getAbonadoSeleccionado()!=null)
+			actualizaListaContrataciones(this.getAbonadoSeleccionado().getListaDeContrataciones());
+		if (getAbonadoSeleccionado()!=null)
+			actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
+		actualizarListaAbonados(listaAbonado);
+		actualizarListaTecnicos(listaTecnico);
+		
+	}
 	
 }

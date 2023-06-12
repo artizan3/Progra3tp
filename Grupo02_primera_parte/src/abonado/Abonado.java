@@ -2,19 +2,15 @@ package abonado;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
 
 import Domicilio.Domicilio;
 import empresa.Contratacion;
-import empresa.Empresa;
 import empresa.Factura;
 import empresa.MesaDeSolicitudDeTecnicos;
 import excepciones.ContratacionInvalidaException;
 import excepciones.DomicilioExistenteException;
 import excepciones.DomicilioInexistenteException;
-import excepciones.FactoryInvalidoException;
-import excepciones.ReparacionYaSolicitadaException;
 /*
  * la clase abonado, la cual tiene 2 variantes (fisica y juridica) es
  * respondable de encapsular sus respectivos domicilios y contrataciones
@@ -106,6 +102,7 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 	public void aniadirContratacion(Contratacion contrato) {
 		assert contrato != null : "El contrato debe ser distinto de null";
 		this.listaDeContrataciones.add(contrato);
+		this.cambiaEstado();
 	}
 
 	/**
@@ -162,7 +159,8 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 		} 
 		else 
 		   if (existeContratacion(contrato) == false)
-		      throw new ContratacionInvalidaException("Contrato inexistente en la listaDeContratos",null, this);   
+		      throw new ContratacionInvalidaException("Contrato inexistente en la listaDeContratos",null, this);
+		this.cambiaEstado();
 	}
 	
 	public int getCont() {
@@ -255,6 +253,10 @@ public abstract class Abonado extends Thread implements Cloneable, iAbonado, Ser
 			this.setNecesitaReparacion(true);
 			this.mesa.solicitarReparacion(this);
 		}
+	}
+	public IState getEstado() {
+		// TODO Auto-generated method stub
+		return null;
 	};
 	
 	

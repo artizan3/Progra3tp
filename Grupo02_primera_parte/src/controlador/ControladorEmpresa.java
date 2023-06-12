@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JComboBox;
 
 import Domicilio.Comercio;
 import Domicilio.Domicilio;
@@ -29,6 +30,8 @@ import persistencia.EmpresaDTO;
 import persistencia.IPersistencia;
 import persistencia.PersistenciaBIN;
 import persistencia.UtilPersistencia;
+import promo.PromoDorada;
+import promo.PromoPlatino;
 import servicio.Servicio;
 import servicio.ServicioAcompaniamiento;
 import servicio.ServicioBoton;
@@ -38,6 +41,7 @@ import vista.VentanaCrearAbonado;
 import vista.VentanaCrearContratacion;
 import vista.VentanaCrearServicio;
 import vista.VentanaCrearTecnico;
+import vista.VentanaPagarFactura;
 
 public class ControladorEmpresa implements ActionListener, Observer {
 
@@ -48,6 +52,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
     private MesaDeSolicitudDeTecnicos mesa;
 	private VentanaCrearContratacion ventanaCrearContratacion;
 	private VentanaCrearServicio ventanaCrearServicio;
+	private VentanaPagarFactura ventanaPagarFactura;
 
     public ControladorEmpresa(Empresa empresa, IVista vista,MesaDeSolicitudDeTecnicos mesa) {
         this.empresa = empresa;
@@ -202,21 +207,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 	            System.out.println(e4.getMessage());
 	        }
 		}
-		else if (e.getActionCommand().equals("Clic en tabla de abonados")) {
-			if (this.getAbonadoSeleccionado()!=null) {
-				vista.getBtn_contratacion_nuevo().setEnabled(true);
-				vista.getBtn_abonado_eliminar().setEnabled(true);
-				vista.getBtn_abonado_solicitarReparacion().setEnabled(true);
-				vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());
-				vista.actualizaListaFacturas(getAbonadoSeleccionado().getListaDeFacturas());
-		}
-			else {
-				vista.getBtn_contratacion_nuevo().setEnabled(false);
-				vista.getBtn_abonado_eliminar().setEnabled(false);
-				vista.getBtn_abonado_solicitarReparacion().setEnabled(false);
-				vista.actualizaListaContrataciones(new ArrayList<Contratacion>());
-			}
-		}
+		
 		else if(e.getActionCommand().equals("Abrir ventana crear contratacion")){
 			ventanaCrearContratacion = new VentanaCrearContratacion(this);
 			this.ventanaCrearContratacion.setVisible(true);
@@ -244,16 +235,18 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		
 			this.ventanaCrearContratacion.dispose();
 			this.vista.actualizaListaContrataciones(empresa.getListaAbonado().get((this.vista.getTable_abonado().getSelectedRow())).getListaDeContrataciones());
+			vista.actualizarListaAbonados(empresa.getListaAbonado());
 		}
 
 		else if (e.getActionCommand().equals("Eliminar contratacion")) {
 
 			this.empresa.eliminarContratacion(getAbonadoSeleccionado(),getContratacionSeleccionada());
-			vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());	
+			vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());
+			vista.actualizarListaAbonados(empresa.getListaAbonado());
 			
 		}
 		
-		else if (e.getActionCommand().equals("Clic en tabla de contrataciones")) {
+	/*	else if (e.getActionCommand().equals("Clic en tabla de contrataciones")) {
 			if (this.getContratacionSeleccionada()!=null) {
 				vista.getBtn_servicio_nuevo().setEnabled(true);
 				vista.getBtn_contratacion_eliminar().setEnabled(true);
@@ -265,6 +258,15 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				vista.actualizaListaServicios(new ArrayList<Servicio>());
 			}
 			
+		}*/
+		
+		else if (e.getActionCommand().equals("Cambio metodo de pago")) {
+			try {
+				this.empresa.cambiarMetodoPago(getFacturaSeleccionada(), getAbonadoSeleccionado(), (String) this.ventanaPagarFactura.getComboBox_tipo_de_pago().getSelectedItem());
+			} catch (FactoryInvalidoException e1) {
+				e1.printStackTrace();
+			}
+			
 		}
 		
 		else if(e.getActionCommand().equals("Abrir ventana crear servicio")) {
@@ -272,18 +274,26 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			this.ventanaCrearServicio.setModal(true);
 			this.ventanaCrearServicio.setVisible(true);
 		}
+		else if(e.getActionCommand().equals("Abrir ventana pagar factura")) {
+			this.ventanaPagarFactura = new VentanaPagarFactura(this, this.getFacturaSeleccionada());
+			this.ventanaPagarFactura.setModal(true);
+			this.ventanaPagarFactura.setVisible(true);
+		}
 		
 		else if(e.getActionCommand().equals("Agregar servicio")) {
 			int i;
-			for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_acompaniamientos().getText());i++) {
-				getContratacionSeleccionada().agregarServicio(new ServicioAcompaniamiento());
-			}
-			for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_botones().getText());i++) {
-				getContratacionSeleccionada().agregarServicio(new ServicioBoton());
-			}
-			for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_camaras().getText());i++) {
-				getContratacionSeleccionada().agregarServicio(new ServicioCamara());
-			}
+			if(!this.ventanaCrearServicio.getTextField_acompaniamientos().getText().equals(""))
+				for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_acompaniamientos().getText());i++) {
+					getContratacionSeleccionada().agregarServicio(new ServicioAcompaniamiento());
+				}
+			if(!this.ventanaCrearServicio.getTextField_botones().getText().equals(""))
+				for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_botones().getText());i++) {
+					getContratacionSeleccionada().agregarServicio(new ServicioBoton());
+				}
+			if(!this.ventanaCrearServicio.getTextField_camaras().getText().equals(""))
+				for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_camaras().getText());i++) {
+					getContratacionSeleccionada().agregarServicio(new ServicioCamara());
+				}
 			vista.actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
 			this.ventanaCrearServicio.dispose();
 		}
@@ -298,20 +308,52 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			} catch (FactoryInvalidoException e1) {
 				e1.printStackTrace();
 			}        
-	        if (getAbonadoSeleccionado()!=null)
-	        	vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
-			
+	        if (getAbonadoSeleccionado()!=null) {
+	        	vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());	        	
+	        }
+	        this.vista.actualizarListaAbonados(this.empresa.getListaAbonado());
 		}
+		else if (e.getActionCommand().equals("Pagar factura")) {
+			this.empresa.pagaFactura(getAbonadoSeleccionado(), getFacturaSeleccionada());
+			this.vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
+			this.vista.actualizarListaAbonados(this.empresa.getListaAbonado());
+		}
+		else if(e.getActionCommand().equals("Eliminar servicio")) {
+			if (this.getContratacionSeleccionada()!=null) {
+				for(Servicio aux :vista.getListaServicios()) {
+					if (aux.getTipo().equals(getServicioSeleccionado()))
+					empresa.eliminarServicio(getContratacionSeleccionada(), aux);
+				}
+				vista.actualizaListaServicios(this.getContratacionSeleccionada().getListaServicio());
+			}
+		}
+		else if(e.getActionCommand().equals("Cambio de promo")) {
+			 JComboBox aux = (JComboBox)e.getSource();
+			 if (aux.getSelectedItem().equals("Promo platino")) {
+				 this.getContratacionSeleccionada().setPromo(new PromoPlatino());
+			 }
+			 else if (aux.getSelectedItem().equals("Promo dorada")) {
+				 this.getContratacionSeleccionada().setPromo(new PromoDorada());
+			 }
+			 else {
+				 this.getContratacionSeleccionada().setPromo(null);
+			 }
+			 
+		}
+		
+		vista.refrescarVista(empresa.getListaAbonado(), empresa.getListaTecnico());
 	}
 	private void refrescarVista() {
-		vista.actualizarListaTecnicos(empresa.getListaTecnico());
-		vista.actualizarListaAbonados(empresa.getListaAbonado());
+
+		
 		if (getContratacionSeleccionada()!=null)
 			vista.actualizaListaServicios(this.getContratacionSeleccionada().getListaServicio());
 		if (getAbonadoSeleccionado()!=null)
 			vista.actualizaListaContrataciones(this.getAbonadoSeleccionado().getListaDeContrataciones());
 		if (getAbonadoSeleccionado()!=null)
 			vista.actualizaListaFacturas(this.getAbonadoSeleccionado().getListaDeFacturas());
+		vista.actualizarListaTecnicos(empresa.getListaTecnico());
+		vista.actualizarListaAbonados(empresa.getListaAbonado());
 	}
 	
 	private Abonado getAbonadoSeleccionado() {
@@ -320,8 +362,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 		if (vista.getTable_abonado().getSelectedRow()!= -1 && vista.getTable_abonado().getSelectedRow() < vista.getListaAbonados().size() ){
 			respuesta = (vista.getListaAbonados().get(vista.getTable_abonado().getSelectedRow()));
 		}
-		return respuesta;
-		
+		return respuesta;		
 	}
 	
 	private Contratacion getContratacionSeleccionada() {
@@ -330,5 +371,21 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			contratacion = (vista.getListaContrataciones().get(vista.getTable_contratacion().getSelectedRow()));
 		}
 		return contratacion;
+	}
+	
+	private Factura getFacturaSeleccionada() {
+		Factura factura = null;
+		if (vista.getTable_factura().getSelectedRow()!= -1 && vista.getTable_factura().getSelectedRow() < vista.getListaFacturas().size() ){
+			factura = (vista.getListaFacturas().get(vista.getTable_factura().getSelectedRow()));
+		}
+		return factura;
+	}
+	private String getServicioSeleccionado() {
+		String servicio = null;
+		if (vista.getTable_servicio().getSelectedRow()!= -1 && vista.getTable_servicio().getSelectedRow() < vista.getListaServicios().size() ){
+			servicio = (String) (vista.getTable_servicio().getModel().getValueAt(vista.getTable_servicio().getSelectedRow(), 0));
+		}
+		return servicio;
+	
 	}
 }

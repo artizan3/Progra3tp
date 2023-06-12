@@ -50,5 +50,15 @@ private Fisica abonado;
 	public void chequeaCambio() {
 		if(abonado.cantidadFacturasImpagas>2)
 			abonado.setEstado(new Moroso(abonado));
+		if (this.abonado.getListaDeContrataciones().isEmpty()) {
+			this.abonado.setEstado(new SinContratacion(this.abonado));
+		}
 	}
+
+	@Override
+	public String toString() {
+		return "C/C";
+	}
+	
+	
 }

@@ -39,6 +39,13 @@ public class SinContratacion implements IState, Serializable {
 
 	@Override
 	public void chequeaCambio() {
-		//nunca llega aca ya que ni bien se contrata el servicio ahi se cambia el estado a contratacion
+		if (!this.abonado.getListaDeContrataciones().isEmpty()) {
+			this.abonado.setEstado(new ConContratacion(this.abonado));
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return "S/C";
 	}
 }
