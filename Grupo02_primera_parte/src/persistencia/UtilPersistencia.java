@@ -13,7 +13,6 @@ public class UtilPersistencia {
 		EmpresaDTO empresaDTO = new EmpresaDTO();
 		empresaDTO.setListaAbonado(empresa.getListaAbonado());
 		empresaDTO.setListaContrataciones(empresa.getListaContrataciones());
-		empresaDTO.setListaFactura(empresa.getListaFactura());
 		empresaDTO.setListaTecnico(empresa.getListaTecnico());
 		empresaDTO.setFechaAnio(empresa.getFecha().getYear());
 		empresaDTO.setFechaMes(empresa.getFecha().getMonthValue());
@@ -28,7 +27,6 @@ public class UtilPersistencia {
 		Empresa.getInstance().setListaAbonado(empresaDTO.getListaAbonado());
 
 		Empresa.getInstance().setListaContrataciones(empresaDTO.getListaContrataciones());
-		Empresa.getInstance().setListaFactura(empresaDTO.getListaFactura());
 		Empresa.getInstance().setListaTecnico(empresaDTO.getListaTecnico());
 
 		Empresa.getInstance().setCreacion(new FactoryPago());

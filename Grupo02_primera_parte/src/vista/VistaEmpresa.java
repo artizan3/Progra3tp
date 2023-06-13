@@ -228,22 +228,9 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         	@Override
         	public void mouseReleased(MouseEvent e) {
         			if (getContratacionSeleccionada()!=null) {
-        				/*comboBox_promo.setEnabled(true);
-        				btn_servicio_nuevo.setEnabled(true);
-        				if ((getAbonadoSeleccionado() instanceof Fisica) &&!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
-        					btn_contratacion_eliminar.setEnabled(true);
-        					btn_servicio_nuevo.setEnabled(true);
-        				}
-        				else {
-        					btn_contratacion_eliminar.setEnabled(false);
-        					btn_servicio_nuevo.setEnabled(false);
-        					comboBox_promo.setEnabled(false);
-        				}*/
         				actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
         		}
         			else {
-        				/*btn_servicio_nuevo.setEnabled(false);
-        				btn_contratacion_eliminar.setEnabled(false);*/
         				actualizaListaServicios(new ArrayList<Servicio>());
         			}
         			enableButtons();
@@ -281,20 +268,8 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         table_servicio.addMouseListener(new MouseAdapter() {
         	@Override
         	public void mouseReleased(MouseEvent e) {
-        		if (getServicioSeleccionado() !=null) {
-    				if ((getAbonadoSeleccionado() instanceof Fisica) &&!getAbonadoSeleccionado().getEstado().toString().equals("Moroso")) {
-    					btn_servicio_eliminar.setEnabled(true);
-    					btn_servicio_nuevo.setEnabled(true);
-    				}
-    				else {
-    					btn_servicio_eliminar.setEnabled(false);
-    					btn_servicio_nuevo.setEnabled(false);
-    				}
-        		}
-        		else
-        			btn_servicio_eliminar.setEnabled(false);
-        	}
-        });
+        		enableButtons();
+        	}});
         
         model_servicio = new DefaultTableModel(
             	new Object[][] {
@@ -332,17 +307,7 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         	@Override
         	public void mouseReleased(MouseEvent e) {
         		enableButtons();
-    			if (getFacturaSeleccionada()!=null) {	
-    				if (!getFacturaSeleccionada().isPago())
-    					getBtn_pagar_factura().setEnabled(true);
-    				else {
-    					getBtn_pagar_factura().setEnabled(false);
-    				}
 
-    		}
-    			else {
-    				getBtn_pagar_factura().setEnabled(false);
-    			}
         	}
         });
         
@@ -351,21 +316,19 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 
 	        	},
 	        	new String[] {
-	        		"Fecha emision", "Monto", "Estado"
+	        		"Fecha emision", "Monto", "Estado","Vencida"
 	        	}
 	        ) {
 	        	boolean[] columnEditables = new boolean[] {
-	        		false, false, false
+	        		false, false, false, false
 	        	};
 	        	public boolean isCellEditable(int row, int column) {
 	        		return columnEditables[column];
 	        	}
 	        };
         table_factura.setModel(model_factura);
-        table_factura.getColumnModel().getColumn(0).setResizable(false);
         table_factura.getColumnModel().getColumn(0).setPreferredWidth(80);
-        table_factura.getColumnModel().getColumn(1).setResizable(false);
-        table_factura.getColumnModel().getColumn(2).setResizable(false);
+        table_factura.getColumnModel().getColumn(3).setResizable(false);
         scrollPane_factura.setViewportView(table_factura);
         
         scrollPane_Tecnico = new JScrollPane();
@@ -730,14 +693,18 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 	private void actualizarTablaDeFacturas() {
 		this.model_factura.setRowCount(0);
 	    for (IFactura factura : this.listaFacturas) {
-	    	if (factura.getFechaDePago()==null) {
-		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMontoSinTipoDePago(), "Impaga"};
-		    	model_factura.addRow(fila);
-	    	}
-	    	else {
-		    	Object[] fila = {factura.getFechaDeEmision() , factura.getMontoSinTipoDePago(), "Paga"};
-		    	model_factura.addRow(fila);
-		    	}
+	    	String estado;
+	    	String estaMorosa;
+	    	if (factura.getFechaDePago()==null) 
+	    		estado="Impaga";	    	
+	    	else 
+		    	estado="Paga";		      	
+	    	if (factura.isInteresPorMora()) 
+	    		estaMorosa="Si";	    	
+	    	else 
+	    		estaMorosa="No";
+	    	Object[] fila = {factura.getFechaDeEmision() , factura.getMontoSinTipoDePago(), estado, estaMorosa};
+	    	model_factura.addRow(fila);
 	    	}
 	}
 
@@ -897,27 +864,42 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 			btn_contratacion_eliminar.setEnabled(false);
 		}
 		
-		if (this.getServicioSeleccionado()!=null)
+		if (this.getServicioSeleccionado()!=null && (!(getAbonadoSeleccionado() instanceof Fisica) || !getAbonadoSeleccionado().getEstado().toString().equals("Moroso")))
 			this.btn_servicio_eliminar.setEnabled(true);
 		else
 			this.btn_servicio_eliminar.setEnabled(false);
 			
-		if(this.getFacturaSeleccionada()!=null) {
-			if (this.getFacturaSeleccionada().isPago())
-				this.btn_factura_pagar_factura.setEnabled(false);
-			else
-				this.btn_factura_pagar_factura.setEnabled(true);
+		if(!this.getFacturasSeleccionadas().isEmpty()) {
+			this.btn_factura_pagar_factura.setEnabled(true);
+			for (IFactura factura : getFacturasSeleccionadas()) {
+					if (factura.isPago()) {
+					this.btn_factura_pagar_factura.setEnabled(false);
+					break;
+				}
+			}
 		}
 		else {
 			this.btn_factura_pagar_factura.setEnabled(false);
 		}
-		
 		if (this.getTecnicoSeleccionado()!=null) 
 			this.btn_tecnico_eliminar.setEnabled(true);
 		else
 			this.btn_tecnico_eliminar.setEnabled(false);	
-		
+}
+	
+	private ArrayList<IFactura> getFacturasSeleccionadas() {
+	    ArrayList<IFactura> facturasSeleccionadas = new ArrayList<>();
+	    
+	    int[] filasSeleccionadas = getTable_factura().getSelectedRows();
+	    for (int fila : filasSeleccionadas) {
+	        if (fila >= 0 && fila < getListaFacturas().size()) {
+	            IFactura factura = getListaFacturas().get(fila);
+	            facturasSeleccionadas.add(factura);
+	        }
+	    }	    
+	    return facturasSeleccionadas;
 	}
+	
 	public void deselectAll() {
 		this.table_contrataciones.clearSelection();
 		this.table_factura.clearSelection();

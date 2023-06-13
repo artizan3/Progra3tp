@@ -30,7 +30,6 @@ public class Empresa {
 	private static Empresa instance = null;
 	private ArrayList<Abonado> listaAbonado = new ArrayList<Abonado>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
-	private ArrayList<IFactura> listaFactura = new ArrayList<IFactura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private FactoryPago creacion = new FactoryPago();
 	private LocalDate fecha = LocalDate.now();
@@ -82,7 +81,6 @@ public class Empresa {
 		assert abonado != null : "El abonado debe ser distinto de null";
 		assert tipodepago != null : "El tipo de pago debe ser distinto de null";
 		IFactura factura = new Factura(abonado);
-		aniadirFactura(factura);
 		abonado.addFactura(factura);
 	}
 	public void pagaFactura(Abonado abonado,IFactura factura) {
@@ -151,22 +149,7 @@ public class Empresa {
 			throw new AbonadoInexistenteException("el Abonado no se encuentra en la lista",abonado);
 	}
 	
-	/**
-	 * Este metodo quita una factura de la lista.<br>
-	 * <br>
-	 * <b>Pre</b>: la factura debe ser distinta de null.<br>
-	 * <b>Inv</b>: la factura esta en la lista.<br>
-	 * <b>Post</b>: se quita la factura de la lista.<br>
-	 * 
-	 * @param factura es la factura que queremos quitar del sistema.<br>
-	 */
-	public void EliminarFactura(IFactura factura)throws FacturaInexistenteException {
-		assert factura != null : "La factura debe ser distinto de null";
-		if(this.listaFactura.contains(factura))
-			this.listaFactura.remove(factura);
-		else
-			throw new FacturaInexistenteException("IFactura inexistente",factura);		
-	}
+
 	/**
 	 * Este metodo crea una contratacion la añade a la lista y a la facutra
 	 * correspondiente.<br>
@@ -229,19 +212,7 @@ public class Empresa {
 		if(this.listaContrataciones.get(i).getDomicilio()!=null)
 			this.listaContrataciones.get(i).setPromo(promo);
 	}
-	/**
-	 * Este metodo agrega una factura a la lista de abonados.<br>
-	 * <br>
-	 * <b>Pre</b>: la factura debe ser distinta de null.<br>
-	 * <b>Inv</b>: la factura a agregar no esta en la lista.<br>
-	 * <b>Post</b>: se añade una factura a la lista.<br>
-	 * 
-	 * @param factura es la factura nueva que vamos a añadir.<br>
-	 */
-	private void aniadirFactura(IFactura factura) {
-		assert factura!=null:"La factura debe ser distinta de null";
-		this.listaFactura.add(factura);
-	}
+
 	/**
 	 * Este metodo agrega una contratacion a la lista de contrataciones.<br>
 	 * <br>
@@ -282,6 +253,15 @@ public class Empresa {
 				 }
 		 }
 		 fecha=fechaRecibida;
+		 for (Abonado abonado : listaAbonado)
+			 for (IFactura factura : abonado.getListaDeFacturas()){
+				 if (!factura.isPago()) {
+					 Period fechaAux2 = Period.between(factura.getFechaDeEmision(),fecha);
+					 if (fechaAux2.getMonths()+fechaAux2.getYears()*12 > 0)
+						 factura.setInteresPorMora(true);
+			 }
+		 }
+
 	}
 	
 	
@@ -298,18 +278,14 @@ public class Empresa {
 	public void setListaContrataciones(ArrayList<Contratacion> listaContrataciones) {
 		this.listaContrataciones = listaContrataciones;
 	}
-	public void setListaFactura(ArrayList<IFactura> arrayList) {
-		this.listaFactura = arrayList;
-	}
+
 	public ArrayList<Abonado> getListaAbonado() {
 		return listaAbonado;
 	}
 	public ArrayList<Contratacion> getListaContrataciones() {
 		return listaContrataciones;
 	}
-	public ArrayList<IFactura> getListaFactura() {
-		return listaFactura;
-	}
+
 	public ArrayList<Tecnico> getListaTecnico() {
 		return listaTecnico;
 	}

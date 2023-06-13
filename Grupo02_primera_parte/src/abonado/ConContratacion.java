@@ -36,7 +36,7 @@ private Fisica abonado;
 	}
 	@Override
 	public void chequeaCambio() {
-		if(abonado.cantidadDeFacturasImpagas()>2)
+		if(abonado.cantidadDeFacturasImpagas()>1)
 			abonado.setEstado(new Moroso(abonado));
 		if (this.abonado.getListaDeContrataciones().isEmpty()) {
 			this.abonado.setEstado(new SinContratacion(this.abonado));

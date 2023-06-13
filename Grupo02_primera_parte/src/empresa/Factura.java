@@ -14,6 +14,7 @@ public class Factura implements Cloneable, Serializable, IFactura {
 	private Abonado abonado;
 	private LocalDate fechaDeEmision;
 	private LocalDate fechaDePago;
+	private boolean interesPorMora;
 
 	private double monto;
 	
@@ -23,6 +24,7 @@ public class Factura implements Cloneable, Serializable, IFactura {
 		this.fechaDeEmision= Empresa.getInstance().getFecha();
 		this.fechaDePago=null;
 		this.monto=calcularMonto();
+		this.interesPorMora=false;
 	}
 	
 	private double calcularMonto() {	
@@ -85,9 +87,7 @@ public class Factura implements Cloneable, Serializable, IFactura {
 		return this.getAbonado().getEstado().toString().equals("Moroso");
 	}
 	public double getMonto() {
-		if (isAbonadoMoroso())
-			return monto*1.3;
-		else return monto;
+		return monto;
 	}
 	
 	public IFactura getFactura() {
@@ -96,9 +96,18 @@ public class Factura implements Cloneable, Serializable, IFactura {
 
 	@Override
 	public double getMontoSinTipoDePago() {
-			if (isAbonadoMoroso())
-				return monto*1.3;
-			else
-				return monto;
+		return monto;
 	}
+
+	public boolean isInteresPorMora() {
+		return interesPorMora;
+	}
+
+	public void setInteresPorMora(boolean interesPorMora) {
+		if (interesPorMora && !this.interesPorMora) {
+			this.monto*=1.3;
+			this.interesPorMora = true;
+		}
+	}
+	
 }

@@ -15,7 +15,6 @@ public class EmpresaDTO implements Serializable {
 
 	private ArrayList<Abonado> listaAbonado = new ArrayList<Abonado>();
 	private ArrayList<Contratacion> listaContrataciones = new ArrayList<Contratacion>();
-	private ArrayList<IFactura> listaFactura = new ArrayList<IFactura>();
 	private ArrayList<Tecnico> listaTecnico = new ArrayList<Tecnico>();
 	private transient FactoryPago creacion = new FactoryPago();
 	private int fechaMes;
@@ -52,12 +51,7 @@ public class EmpresaDTO implements Serializable {
 	public void setListaContrataciones(ArrayList<Contratacion> listaContrataciones) {
 		this.listaContrataciones = listaContrataciones;
 	}
-	public ArrayList<IFactura> getListaFactura() {
-		return listaFactura;
-	}
-	public void setListaFactura(ArrayList<IFactura> arrayList) {
-		this.listaFactura = arrayList;
-	}
+
 	public ArrayList<Tecnico> getListaTecnico() {
 		return listaTecnico;
 	}

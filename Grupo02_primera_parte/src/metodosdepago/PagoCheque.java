@@ -55,4 +55,11 @@ public class PagoCheque extends DecoratorPago implements IFactura {
 		return this.factura.getMonto();
 	}
 
+	public void setInteresPorMora(boolean interesPorMora) {
+		this.factura.setInteresPorMora(interesPorMora);
+		}
+	
+	public boolean isInteresPorMora() {
+		return factura.isInteresPorMora();
+	}
 }

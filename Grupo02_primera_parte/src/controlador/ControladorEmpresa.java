@@ -282,7 +282,6 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			for (IFactura factura : getFacturasSeleccionadas()) {
 				factura = this.empresa.cambiarMetodoPago(factura, (String) this.ventanaPagarFactura.getComboBox_tipo_de_pago().getSelectedItem());
 				arrayAux.add(factura);	
-				System.out.println(factura);
 			}
 			this.ventanaPagarFactura.actualizarListaDeFacturas(arrayAux);
 		}

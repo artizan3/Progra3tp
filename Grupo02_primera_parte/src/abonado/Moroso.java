@@ -14,6 +14,12 @@ private Fisica abonado;
 	public Moroso(Fisica abonado) {
 		super();
 		this.abonado = abonado;
+		for (IFactura factura : abonado.getListaDeFacturas()) {
+			if (!factura.isPago()) {
+				
+			}
+			
+		}
 	}
 
 	@Override
@@ -51,7 +57,7 @@ private Fisica abonado;
 		double aux = 0;
 		for(Contratacion contratacion :this.abonado.getListaDeContrataciones() )
 			aux+=contratacion.getValorTotal();			
-		return aux*1.3;
+		return aux;
 	}
 	
 	

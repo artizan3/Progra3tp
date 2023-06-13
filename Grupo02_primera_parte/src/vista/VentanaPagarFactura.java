@@ -48,10 +48,7 @@ public class VentanaPagarFactura extends JDialog {
 		lbl_metododepago = new JLabel("Metodo de pago:");
 		lbl_metododepago.setBounds(23, 119, 125, 14);
 		getContentPane().add(lbl_metododepago);
-		
-		lbl_moroso = new JLabel("(30% recargo por moroso)");
-		lbl_moroso.setBounds(78, 65, 137, 14);
-		
+				
 		comboBox_tipo_de_pago = new JComboBox();
 		comboBox_tipo_de_pago.addMouseListener(new MouseAdapter() {
 			@Override
@@ -91,8 +88,6 @@ public class VentanaPagarFactura extends JDialog {
 		for (IFactura facturaAux : facturas) {
 			monto+=facturaAux.getMontoSinTipoDePago();
 		}
-		if (this.abonado instanceof Fisica && this.abonado.getEstado().toString().equals("Moroso"))
-			getContentPane().add(lbl_moroso);
 		lbl_monto_valor = new JLabel(Double.toString(monto));
 		lbl_monto_valor.setBounds(149, 40, 102, 14);
 		getContentPane().add(lbl_monto_valor);

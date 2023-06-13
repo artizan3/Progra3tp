@@ -56,4 +56,12 @@ public class PagoCredito extends DecoratorPago implements IFactura {
 	public double getMontoSinTipoDePago() {
 		return this.factura.getMonto();
 	}
+	public void setInteresPorMora(boolean interesPorMora) {
+		this.factura.setInteresPorMora(interesPorMora);
+		}
+	
+	public boolean isInteresPorMora() {
+		return factura.isInteresPorMora();
+	}
+	
 }

@@ -23,4 +23,8 @@ public interface IFactura {
 	public Abonado getAbonado();
 
 	Object clone() throws CloneNotSupportedException;
+	
+	public void setInteresPorMora(boolean interesPorMora);
+	
+	public boolean isInteresPorMora();
 }
