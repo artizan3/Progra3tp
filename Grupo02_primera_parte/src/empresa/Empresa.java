@@ -263,22 +263,69 @@ public class Empresa {
 		 }
 
 	}
-	
+	/**
+	 * Devuelve el factory pago<br>
+	 * <br>
+	 * <b>Pre</b>.<br>
+	 * <b>Inv</b>:<br>
+	 * <b>Post</b>:<br>
+	 * 
+	 * @return factory pago <br>
+	 */
 	
 	public FactoryPago getCreacion() {
 		return creacion;
 	}
+	
+	/**
+	 * Setea el factory pago<br>
+	 * <br>
+	 * <b>Pre</b>: <br>
+	 * <b>Inv</b>: FactoryPago<br>
+	 * <b>Post</b>: Se setea el factory pago<br>
+	 * 
+	 * @param FactoyPago.<br>
+	 */
 	public void setCreacion(FactoryPago creacion) {
 		this.creacion = creacion;
 	}
 
+	/**
+	 * Se setea la lista de abonados.<br>
+	 * <br>
+	 * <b>Pre</b>: <br>
+	 * <b>Inv</b>: Lista de abonados<br>
+	 * <b>Post</b>: Se setea la lista de abonados<br>
+	 * 
+	 * @param array list de abonados.<br>
+	 */
 	public void setListaAbonado(ArrayList<Abonado> listaAbonado) {
 		this.listaAbonado = listaAbonado;
 	}
+	
+	/**
+	 * Setea la lista de contrataciones.<br>
+	 * <br>
+	 * <b>Pre</b>: <br>
+	 * <b>Inv</b>: lista de contrataciones<br>
+	 * <b>Post</b>:<br>
+	 * 
+	 * @param Array list de contrataciones.<br>
+
+	 */
 	public void setListaContrataciones(ArrayList<Contratacion> listaContrataciones) {
 		this.listaContrataciones = listaContrataciones;
 	}
 
+	/**
+	 * Devuelve la lista de abonados.<br>
+	 * <br>
+	 * <b>Pre</b>: <br>
+	 * <b>Inv</b>: <br>
+	 * <b>Post</b>: Devuelva la lista de abonados<br>
+	 * 
+	 * @return Array list de abonados.<br>
+	 */
 	public ArrayList<Abonado> getListaAbonado() {
 		return listaAbonado;
 	}

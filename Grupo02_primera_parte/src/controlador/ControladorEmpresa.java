@@ -357,7 +357,8 @@ public class ControladorEmpresa implements ActionListener, Observer {
 			 else if (aux.getSelectedItem().equals("Promo dorada")) {
 				 this.getContratacionSeleccionada().setPromo(new PromoDorada());
 			 }
-			 else {
+			 else if(aux.getSelectedItem().equals("Sin promo")) {
+				 if (getContratacionSeleccionada()!=null)
 				 this.getContratacionSeleccionada().setPromo(null);
 			 }
 			 vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());

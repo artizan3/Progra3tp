@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import abonado.Abonado;
-import metodosdepago.DecoratorPago;
+import abonado.Fisica;
 /*
  * esta clase es la encargada de recopilar todas las contrataciones de un determinado abonado
  * y operarlas de forma tal que nos devuelva informacion valiosa, en este caso, lo que debera pagar
@@ -105,7 +105,8 @@ public class Factura implements Cloneable, Serializable, IFactura {
 
 	public void setInteresPorMora(boolean interesPorMora) {
 		if (interesPorMora && !this.interesPorMora) {
-			this.monto*=1.3;
+			if (this.abonado instanceof Fisica)
+				this.monto*=1.3;
 			this.interesPorMora = true;
 		}
 	}

@@ -156,7 +156,9 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         			table_contrataciones.clearSelection();
         			table_factura.clearSelection();
         			table_servicio.clearSelection();
+        			deselectAllexceptAbonado();
         			enableButtons();
+        			
         	}
         	
         });
@@ -906,6 +908,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.table_servicio.clearSelection();
 		this.table_tecnico.clearSelection();
 		this.table_abonado.clearSelection();
+	}
+	public void deselectAllexceptAbonado() {
+		this.table_contrataciones.clearSelection();
+		this.table_factura.clearSelection();
+		this.table_servicio.clearSelection();
+		this.table_tecnico.clearSelection();
 	}
 	
 	public void actualizarFecha(LocalDate fecha) {

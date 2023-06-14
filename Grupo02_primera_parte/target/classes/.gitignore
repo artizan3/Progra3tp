@@ -1,9 +1,8 @@
 /vista/
+/persistencia/
+/promo/
+/servicio/
+/META-INF/
 /controlador/
 /empresa/
-/META-INF/
-/metodosdepago/
 /abonado/
-/main/
-/persistencia/
-/excepciones/

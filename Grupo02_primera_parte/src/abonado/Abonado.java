@@ -17,7 +17,7 @@ import excepciones.DomicilioInexistenteException;
  * respondable de encapsular sus respectivos domicilios y contrataciones
  * para que a la hora de generar la factura del abonado se poseea toda la informacion necesaria
  */
-public abstract class Abonado extends Thread implements Cloneable, iAbonado, Serializable {
+public abstract class Abonado extends Thread implements Cloneable, Serializable, Runnable {
 	protected String nombre;
 	protected int dni;
 	protected ArrayList<Contratacion> listaDeContrataciones = new ArrayList<Contratacion>();
