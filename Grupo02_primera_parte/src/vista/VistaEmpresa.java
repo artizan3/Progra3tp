@@ -338,6 +338,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
         getContentPane().add(scrollPane_Tecnico);
         
         table_tecnico = new JTable();
+        table_tecnico.addMouseListener(new MouseAdapter() {
+        	@Override
+        	public void mouseClicked(MouseEvent e) {
+        		enableButtons();
+        	}
+        });
         model_tecnico = new DefaultTableModel(
             	new Object[][] {
             	},
@@ -906,14 +912,12 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 		this.table_contrataciones.clearSelection();
 		this.table_factura.clearSelection();
 		this.table_servicio.clearSelection();
-		this.table_tecnico.clearSelection();
 		this.table_abonado.clearSelection();
 	}
 	public void deselectAllexceptAbonado() {
 		this.table_contrataciones.clearSelection();
 		this.table_factura.clearSelection();
 		this.table_servicio.clearSelection();
-		this.table_tecnico.clearSelection();
 	}
 	
 	public void actualizarFecha(LocalDate fecha) {
