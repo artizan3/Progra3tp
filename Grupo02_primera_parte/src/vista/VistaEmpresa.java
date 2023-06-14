@@ -844,7 +844,10 @@ public class VistaEmpresa extends JFrame implements KeyListener, IVista, MouseLi
 				btn_contratacion_nuevo.setEnabled(true);
 			}
 			btn_abonado_eliminar.setEnabled(true);
-			btn_abonado_solicitarReparacion.setEnabled(true);
+			if (this.getAbonadoSeleccionado().getListaDeContrataciones().isEmpty())
+				btn_abonado_solicitarReparacion.setEnabled(false);
+			else
+				btn_abonado_solicitarReparacion.setEnabled(true);
 		}
 		else {
 			btn_contratacion_nuevo.setEnabled(false);

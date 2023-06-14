@@ -311,6 +311,7 @@ public class ControladorEmpresa implements ActionListener, Observer {
 				for(i=0; i< Integer.parseInt(this.ventanaCrearServicio.getTextField_camaras().getText());i++) {
 					getContratacionSeleccionada().agregarServicio(new ServicioCamara());
 				}
+			this.vista.actualizaListaContrataciones(getAbonadoSeleccionado().getListaDeContrataciones());
 			vista.actualizaListaServicios(getContratacionSeleccionada().getListaServicio());
 			this.ventanaCrearServicio.dispose();
 		}
